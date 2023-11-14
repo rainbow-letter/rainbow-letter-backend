@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,7 +24,7 @@ public class AuthenticationErrorHandler {
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     protected void handle(final HttpServletResponse response) throws IOException {
-        final ResponseEntity<ErrorResponse> errorResponse = ErrorResponse.from(errorCode);
+        final ErrorResponse errorResponse = ErrorResponse.from(errorCode);
         final String body = mapper.writeValueAsString(errorResponse);
         response.setStatus(errorCode.statusValue());
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());

@@ -2,8 +2,6 @@ package com.handwoong.rainbowletter.exception;
 
 import java.time.LocalDateTime;
 
-import org.springframework.http.ResponseEntity;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 
@@ -15,14 +13,12 @@ public record ErrorResponse(
         String code,
         LocalDateTime timestamp
 ) {
-    public static ResponseEntity<ErrorResponse> from(final ErrorCode errorCode) {
-        final ErrorResponse errorResponse = create(errorCode, errorCode.getMessage());
-        return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+    public static ErrorResponse from(final ErrorCode errorCode) {
+        return create(errorCode, errorCode.getMessage());
     }
 
-    public static ResponseEntity<ErrorResponse> of(final ErrorCode errorCode, final String message) {
-        final ErrorResponse errorResponse = create(errorCode, message);
-        return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+    public static ErrorResponse of(final ErrorCode errorCode, final String message) {
+        return create(errorCode, message);
     }
 
     private static ErrorResponse create(final ErrorCode errorCode, final String message) {
