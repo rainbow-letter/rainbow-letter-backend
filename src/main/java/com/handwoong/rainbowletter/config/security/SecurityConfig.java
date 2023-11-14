@@ -21,6 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         addBasicConfigToHttpSecurity(http);
         addAuthorizeConfigToHttpSecurity(http);
+        addExceptionHandlerToHttpSecurity(http);
         return http.build();
     }
 
@@ -39,6 +40,13 @@ public class SecurityConfig {
                         .requestMatchers(AccessAllowUri.convertPathMatcher()).permitAll()
                         .anyRequest().authenticated()
         );
+    }
+
+    private void addExceptionHandlerToHttpSecurity(final HttpSecurity http) throws Exception {
+        http.exceptionHandling(exceptionHandling ->
+                exceptionHandling
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDeniedHandler()));
     }
 
     @Bean
