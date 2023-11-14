@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.exception;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
@@ -14,6 +15,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
+    /**
+     * 400 BAD REQUEST
+     */
+    EXISTS_EMAIL(BAD_REQUEST, "이미 존재하는 이메일입니다."),
+    METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
+
     /**
      * 401 UNAUTHORIZED
      */

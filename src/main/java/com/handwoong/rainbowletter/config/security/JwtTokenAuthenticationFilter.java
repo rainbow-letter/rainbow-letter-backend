@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.handwoong.rainbowletter.exception.RainbowLetterException;
+
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -28,8 +30,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilter {
                          final ServletResponse servletResponse,
                          final FilterChain chain) throws IOException, ServletException {
         final String token = resolveToken(servletRequest);
-        final Authentication authentication = tokenProvider.parseToken(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        saveAuthentication(token);
         chain.doFilter(servletRequest, servletResponse);
     }
 
@@ -40,5 +41,14 @@ public class JwtTokenAuthenticationFilter extends GenericFilter {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    private void saveAuthentication(final String token) {
+        try {
+            final Authentication authentication = tokenProvider.parseToken(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (final RainbowLetterException exception) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
     }
 }

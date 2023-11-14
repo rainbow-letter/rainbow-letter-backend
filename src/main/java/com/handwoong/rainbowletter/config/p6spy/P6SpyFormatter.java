@@ -66,8 +66,7 @@ public class P6SpyFormatter implements MessageFormattingStrategy {
     }
 
     private String formatSqlWithStyle(final FormatStyle style, final String sql) {
-        final FormatStyle formatStyle = FormatStyle.valueOf(style.getName());
-        return formatStyle.getFormatter()
+        return style.getFormatter()
                 .format(sql);
     }
 }
