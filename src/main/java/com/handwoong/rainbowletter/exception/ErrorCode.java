@@ -3,6 +3,7 @@ package com.handwoong.rainbowletter.exception;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,11 @@ public enum ErrorCode {
      * 403 FORBIDDEN
      */
     ACCESS_DENIED(FORBIDDEN, "접근 권한이 없습니다."),
+
+    /**
+     * 404 NOT FOUND
+     */
+    NOT_FOUND_MEMBER(NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
 
     /**
      * 405 METHOD NOT ALLOWED
