@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.handwoong.rainbowletter.domain.BaseEntity;
+import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,10 +27,6 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-
-    @NotNull
-    @Column(length = 30, unique = true)
-    private String username;
 
     @NotNull
     @Column(length = 50, unique = true)
@@ -47,12 +44,18 @@ public class Member extends BaseEntity {
     private MemberStatus status;
 
     @Builder
-    private Member(final String username, final String email, final String password) {
-        this.username = username;
+    private Member(final String email, final String password) {
         this.email = email;
         this.password = password;
         this.role = MemberRole.ROLE_USER;
         this.status = MemberStatus.ACTIVE;
+    }
+
+    public static Member create(final MemberRegisterRequest request) {
+        return Member.builder()
+                .email(request.email())
+                .password(request.password())
+                .build();
     }
 
     public void encodePassword(final PasswordEncoder passwordEncoder) {
