@@ -9,15 +9,15 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AccessAllowUri {
+public enum AnonymousAllowUri {
     USER_REGISTER("/api/members"),
     USER_LOGIN("/api/members/login");
 
     private final String uri;
 
     public static AntPathRequestMatcher[] convertPathMatcher() {
-        return Arrays.stream(AccessAllowUri.values())
-                .map(AccessAllowUri::getUri)
+        return Arrays.stream(AnonymousAllowUri.values())
+                .map(AnonymousAllowUri::getUri)
                 .map(AntPathRequestMatcher::antMatcher)
                 .toArray(AntPathRequestMatcher[]::new);
     }

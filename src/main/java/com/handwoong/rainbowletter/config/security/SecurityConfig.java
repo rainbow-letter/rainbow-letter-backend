@@ -44,7 +44,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth ->
                 auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers(AccessAllowUri.convertPathMatcher()).permitAll()
+                        .requestMatchers(AnonymousAllowUri.convertPathMatcher()).anonymous()
                         .anyRequest().authenticated()
         );
     }
