@@ -48,7 +48,7 @@ public class Member extends BaseEntity {
         this.email = email;
         this.password = password;
         this.role = MemberRole.ROLE_USER;
-        this.status = MemberStatus.ACTIVE;
+        this.status = MemberStatus.INACTIVE;
     }
 
     public static Member create(final MemberRegisterRequest request) {
