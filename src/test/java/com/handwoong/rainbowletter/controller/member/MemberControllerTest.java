@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.controller.member;
 
 import static com.handwoong.rainbowletter.util.Constants.NEW_EMAIL;
 import static com.handwoong.rainbowletter.util.Constants.NEW_PASSWORD;
+import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
@@ -28,8 +29,7 @@ public class MemberControllerTest extends ControllerTestProvider {
 
     private static ExtractableResponse<Response> register(final MemberRegisterRequest registerRequest) {
         return RestAssured
-                .given().log().all()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .given(getSpecification()).log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(registerRequest)
                 .when().post("/api/members")
@@ -38,8 +38,7 @@ public class MemberControllerTest extends ControllerTestProvider {
 
     private static ExtractableResponse<Response> login(final MemberLoginRequest loginRequest) {
         return RestAssured
-                .given().log().all()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .given(getSpecification()).log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(loginRequest)
                 .when().post("/api/members/login")
