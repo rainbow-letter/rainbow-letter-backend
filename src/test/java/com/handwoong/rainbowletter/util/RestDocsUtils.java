@@ -13,17 +13,11 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import io.restassured.specification.RequestSpecification;
-import lombok.Getter;
 
 public final class RestDocsUtils {
-    @Getter
     private static RequestSpecification specification;
 
     private RestDocsUtils() {
-    }
-
-    public static void setSpecification(final RequestSpecification specification) {
-        RestDocsUtils.specification = specification;
     }
 
     public static RestDocumentationFilter getFilter() {
@@ -48,5 +42,13 @@ public final class RestDocsUtils {
 
     public static OperationResponsePreprocessor getResponsePreprocessor() {
         return preprocessResponse(prettyPrint());
+    }
+
+    public static RequestSpecification getSpecification() {
+        return specification;
+    }
+
+    public static void setSpecification(final RequestSpecification specification) {
+        RestDocsUtils.specification = specification;
     }
 }

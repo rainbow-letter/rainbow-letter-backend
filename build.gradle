@@ -48,8 +48,6 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'com.h2database:h2'
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
