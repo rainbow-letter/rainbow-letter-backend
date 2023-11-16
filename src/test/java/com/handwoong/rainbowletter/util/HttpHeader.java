@@ -3,6 +3,7 @@ package com.handwoong.rainbowletter.util;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("LombokGetterMayBeUsed")
 enum HttpHeader {
     VARY("Vary"),
     X_CONTENT_TYPE_OPTIONS("X-Content-Type-Options"),

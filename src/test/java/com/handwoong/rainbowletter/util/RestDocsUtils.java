@@ -14,6 +14,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import io.restassured.specification.RequestSpecification;
 
+@SuppressWarnings("LombokGetterMayBeUsed")
 public final class RestDocsUtils {
     private static RequestSpecification specification;
 
