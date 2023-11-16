@@ -1,0 +1,8 @@
+= 무지개 편지 API 명세서
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+include::member.adoc[]
