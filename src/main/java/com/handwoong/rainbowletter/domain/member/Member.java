@@ -15,7 +15,6 @@ import com.handwoong.rainbowletter.domain.BaseEntity;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
 
     @NotNull
@@ -43,7 +41,6 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    @Builder
     private Member(final String email, final String password) {
         this.email = email;
         this.password = password;
@@ -52,10 +49,7 @@ public class Member extends BaseEntity {
     }
 
     public static Member create(final MemberRegisterRequest request) {
-        return Member.builder()
-                .email(request.email())
-                .password(request.password())
-                .build();
+        return new Member(request.email(), request.password());
     }
 
     public void encodePassword(final PasswordEncoder passwordEncoder) {
