@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class DatabaseCleaner implements InitializingBean {
     @Autowired
     private EntityManager entityManager;
-    private List<String> tableNames;
+    private List<String> tables;
 
     @Override
     public void afterPropertiesSet() {
-        tableNames = entityManager.getMetamodel().getEntities().stream()
+        tables = entityManager.getMetamodel().getEntities().stream()
                 .map(entityType -> entityType.getName().toLowerCase(Locale.ROOT))
                 .toList();
     }
@@ -27,12 +27,9 @@ public class DatabaseCleaner implements InitializingBean {
     public void execute() {
         entityManager.flush();
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
-        for (final String tableName : tableNames) {
-            entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
-            entityManager
-                    .createNativeQuery(
-                            "ALTER TABLE " + tableName + " ALTER COLUMN " + tableName + "_id" + " RESTART WITH 1")
-                    .executeUpdate();
+        for (final String table : tables) {
+            entityManager.createNativeQuery("TRUNCATE TABLE " + table).executeUpdate();
+            entityManager.createNativeQuery("ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1").executeUpdate();
         }
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
     }
