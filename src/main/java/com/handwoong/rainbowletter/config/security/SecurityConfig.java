@@ -1,5 +1,7 @@
 package com.handwoong.rainbowletter.config.security;
 
+import java.util.Arrays;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
@@ -44,8 +47,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth ->
                 auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers(AccessAllowUri.convertPathMatcher()).permitAll()
-                        .requestMatchers(AnonymousAllowUri.convertPathMatcher()).anonymous()
+                        .requestMatchers(convertUriToPathMatcher(AccessAllowUri.values())).permitAll()
+                        .requestMatchers(convertUriToPathMatcher(AnonymousAllowUri.values())).anonymous()
                         .anyRequest().authenticated()
         );
     }
@@ -64,5 +67,12 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private AntPathRequestMatcher[] convertUriToPathMatcher(final AllowUri[] allowUris) {
+        return Arrays.stream(allowUris)
+                .map(AllowUri::getUri)
+                .map(AntPathRequestMatcher::antMatcher)
+                .toArray(AntPathRequestMatcher[]::new);
     }
 }
