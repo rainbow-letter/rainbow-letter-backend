@@ -3,9 +3,7 @@ package com.handwoong.rainbowletter.util;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.Getter;
-
-@Getter
+@SuppressWarnings("LombokGetterMayBeUsed")
 enum HttpHeader {
     VARY("Vary"),
     X_CONTENT_TYPE_OPTIONS("X-Content-Type-Options"),
@@ -30,5 +28,9 @@ enum HttpHeader {
         return Arrays.stream(HttpHeader.values())
                 .map(HttpHeader::getHeader)
                 .toList();
+    }
+
+    public String getHeader() {
+        return header;
     }
 }
