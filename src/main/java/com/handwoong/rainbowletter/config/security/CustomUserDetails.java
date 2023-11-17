@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.handwoong.rainbowletter.domain.member.Member;
+import com.handwoong.rainbowletter.domain.member.MemberStatus;
 
 public class CustomUserDetails implements UserDetails {
     private final Member member;
@@ -36,21 +37,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return member.isNonExpired();
+        return member.isStatusMismatch(MemberStatus.SLEEP);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return member.isNonLocked();
+        return member.isStatusMismatch(MemberStatus.LOCK);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return member.isStatusMismatch(MemberStatus.INACTIVE);
     }
 
     @Override
     public boolean isEnabled() {
-        return member.isEnabled();
+        return member.isStatusMismatch(MemberStatus.LEAVE);
     }
 }

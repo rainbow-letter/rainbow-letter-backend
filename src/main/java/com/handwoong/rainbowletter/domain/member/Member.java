@@ -56,15 +56,7 @@ public class Member extends BaseEntity {
         password = passwordEncoder.encode(password);
     }
 
-    public boolean isNonExpired() {
-        return status != MemberStatus.SLEEP;
-    }
-
-    public boolean isNonLocked() {
-        return status != MemberStatus.LOCK;
-    }
-
-    public boolean isEnabled() {
-        return isNonLocked() && isNonExpired() && (status != MemberStatus.LEAVE);
+    public boolean isStatusMismatch(final MemberStatus status) {
+        return this.status != status;
     }
 }

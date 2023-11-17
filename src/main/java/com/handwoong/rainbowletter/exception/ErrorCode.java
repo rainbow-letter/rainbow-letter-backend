@@ -28,6 +28,10 @@ public enum ErrorCode {
      */
     UN_AUTHORIZE(UNAUTHORIZED, "인증에 실패하였습니다."),
     IN_VALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    EXPIRED_MEMBER(UNAUTHORIZED, "계정이 휴면 상태입니다."),
+    NEED_VERIFY_EMAIL(UNAUTHORIZED, "이메일 인증이 완료되지 않았습니다."),
+    LOCKED_MEMBER(UNAUTHORIZED, "계정이 잠금 상태입니다."),
+    LEAVE_MEMBER(UNAUTHORIZED, "탈퇴된 계정입니다."),
 
     /**
      * 403 FORBIDDEN
