@@ -1,7 +1,11 @@
 package com.handwoong.rainbowletter.exception;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -32,6 +36,34 @@ public class ApiExceptionHandler {
         final String errorMessage = createValidationErrorMessage(exception);
         logWarn(errorCode, exception, logMessage);
         return createErrorResponse(errorCode, errorMessage);
+    }
+
+    @ExceptionHandler({AccountExpiredException.class})
+    public ResponseEntity<ErrorResponse> accountExpired(final AccountExpiredException exception) {
+        final ErrorCode errorCode = ErrorCode.EXPIRED_MEMBER;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({LockedException.class})
+    public ResponseEntity<ErrorResponse> locked(final LockedException exception) {
+        final ErrorCode errorCode = ErrorCode.LOCKED_MEMBER;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({CredentialsExpiredException.class})
+    public ResponseEntity<ErrorResponse> credentialsExpired(final CredentialsExpiredException exception) {
+        final ErrorCode errorCode = ErrorCode.NEED_VERIFY_EMAIL;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({DisabledException.class})
+    public ResponseEntity<ErrorResponse> disabled(final DisabledException exception) {
+        final ErrorCode errorCode = ErrorCode.LEAVE_MEMBER;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
     }
 
     @ExceptionHandler({BadCredentialsException.class})

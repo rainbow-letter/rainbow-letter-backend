@@ -41,8 +41,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private void validateDuplicateEmail(final String email) {
-        final boolean isExistsByUsername = memberRepository.existsByEmail(email);
-        if (isExistsByUsername) {
+        final boolean isExistsByEmail = memberRepository.existsByEmail(email);
+        if (isExistsByEmail) {
             throw new RainbowLetterException(ErrorCode.EXISTS_EMAIL, email);
         }
     }

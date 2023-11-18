@@ -1,6 +1,5 @@
 package com.handwoong.rainbowletter.config.security;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +15,8 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource(@Value("#{${client.url}}") final List<String> urls) {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(urls);
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedOriginPatterns(urls);
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
 
