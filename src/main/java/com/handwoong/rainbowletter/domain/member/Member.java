@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.handwoong.rainbowletter.domain.BaseEntity;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
+import com.handwoong.rainbowletter.exception.ErrorCode;
+import com.handwoong.rainbowletter.exception.RainbowLetterException;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -58,5 +60,12 @@ public class Member extends BaseEntity {
 
     public boolean isStatusMismatch(final MemberStatus status) {
         return this.status != status;
+    }
+
+    public void changeStatus(final MemberStatus status) {
+        if (isStatusMismatch(MemberStatus.INACTIVE)) {
+            this.status = status;
+        }
+        throw new RainbowLetterException(ErrorCode.INVALID_MEMBER_STATUS, status.name());
     }
 }
