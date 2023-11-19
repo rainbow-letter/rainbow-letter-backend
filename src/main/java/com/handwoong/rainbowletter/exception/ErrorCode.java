@@ -22,6 +22,7 @@ public enum ErrorCode {
     IN_VALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
     METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
     CHECK_EMAIL_AND_PASSWORD(BAD_REQUEST, "이메일 및 비밀번호를 확인 해주세요."),
+    INVALID_MEMBER_STATUS(BAD_REQUEST, "변경 불가능한 회원 상태입니다."),
 
     /**
      * 401 UNAUTHORIZED
