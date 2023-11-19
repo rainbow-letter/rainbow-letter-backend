@@ -4,6 +4,26 @@
 
 operation::member-controller-test/register_member[snippets='http-request,http-response']
 
+=== 회원 가입 시 이메일 중복
+
+operation::member-controller-test/duplicate_register_member[snippets='http-request,http-response']
+
+=== 이미 로그인에 성공한 사용자가 회원가입 시도
+
+operation::member-controller-test/already_login_member_register[snippets='http-request,http-response']
+
 === 로그인
 
 operation::member-controller-test/login[snippets='http-request,http-response']
+
+=== 존재하지 않는 이메일로 로그인 시도
+
+operation::member-controller-test/login_notfound_member[snippets='http-request,http-response']
+
+=== 이메일 인증을 완료하지 않은 사용자 로그인
+
+operation::member-controller-test/not_verify_email_member_login[snippets='http-request,http-response']
+
+=== 이미 로그인에 성공한 사용자가 로그인 시도
+
+operation::member-controller-test/already_login_member_login[snippets='http-request,http-response']
