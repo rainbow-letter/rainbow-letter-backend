@@ -63,9 +63,9 @@ public class Member extends BaseEntity {
     }
 
     public void changeStatus(final MemberStatus status) {
-        if (isStatusMismatch(MemberStatus.INACTIVE)) {
-            this.status = status;
+        if (status.match(MemberStatus.INACTIVE)) {
+            throw new RainbowLetterException(ErrorCode.INVALID_MEMBER_STATUS, status.name());
         }
-        throw new RainbowLetterException(ErrorCode.INVALID_MEMBER_STATUS, status.name());
+        this.status = status;
     }
 }

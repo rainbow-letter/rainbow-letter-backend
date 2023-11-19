@@ -70,7 +70,7 @@ public class JwtTokenProvider {
         try {
             parseClaims(token);
         } catch (final IllegalArgumentException | JwtException exception) {
-            throw new RainbowLetterException(ErrorCode.IN_VALID_TOKEN);
+            throw new RainbowLetterException(ErrorCode.INVALID_TOKEN);
         }
     }
 

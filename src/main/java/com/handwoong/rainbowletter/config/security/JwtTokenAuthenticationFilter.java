@@ -21,7 +21,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenAuthenticationFilter extends GenericFilter {
-    private static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_HEADER_KEY = "Authorization";
+    public static final String AUTHORIZATION_HEADER_TYPE = "Bearer";
 
     private final JwtTokenProvider tokenProvider;
 
@@ -36,8 +37,8 @@ public class JwtTokenAuthenticationFilter extends GenericFilter {
 
     private String resolveToken(final ServletRequest servletRequest) {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
-        final String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        final String bearerToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AUTHORIZATION_HEADER_TYPE + " ")) {
             return bearerToken.substring(7);
         }
         return null;

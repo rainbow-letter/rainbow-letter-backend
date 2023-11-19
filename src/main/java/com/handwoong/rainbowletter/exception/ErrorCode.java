@@ -19,7 +19,7 @@ public enum ErrorCode {
      * 400 BAD REQUEST
      */
     EXISTS_EMAIL(BAD_REQUEST, "이미 존재하는 이메일입니다."),
-    IN_VALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
+    INVALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
     METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
     CHECK_EMAIL_AND_PASSWORD(BAD_REQUEST, "이메일 및 비밀번호를 확인 해주세요."),
     INVALID_MEMBER_STATUS(BAD_REQUEST, "변경 불가능한 회원 상태입니다."),
@@ -28,7 +28,7 @@ public enum ErrorCode {
      * 401 UNAUTHORIZED
      */
     UN_AUTHORIZE(UNAUTHORIZED, "인증에 실패하였습니다."),
-    IN_VALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    INVALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다."),
     EXPIRED_MEMBER(UNAUTHORIZED, "계정이 휴면 상태입니다."),
     NEED_VERIFY_EMAIL(UNAUTHORIZED, "이메일 인증이 완료되지 않았습니다."),
     LOCKED_MEMBER(UNAUTHORIZED, "계정이 잠금 상태입니다."),

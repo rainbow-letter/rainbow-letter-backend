@@ -75,7 +75,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler({UsernameNotFoundException.class})
     public ResponseEntity<ErrorResponse> usernameNotFound(final UsernameNotFoundException exception) {
-        final ErrorCode errorCode = ErrorCode.IN_VALID_EMAIL;
+        final ErrorCode errorCode = ErrorCode.INVALID_EMAIL;
         logWarn(errorCode, exception, exception.getMessage());
         return createErrorResponse(errorCode);
     }
