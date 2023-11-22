@@ -17,6 +17,8 @@ import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import com.handwoong.rainbowletter.repository.member.MemberRepository;
+import com.handwoong.rainbowletter.service.mail.event.SendEmail;
+import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
+    @SendEmail(type = EmailTemplateType.VERIFY)
     public MemberRegisterResponse register(final MemberRegisterRequest request) {
         validateDuplicateEmail(request.email());
 
