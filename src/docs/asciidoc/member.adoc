@@ -12,6 +12,14 @@ operation::member-controller-test/duplicate_register_member[snippets='http-reque
 
 operation::member-controller-test/already_login_member_register[snippets='http-request,http-response']
 
+=== 이메일 인증
+
+operation::member-controller-test/verify_member_email[snippets='http-request,http-response']
+
+=== 유효하지 않은 토큰으로 이메일 인증 시도
+
+operation::member-controller-test/verify_member_email_invalid_token[snippets='http-request,http-response']
+
 === 로그인
 
 operation::member-controller-test/login[snippets='http-request,http-response']

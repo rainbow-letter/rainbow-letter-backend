@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AccessAllowUri implements AllowUri {
     ROOT("/"),
-    INDEX("/index.html");
+    INDEX("/index.html"),
+    EMAIL_VERIFY("/api/members/verify/**");
 
     private final String uri;
 }

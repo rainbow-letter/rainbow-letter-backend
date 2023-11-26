@@ -8,5 +8,7 @@ import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
 public interface MemberService {
     MemberRegisterResponse register(final MemberRegisterRequest request);
 
+    void verify(final String token);
+
     TokenResponse login(final MemberLoginRequest request);
 }

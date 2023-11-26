@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.handwoong.rainbowletter.dto.mail.EmailTemplateDto;
+import com.handwoong.rainbowletter.service.mail.template.EmailTemplateManager;
 import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
+    private final EmailTemplateManager templateManager;
 
     @Override
     public void send(final String email, final EmailTemplateType type) throws MessagingException {
@@ -24,8 +27,10 @@ public class EmailServiceImpl implements EmailService {
         final MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
         messageHelper.setFrom("무지개 편지 <noreply@rainbowletter.com>");
         messageHelper.setTo(email);
-        messageHelper.setSubject("테스트");
-        messageHelper.setText("<h1>무지개 편지</h1>", true);
+
+        final EmailTemplateDto template = templateManager.template(email, type);
+        messageHelper.setSubject(template.subject());
+        messageHelper.setText(template.body(), true);
         mailSender.send(mimeMessage);
     }
 }

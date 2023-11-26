@@ -11,20 +11,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import com.handwoong.rainbowletter.config.security.GrantType;
+import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
 import com.handwoong.rainbowletter.config.security.TokenResponse;
 import com.handwoong.rainbowletter.controller.ControllerTestProvider;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
+import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
 
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 public class MemberControllerTest extends ControllerTestProvider {
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
     public static String getToken(final MemberLoginRequest loginRequest) {
         final ExtractableResponse<Response> loginResponse = login(loginRequest);
         final TokenResponse tokenResponse = loginResponse.body().as(TokenResponse.class);
@@ -73,6 +79,41 @@ public class MemberControllerTest extends ControllerTestProvider {
 
         // then
         assertThat(registerResponse.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("유효한 이메일 인증 요청이 들어오면 인증에 성공한다.")
+    void verify_member_email() {
+        // given
+        final MemberRegisterRequest registerRequest = new MemberRegisterRequest(NEW_EMAIL, NEW_PASSWORD);
+        register(registerRequest);
+
+        final TokenResponse tokenResponse =
+                tokenProvider.generateToken(GrantType.PATH_VARIABLE, NEW_EMAIL, EmailTemplateType.VERIFY.name());
+
+        // when
+        final ExtractableResponse<Response> verifyResponse = verify(tokenResponse.token());
+
+        // then
+        assertThat(verifyResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("이메일 인증 시 유효하지 않은 토큰일 경우 401 예외가 발생한다.")
+    void verify_member_email_invalid_token() {
+        // given
+        final MemberRegisterRequest registerRequest = new MemberRegisterRequest(NEW_EMAIL, NEW_PASSWORD);
+        register(registerRequest);
+
+        final TokenResponse tokenResponse =
+                tokenProvider.generateToken(GrantType.PATH_VARIABLE, NEW_EMAIL, EmailTemplateType.VERIFY.name());
+
+        // when
+        final ExtractableResponse<Response> verifyResponse = verify(tokenResponse.token() + "fail");
+
+        // then
+        assertThat(verifyResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertThat(verifyResponse.body().jsonPath().getString("message")).isEqualTo("유효하지 않은 토큰입니다.");
     }
 
     @Test
@@ -153,6 +194,14 @@ public class MemberControllerTest extends ControllerTestProvider {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(registerRequest)
                 .when().post("/api/members")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> verify(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/members/verify/" + token)
                 .then().log().all().extract();
     }
 

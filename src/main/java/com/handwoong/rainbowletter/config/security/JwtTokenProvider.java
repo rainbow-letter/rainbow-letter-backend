@@ -1,12 +1,12 @@
 package com.handwoong.rainbowletter.config.security;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import com.handwoong.rainbowletter.config.PropertiesConfig;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
 
@@ -28,17 +29,24 @@ public class JwtTokenProvider {
     private static final String AUTH_CLAIM_KEY = "roles";
     private static final String USERNAME = "username";
     private static final String AUTHORITY = "authority";
+    private static final int ACCESS_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
+    private static final int VERIFY_EXPIRE_TIME = 1000 * 60 * 10;
 
     private final SecretKey key;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") final String secretKey) {
-        final byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    public JwtTokenProvider(final PropertiesConfig propertiesConfig) {
+        final byte[] keyBytes = Decoders.BASE64.decode(propertiesConfig.getSecretKey());
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public TokenResponse generateToken(final GrantType grantType, final Authentication authentication) {
         final String authority = getAuthority(authentication);
-        final String token = createToken(authority, authentication);
+        final String token = createToken(authentication.getName(), authority, generateExpireDate(ACCESS_EXPIRE_TIME));
+        return TokenResponse.of(grantType, token);
+    }
+
+    public TokenResponse generateToken(final GrantType grantType, final String subject, final String claim) {
+        final String token = createToken(subject, claim, generateExpireDate(VERIFY_EXPIRE_TIME));
         return TokenResponse.of(grantType, token);
     }
 
@@ -50,11 +58,12 @@ public class JwtTokenProvider {
                 .orElseThrow(() -> new RainbowLetterException(ErrorCode.UN_AUTHORIZE));
     }
 
-    private String createToken(final String authority, final Authentication authentication) {
+    private String createToken(final String subject, final String claim, final Date expireDate) {
         return Jwts.builder()
-                .subject(authentication.getName())
-                .claim(AUTH_CLAIM_KEY, authority)
+                .subject(subject)
+                .claim(AUTH_CLAIM_KEY, claim)
                 .signWith(key)
+                .expiration(expireDate)
                 .compact();
     }
 
@@ -64,6 +73,12 @@ public class JwtTokenProvider {
         final List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(payload.get(AUTHORITY)));
         final User principal = new User(payload.get(USERNAME), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    }
+
+    public String parseVerifyToken(final String token) {
+        validateToken(token);
+        final Claims claims = parseClaims(token);
+        return claims.getSubject();
     }
 
     private void validateToken(final String token) {
@@ -88,5 +103,9 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    public Date generateExpireDate(final int expireTime) {
+        return new Date(System.currentTimeMillis() + expireTime);
     }
 }
