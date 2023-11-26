@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum GrantType {
+    PATH_VARIABLE("Path Variable"),
     BEARER("Bearer");
 
     private final String name;

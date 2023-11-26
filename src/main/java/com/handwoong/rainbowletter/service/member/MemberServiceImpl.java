@@ -11,6 +11,7 @@ import com.handwoong.rainbowletter.config.security.GrantType;
 import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
 import com.handwoong.rainbowletter.config.security.TokenResponse;
 import com.handwoong.rainbowletter.domain.member.Member;
+import com.handwoong.rainbowletter.domain.member.MemberStatus;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
@@ -41,6 +42,15 @@ public class MemberServiceImpl implements MemberService {
         member.encodePassword(passwordEncoder);
         memberRepository.save(member);
         return MemberRegisterResponse.from(member);
+    }
+
+    @Override
+    @Transactional
+    public void verify(final String token) {
+        final String email = tokenProvider.parseVerifyToken(token);
+        final Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
+        member.changeStatus(MemberStatus.ACTIVE);
     }
 
     private void validateDuplicateEmail(final String email) {
