@@ -4,34 +4,30 @@
 
 operation::member-controller-test/register_member[snippets='http-request,http-response']
 
-=== 회원 가입 시 이메일 중복
+=== [ERROR] 회원 가입 시 이메일 중복
 
 operation::member-controller-test/duplicate_register_member[snippets='http-request,http-response']
 
-=== 이미 로그인에 성공한 사용자가 회원가입 시도
+=== [ERROR] 이미 로그인에 성공한 사용자가 회원가입 시도
 
 operation::member-controller-test/already_login_member_register[snippets='http-request,http-response']
 
-=== 이메일 인증
+=== 회원 토큰 검증
 
-operation::member-controller-test/verify_member_email[snippets='http-request,http-response']
+operation::member-controller-test/verify_member_token[snippets='http-request,http-response']
 
-=== 유효하지 않은 토큰으로 이메일 인증 시도
+=== [ERROR] 유효하지 않은 회원 토큰으로 검증 시도
 
-operation::member-controller-test/verify_member_email_invalid_token[snippets='http-request,http-response']
+operation::member-controller-test/verify_member_invalid_token[snippets='http-request,http-response']
 
 === 로그인
 
 operation::member-controller-test/login[snippets='http-request,http-response']
 
-=== 존재하지 않는 이메일로 로그인 시도
+=== [ERROR] 존재하지 않는 이메일로 로그인 시도
 
 operation::member-controller-test/login_notfound_member[snippets='http-request,http-response']
 
-=== 이메일 인증을 완료하지 않은 사용자 로그인
-
-operation::member-controller-test/not_verify_email_member_login[snippets='http-request,http-response']
-
-=== 이미 로그인에 성공한 사용자가 로그인 시도
+=== [ERROR] 이미 로그인에 성공한 사용자가 로그인 시도
 
 operation::member-controller-test/already_login_member_login[snippets='http-request,http-response']
