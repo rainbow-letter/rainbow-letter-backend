@@ -1,5 +1,8 @@
 package com.handwoong.rainbowletter.config.security;
 
+import static com.handwoong.rainbowletter.util.Constants.TEN_MINUTE_TO_MILLISECOND;
+import static com.handwoong.rainbowletter.util.Constants.TWO_WEEK_TO_MILLISECOND;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +32,8 @@ public class JwtTokenProvider {
     private static final String AUTH_CLAIM_KEY = "roles";
     private static final String USERNAME = "username";
     private static final String AUTHORITY = "authority";
-    private static final int ACCESS_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
-    private static final int VERIFY_EXPIRE_TIME = 1000 * 60 * 10;
+    private static final long ACCESS_EXPIRE_TIME = TWO_WEEK_TO_MILLISECOND;
+    private static final long VERIFY_EXPIRE_TIME = TEN_MINUTE_TO_MILLISECOND;
 
     private final SecretKey key;
 
@@ -105,7 +108,7 @@ public class JwtTokenProvider {
                 .getPayload();
     }
 
-    public Date generateExpireDate(final int expireTime) {
+    public Date generateExpireDate(final long expireTime) {
         return new Date(System.currentTimeMillis() + expireTime);
     }
 }
