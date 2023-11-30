@@ -18,8 +18,6 @@ import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import com.handwoong.rainbowletter.repository.member.MemberRepository;
-import com.handwoong.rainbowletter.service.mail.event.SendEmail;
-import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,27 +28,27 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-    private final AuthenticationManagerBuilder managerBuilder;
+    private final AuthenticationManagerBuilder authenticationBuilder;
 
     @Override
     @Transactional
-    @SendEmail(type = EmailTemplateType.VERIFY)
     public MemberRegisterResponse register(final MemberRegisterRequest request) {
         validateDuplicateEmail(request.email());
 
         final Member member = Member.create(request);
         member.encodePassword(passwordEncoder);
+        member.changeStatus(MemberStatus.ACTIVE);
         memberRepository.save(member);
         return MemberRegisterResponse.from(member);
     }
 
     @Override
-    @Transactional
     public void verify(final String token) {
         final String email = tokenProvider.parseVerifyToken(token);
-        final Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
-        member.changeStatus(MemberStatus.ACTIVE);
+        final boolean isExistsByEmail = memberRepository.existsByEmail(email);
+        if (!isExistsByEmail) {
+            throw new RainbowLetterException(ErrorCode.INVALID_EMAIL, email);
+        }
     }
 
     private void validateDuplicateEmail(final String email) {
@@ -64,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
     public TokenResponse login(final MemberLoginRequest request) {
         final UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(request.email(), request.password());
-        final Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+        final Authentication authentication = authenticationBuilder.getObject().authenticate(authenticationToken);
         return tokenProvider.generateToken(GrantType.BEARER, authentication);
     }
 }
