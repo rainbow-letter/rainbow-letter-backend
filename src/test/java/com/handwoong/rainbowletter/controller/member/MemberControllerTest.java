@@ -82,8 +82,8 @@ public class MemberControllerTest extends ControllerTestProvider {
     }
 
     @Test
-    @DisplayName("유효한 이메일 인증 요청이 들어오면 인증에 성공한다.")
-    void verify_member_email() {
+    @DisplayName("유효한 회원 토큰이라면 검증에 성공한다.")
+    void verify_member_token() {
         // given
         final MemberRegisterRequest registerRequest = new MemberRegisterRequest(NEW_EMAIL, NEW_PASSWORD);
         register(registerRequest);
@@ -99,8 +99,8 @@ public class MemberControllerTest extends ControllerTestProvider {
     }
 
     @Test
-    @DisplayName("이메일 인증 시 유효하지 않은 토큰일 경우 401 예외가 발생한다.")
-    void verify_member_email_invalid_token() {
+    @DisplayName("회원 토큰 검증 시 유효하지 않은 토큰일 경우 401 예외가 발생한다.")
+    void verify_member_invalid_token() {
         // given
         final MemberRegisterRequest registerRequest = new MemberRegisterRequest(NEW_EMAIL, NEW_PASSWORD);
         register(registerRequest);
@@ -143,22 +143,6 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(loginResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(tokenResponse.grantType()).isEqualTo(GrantType.BEARER.getName());
         assertThat(tokenResponse.token()).isInstanceOf(String.class);
-    }
-
-    @Test
-    @DisplayName("이메일 인증을 완료하지 않은 사용자가 로그인 시도 시 401 예외가 발생한다.")
-    void not_verify_email_member_login() {
-        // given
-        final MemberRegisterRequest registerRequest = new MemberRegisterRequest(NEW_EMAIL, NEW_PASSWORD);
-        register(registerRequest);
-
-        final MemberLoginRequest loginRequest = new MemberLoginRequest(NEW_EMAIL, NEW_PASSWORD);
-
-        // when
-        final ExtractableResponse<Response> loginResponse = login(loginRequest);
-
-        // then
-        assertThat(loginResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
     @Test
