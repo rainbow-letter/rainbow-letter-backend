@@ -37,7 +37,9 @@ out/
 .vscode/
 
 ### PROJECT ###
-resources/
+test/resources/
+seed/
+logback.xml
 application.properties
 static/
 logs/
