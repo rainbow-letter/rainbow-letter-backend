@@ -11,6 +11,7 @@ import jakarta.validation.constraints.NotNull;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.handwoong.rainbowletter.config.security.oauth.OAuthProvider;
 import com.handwoong.rainbowletter.domain.BaseEntity;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.exception.ErrorCode;
@@ -43,15 +44,30 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    private Member(final String email, final String password) {
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private OAuthProvider provider;
+
+    @NotNull
+    private String providerId;
+
+    private Member(final String email, final String password, final OAuthProvider provider, final String providerId) {
         this.email = email;
         this.password = password;
         this.role = MemberRole.ROLE_USER;
         this.status = MemberStatus.INACTIVE;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
     public static Member create(final MemberRegisterRequest request) {
-        return new Member(request.email(), request.password());
+        return new Member(request.email(), request.password(), OAuthProvider.NONE, OAuthProvider.NONE.name());
+    }
+
+    public static Member create(final MemberRegisterRequest request,
+                                final OAuthProvider provider,
+                                final String providerId) {
+        return new Member(request.email(), request.password(), provider, providerId);
     }
 
     public void encodePassword(final PasswordEncoder passwordEncoder) {
@@ -63,9 +79,17 @@ public class Member extends BaseEntity {
     }
 
     public void changeStatus(final MemberStatus status) {
-        if (status.match(MemberStatus.INACTIVE)) {
+        if (status.equals(MemberStatus.INACTIVE)) {
             throw new RainbowLetterException(ErrorCode.INVALID_MEMBER_STATUS, status.name());
         }
         this.status = status;
+    }
+
+    public void updateProvider(final OAuthProvider oAuthProvider, final String providerId) {
+        if (this.provider.equals(oAuthProvider)) {
+            return;
+        }
+        this.provider = oAuthProvider;
+        this.providerId = providerId;
     }
 }

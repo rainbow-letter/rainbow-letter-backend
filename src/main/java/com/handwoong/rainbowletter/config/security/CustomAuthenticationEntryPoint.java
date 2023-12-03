@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 
 public class CustomAuthenticationEntryPoint extends AuthenticationErrorHandler implements AuthenticationEntryPoint {
-    protected CustomAuthenticationEntryPoint() {
+    public CustomAuthenticationEntryPoint() {
         super(ErrorCode.UN_AUTHORIZE);
     }
 

@@ -23,6 +23,7 @@ public enum ErrorCode {
     METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
     CHECK_EMAIL_AND_PASSWORD(BAD_REQUEST, "이메일 및 비밀번호를 확인 해주세요."),
     INVALID_MEMBER_STATUS(BAD_REQUEST, "변경 불가능한 회원 상태입니다."),
+    INVALID_OAUTH_PROVIDER_TYPE(BAD_REQUEST, "유효하지 않은 소셜 로그인 타입입니다."),
 
     /**
      * 401 UNAUTHORIZED

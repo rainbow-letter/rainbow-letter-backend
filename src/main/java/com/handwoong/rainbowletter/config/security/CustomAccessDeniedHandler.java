@@ -11,7 +11,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 
 public class CustomAccessDeniedHandler extends AuthenticationErrorHandler implements AccessDeniedHandler {
-    protected CustomAccessDeniedHandler() {
+    public CustomAccessDeniedHandler() {
         super(ErrorCode.ACCESS_DENIED);
     }
 

@@ -5,9 +5,5 @@ public enum MemberStatus {
     ACTIVE,
     SLEEP,
     LOCK,
-    LEAVE;
-
-    public boolean match(final MemberStatus status) {
-        return this == status;
-    }
+    LEAVE
 }

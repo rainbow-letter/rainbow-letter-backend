@@ -9,12 +9,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
+
+import com.handwoong.rainbowletter.config.security.oauth.CustomOAuthUserService;
+import com.handwoong.rainbowletter.config.security.oauth.OAuthSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
     private final CorsConfigurationSource corsConfigurationSource;
     private final JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
+    private final CustomOAuthUserService customOAuthUserService;
+    private final OAuthSuccessHandler oAuthSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
@@ -31,6 +34,7 @@ public class SecurityConfig {
         addAuthorizeConfigToHttpSecurity(http);
         addExceptionHandlerToHttpSecurity(http);
         addFilterBefore(http);
+        configurationOAuth2(http);
         return http.build();
     }
 
@@ -64,9 +68,11 @@ public class SecurityConfig {
         http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    private void configurationOAuth2(final HttpSecurity http) throws Exception {
+        http.oauth2Login(oauth ->
+                oauth
+                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuthUserService))
+                        .successHandler(oAuthSuccessHandler));
     }
 
     private AntPathRequestMatcher[] convertUriToPathMatcher(final AllowUri[] allowUris) {
