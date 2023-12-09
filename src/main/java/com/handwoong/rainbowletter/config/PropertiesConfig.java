@@ -15,4 +15,10 @@ public class PropertiesConfig {
 
     @Value("#{${client.url}}")
     private List<String> clientUrls;
+
+    @Value("${chatgpt.token}")
+    private String chatgptToken;
+
+    @Value("${airtable.token}")
+    private String airtableToken;
 }
