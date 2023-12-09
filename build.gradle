@@ -83,6 +83,10 @@ tasks.register('copyDocument', Copy) {
     into file("BOOT-INF/classes/static")
 }
 
+build {
+    dependsOn copyDocument
+}
+
 def generated = 'src/main/generated'
 
 tasks.withType(JavaCompile).configureEach {
