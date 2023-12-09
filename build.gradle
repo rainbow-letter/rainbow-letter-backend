@@ -80,13 +80,7 @@ tasks.register('copyDocument', Copy) {
     dependsOn asciidoctor
     from file("build/docs/asciidoc")
     into file("src/main/resources/static")
-}
-
-bootJar {
-    dependsOn copyDocument
-    from("${asciidoctor.outputDir}") {
-        into 'static/docs'
-    }
+    into file("BOOT-INF/classes/static")
 }
 
 def generated = 'src/main/generated'
