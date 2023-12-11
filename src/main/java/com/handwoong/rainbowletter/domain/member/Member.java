@@ -1,5 +1,11 @@
 package com.handwoong.rainbowletter.domain.member;
 
+import com.handwoong.rainbowletter.config.security.oauth.OAuthProvider;
+import com.handwoong.rainbowletter.domain.BaseEntity;
+import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
+import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
+import com.handwoong.rainbowletter.exception.ErrorCode;
+import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,18 +14,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.handwoong.rainbowletter.config.security.oauth.OAuthProvider;
-import com.handwoong.rainbowletter.domain.BaseEntity;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
-import com.handwoong.rainbowletter.exception.ErrorCode;
-import com.handwoong.rainbowletter.exception.RainbowLetterException;
-
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Entity
@@ -83,6 +82,20 @@ public class Member extends BaseEntity {
             throw new RainbowLetterException(ErrorCode.INVALID_MEMBER_STATUS, status.name());
         }
         this.status = status;
+    }
+
+    public void changePassword(final ChangePasswordRequest request, final PasswordEncoder passwordEncoder) {
+        if (Objects.nonNull(request.password())) {
+            comparePassword(request.password(), passwordEncoder);
+        }
+        password = request.newPassword();
+        encodePassword(passwordEncoder);
+    }
+
+    private void comparePassword(final String password, final PasswordEncoder passwordEncoder) {
+        if (!passwordEncoder.matches(password, this.password)) {
+            throw new RainbowLetterException(ErrorCode.INVALID_PASSWORD);
+        }
     }
 
     public void updateProvider(final OAuthProvider oAuthProvider, final String providerId) {
