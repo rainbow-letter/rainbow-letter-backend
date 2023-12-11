@@ -32,7 +32,7 @@ public class FindPasswordTemplate implements EmailTemplate {
         final TokenResponse tokenResponse =
                 tokenProvider.generateToken(GrantType.PATH_VARIABLE, email, EmailTemplateType.VERIFY.name());
         final String resetPasswordUrl =
-                propertiesConfig.getClientUrls().get(0) + "/members/password/reset" + tokenResponse.token();
+                propertiesConfig.getClientUrls().get(0) + "/members/password/reset/" + tokenResponse.token();
         final Context context = new Context();
         context.setVariable("resetPasswordUrl", resetPasswordUrl);
         return templateEngine.process("resetPassword", context);
