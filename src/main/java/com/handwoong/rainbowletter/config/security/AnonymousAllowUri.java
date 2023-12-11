@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum AnonymousAllowUri implements AllowUri {
     USER_REGISTER("/api/members"),
     USER_LOGIN("/api/members/login"),
-    OAUTH_LOGIN("/oauth2/authorization/**"),
+    FIND_PASSWORD("/api/members/password/find"),
     ;
 
     private final String uri;

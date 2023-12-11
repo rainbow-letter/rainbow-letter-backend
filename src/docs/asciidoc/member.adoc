@@ -44,3 +44,7 @@ http://SERVER_URL/oauth2/authorization/google
 
 로그인에 성공하면 해당 URL로 리다이렉트 됩니다. +
 http://SERVER_URL/oauth/success?token=ACCESS_TOKEN
+
+=== 비밀번호 찾기
+
+operation::member-controller-test/send_change_password_email[snippets='http-request,http-response']

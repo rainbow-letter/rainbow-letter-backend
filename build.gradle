@@ -88,6 +88,7 @@ build {
 
 bootJar {
     dependsOn copyDocument
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from("${asciidoctor.outputDir}") {
         into 'BOOT-INF/classes/static'
     }
