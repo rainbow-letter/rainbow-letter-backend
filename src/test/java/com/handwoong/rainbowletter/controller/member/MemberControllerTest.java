@@ -9,23 +9,22 @@ import static com.handwoong.rainbowletter.util.Constants.USER_PASSWORD;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.handwoong.rainbowletter.config.security.GrantType;
+import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
+import com.handwoong.rainbowletter.config.security.TokenResponse;
+import com.handwoong.rainbowletter.controller.ControllerTestProvider;
+import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
+import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
+import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
+import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import com.handwoong.rainbowletter.config.security.GrantType;
-import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
-import com.handwoong.rainbowletter.config.security.TokenResponse;
-import com.handwoong.rainbowletter.controller.ControllerTestProvider;
-import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
-import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
-
-import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 
 public class MemberControllerTest extends ControllerTestProvider {
     @Autowired
@@ -171,6 +170,19 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(loginResponse.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
     }
 
+    @Test
+    @DisplayName("회원의 이메일로 비밀번호 변경 이메일을 발송한다.")
+    void send_change_password_email() {
+        // given
+        final FindPasswordDto findPasswordDto = new FindPasswordDto(USER_EMAIL);
+
+        // when
+        final ExtractableResponse<Response> findPasswordResponse = findPassword(findPasswordDto);
+
+        // then
+        assertThat(findPasswordResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private ExtractableResponse<Response> register(final MemberRegisterRequest registerRequest, final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -196,6 +208,15 @@ public class MemberControllerTest extends ControllerTestProvider {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(loginRequest)
                 .when().post("/api/members/login")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> findPassword(final FindPasswordDto passwordRequest) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(passwordRequest)
+                .when().post("/api/members/password/find")
                 .then().log().all().extract();
     }
 }
