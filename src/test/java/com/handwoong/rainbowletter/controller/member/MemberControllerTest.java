@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.controller.member;
 
 import static com.handwoong.rainbowletter.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
 import static com.handwoong.rainbowletter.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.util.Constants.ADMIN_PASSWORD;
 import static com.handwoong.rainbowletter.util.Constants.NEW_EMAIL;
 import static com.handwoong.rainbowletter.util.Constants.NEW_PASSWORD;
 import static com.handwoong.rainbowletter.util.Constants.USER_EMAIL;
@@ -13,6 +14,7 @@ import com.handwoong.rainbowletter.config.security.GrantType;
 import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
 import com.handwoong.rainbowletter.config.security.TokenResponse;
 import com.handwoong.rainbowletter.controller.ControllerTestProvider;
+import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
 import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
@@ -183,6 +185,45 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(findPasswordResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
+    @Test
+    @DisplayName("회원의 비밀번호를 변경한다.")
+    void change_member_password() {
+        // given
+        final ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(USER_PASSWORD, NEW_PASSWORD);
+
+        // when
+        final ExtractableResponse<Response> response = changePassword(changePasswordRequest, userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("회원의 비밀번호 변경 시 기존 비밀번호가 일치하지 않으면 예외가 발생한다.")
+    void invalid_change_password() {
+        // given
+        final ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(ADMIN_PASSWORD, NEW_PASSWORD);
+
+        // when
+        final ExtractableResponse<Response> response = changePassword(changePasswordRequest, userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("비밀번호 찾기 시 비밀번호를 새로운 비밀번호로 변경한다.")
+    void reset_password() {
+        // given
+        final ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(null, NEW_PASSWORD);
+
+        // when
+        final ExtractableResponse<Response> response = changePassword(changePasswordRequest, userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private ExtractableResponse<Response> register(final MemberRegisterRequest registerRequest, final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -217,6 +258,16 @@ public class MemberControllerTest extends ControllerTestProvider {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(passwordRequest)
                 .when().post("/api/members/password/find")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> changePassword(final ChangePasswordRequest request, final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().put("/api/members/password")
                 .then().log().all().extract();
     }
 }

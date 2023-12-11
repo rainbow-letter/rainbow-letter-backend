@@ -5,11 +5,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class FakePasswordEncoder implements PasswordEncoder {
     @Override
     public String encode(final CharSequence rawPassword) {
-        return "encodedPassword";
+        return rawPassword + "encode";
     }
 
     @Override
     public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
-        return false;
+        return rawPassword.equals(encodedPassword);
     }
 }

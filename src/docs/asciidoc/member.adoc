@@ -48,3 +48,15 @@ http://SERVER_URL/oauth/success?token=ACCESS_TOKEN
 === 비밀번호 찾기
 
 operation::member-controller-test/send_change_password_email[snippets='http-request,http-response']
+
+=== Case 로그인 회원 비밀번호 변경
+
+operation::member-controller-test/change_member_password[snippets='http-request,http-response']
+
+=== [ERROR] 비밀번호 변경 시 기존 비밀번호가 일치하지 않음
+
+operation::member-controller-test/invalid_change_password[snippets='http-request,http-response']
+
+=== Case 비밀번호 찾기
+
+operation::member-controller-test/reset_password[snippets='http-request,http-response']
