@@ -59,3 +59,11 @@ operation::member-controller-test/invalid_change_password[snippets='http-request
 === Case 비밀번호 찾기 비밀번호 변경
 
 operation::member-controller-test/reset_password[snippets='http-request,http-response']
+
+=== 휴대폰 번호 변경
+
+operation::member-controller-test/change_phone_number[snippets='http-request,http-response']
+
+=== [ERROR] 유효하지 않은 휴대폰 번호 형식
+
+operation::member-controller-test/invalid_phone_number[snippets='http-request,http-response']

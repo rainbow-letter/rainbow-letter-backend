@@ -15,6 +15,7 @@ import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
 import com.handwoong.rainbowletter.config.security.TokenResponse;
 import com.handwoong.rainbowletter.controller.ControllerTestProvider;
 import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
+import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
 import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
@@ -224,6 +225,32 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
+    @Test
+    @DisplayName("회원의 휴대폰 번호를 등록 또는 변경한다.")
+    void change_phone_number() {
+        // given
+        final ChangePhoneNumberRequest request = new ChangePhoneNumberRequest("01012345678");
+
+        // when
+        final ExtractableResponse<Response> response = changePhoneNumber(request, userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 휴대폰 번호 형식으로 휴대폰 번호를 변경한다.")
+    void invalid_phone_number() {
+        // given
+        final ChangePhoneNumberRequest request = new ChangePhoneNumberRequest("0101234");
+
+        // when
+        final ExtractableResponse<Response> response = changePhoneNumber(request, userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
     private ExtractableResponse<Response> register(final MemberRegisterRequest registerRequest, final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -268,6 +295,17 @@ public class MemberControllerTest extends ControllerTestProvider {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when().put("/api/members/password")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> changePhoneNumber(final ChangePhoneNumberRequest request,
+                                                            final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().put("/api/members/phoneNumber")
                 .then().log().all().extract();
     }
 }

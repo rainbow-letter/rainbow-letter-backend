@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
+import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
@@ -106,5 +107,20 @@ class MemberTest {
         assertThatThrownBy(() -> member.changePassword(changePasswordRequest, passwordEncoder))
                 .isInstanceOf(RainbowLetterException.class)
                 .hasMessage(ErrorCode.INVALID_PASSWORD.getMessage());
+    }
+
+    @Test
+    @DisplayName("회원의 휴대폰 번호를 변경한다.")
+    void changePhoneNumber() {
+        // given
+        final ChangePhoneNumberRequest request = new ChangePhoneNumberRequest("01012345678");
+        final MemberRegisterRequest registerRequest = new MemberRegisterRequest(NEW_EMAIL, NEW_PASSWORD);
+        final Member member = Member.create(registerRequest);
+
+        // when
+        member.changePhoneNumber(request);
+
+        // then
+        assertThat(member).extracting("phoneNumber").isEqualTo("01012345678");
     }
 }

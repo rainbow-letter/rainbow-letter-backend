@@ -7,6 +7,7 @@ import com.handwoong.rainbowletter.domain.member.Member;
 import com.handwoong.rainbowletter.domain.member.MemberStatus;
 import com.handwoong.rainbowletter.dto.mail.EmailDto;
 import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
+import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
 import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
@@ -85,5 +86,13 @@ public class MemberServiceImpl implements MemberService {
         final Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
         member.changePassword(request, passwordEncoder);
+    }
+
+    @Override
+    @Transactional
+    public void changePhoneNumber(final String email, final ChangePhoneNumberRequest request) {
+        final Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
+        member.changePhoneNumber(request);
     }
 }

@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.controller.member;
 
 import com.handwoong.rainbowletter.config.security.TokenResponse;
 import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
+import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
 import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
@@ -53,6 +54,13 @@ public class MemberController {
     public ResponseEntity<Void> changePassword(@RequestBody @Valid final ChangePasswordRequest request) {
         final String email = SecurityUtils.getAuthenticationUsername();
         memberService.changePassword(email, request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/phoneNumber")
+    public ResponseEntity<Void> changePhoneNumber(@RequestBody @Valid final ChangePhoneNumberRequest request) {
+        final String email = SecurityUtils.getAuthenticationUsername();
+        memberService.changePhoneNumber(email, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
