@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Pattern;
 
 public record ChangePasswordRequest(
         @Nullable
+        @Pattern(regexp = PASSWORD_FORMAT, message = PASSWORD_MESSAGE)
         String password,
 
         @NotBlank(message = EMPTY_MESSAGE)
