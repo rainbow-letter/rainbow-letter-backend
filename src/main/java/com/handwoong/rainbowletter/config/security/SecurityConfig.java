@@ -1,7 +1,9 @@
 package com.handwoong.rainbowletter.config.security;
 
+import com.handwoong.rainbowletter.config.security.oauth.CustomOAuthUserService;
+import com.handwoong.rainbowletter.config.security.oauth.OAuthSuccessHandler;
 import java.util.Arrays;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
-
-import com.handwoong.rainbowletter.config.security.oauth.CustomOAuthUserService;
-import com.handwoong.rainbowletter.config.security.oauth.OAuthSuccessHandler;
-
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -71,6 +68,8 @@ public class SecurityConfig {
     private void configurationOAuth2(final HttpSecurity http) throws Exception {
         http.oauth2Login(oauth ->
                 oauth
+                        .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/oauth2/authorization/**"))
+                        .redirectionEndpoint(endpoint -> endpoint.baseUri("/api/login/oauth2/code/**"))
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuthUserService))
                         .successHandler(oAuthSuccessHandler));
     }
