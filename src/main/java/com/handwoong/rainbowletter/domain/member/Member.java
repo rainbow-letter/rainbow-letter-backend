@@ -3,9 +3,11 @@ package com.handwoong.rainbowletter.domain.member;
 import com.handwoong.rainbowletter.config.security.oauth.OAuthProvider;
 import com.handwoong.rainbowletter.domain.BaseEntity;
 import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
+import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,6 +36,10 @@ public class Member extends BaseEntity {
 
     @NotNull
     private String password;
+
+    @Nullable
+    @Column(length = 20, unique = true)
+    private String phoneNumber;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -96,6 +102,10 @@ public class Member extends BaseEntity {
         if (!passwordEncoder.matches(password, this.password)) {
             throw new RainbowLetterException(ErrorCode.INVALID_PASSWORD);
         }
+    }
+
+    public void changePhoneNumber(final ChangePhoneNumberRequest request) {
+        this.phoneNumber = request.phoneNumber();
     }
 
     public void updateProvider(final OAuthProvider oAuthProvider, final String providerId) {
