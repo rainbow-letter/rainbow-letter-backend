@@ -69,6 +69,36 @@ class FAQControllerTest extends ControllerTestProvider {
         assertThat(errorResponse.message()).isEqualTo("접근 권한이 없습니다.");
     }
 
+    @Test
+    @DisplayName("FAQ를 삭제한다.")
+    void delete_faq() {
+        final FAQCreateRequest request = new FAQCreateRequest("제목", "본문");
+        final FAQ faq = FAQ.create(request);
+        faqRepository.save(faq);
+
+        // when
+        final ExtractableResponse<Response> response = delete(faq.getId(), adminAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("관리자가 아니라면 FAQ 삭제에 실패한다.")
+    void invalid_role_delete_faq() {
+        final FAQCreateRequest request = new FAQCreateRequest("제목", "본문");
+        final FAQ faq = FAQ.create(request);
+        faqRepository.save(faq);
+
+        // when
+        final ExtractableResponse<Response> response = delete(faq.getId(), userAccessToken);
+        final ErrorResponse errorResponse = response.body().as(ErrorResponse.class);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+        assertThat(errorResponse.message()).isEqualTo("접근 권한이 없습니다.");
+    }
+
     private ExtractableResponse<Response> findAllFAQs(final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -85,6 +115,15 @@ class FAQControllerTest extends ControllerTestProvider {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when().post("/api/faqs")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> delete(final Long faqId, final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().delete("/api/faqs/" + faqId)
                 .then().log().all().extract();
     }
 }

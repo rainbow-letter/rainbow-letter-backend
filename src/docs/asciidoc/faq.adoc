@@ -6,8 +6,20 @@ operation::faq-controller-test/find_faqs[snippets='http-request,http-response']
 
 === FAQ 생성
 
+*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
+
 operation::faq-controller-test/create_faq[snippets='http-request,http-response']
 
 ==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 생성 요청
 
 operation::faq-controller-test/invalid_role_create_faq[snippets='http-request,http-response']
+
+=== FAQ 삭제
+
+*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
+
+operation::faq-controller-test/delete_faq[snippets='http-request,http-response']
+
+==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 삭제 요청
+
+operation::faq-controller-test/invalid_role_delete_faq[snippets='http-request,http-response']

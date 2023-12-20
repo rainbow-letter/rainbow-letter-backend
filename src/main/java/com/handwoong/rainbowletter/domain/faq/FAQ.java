@@ -24,7 +24,7 @@ public class FAQ extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(length = 100)
+    @Column(length = 30)
     private String summary;
 
     @NotNull

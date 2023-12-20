@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AdminAllowUri implements AllowUri {
     CREATE_FAQ("/api/faqs"),
+    EDIT_FAQ("/api/faqs/**"),
     ;
 
     private final String uri;

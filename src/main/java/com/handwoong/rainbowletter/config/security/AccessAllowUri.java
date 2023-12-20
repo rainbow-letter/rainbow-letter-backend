@@ -9,6 +9,7 @@ public enum AccessAllowUri implements AllowUri {
     ROOT("/"),
     INDEX("/index.html"),
     REPLY_LETTER("/api/letters"),
+    FAQ("/api/faqs/list"),
     ;
 
     private final String uri;

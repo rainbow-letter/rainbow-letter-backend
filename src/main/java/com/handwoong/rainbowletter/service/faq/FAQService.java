@@ -7,4 +7,6 @@ public interface FAQService {
     FAQResponse findAllVisibilityTrue();
 
     void create(final FAQCreateRequest request);
+
+    void delete(final Long faqId);
 }
