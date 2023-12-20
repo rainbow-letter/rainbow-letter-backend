@@ -273,6 +273,17 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
+    @Test
+    @DisplayName("회원을 탈퇴한다.")
+    void delete_member() {
+        // given
+        // when
+        final ExtractableResponse<Response> response = deleteMember(userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private ExtractableResponse<Response> info(final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -347,6 +358,15 @@ public class MemberControllerTest extends ControllerTestProvider {
                 .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().delete("/api/members/phoneNumber")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> deleteMember(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().delete("/api/members/leave")
                 .then().log().all().extract();
     }
 }

@@ -24,4 +24,6 @@ public interface MemberService {
     void changePhoneNumber(final String email, final ChangePhoneNumberRequest request);
 
     void deletePhoneNumber(final String email);
+
+    void delete(String email);
 }

@@ -100,4 +100,12 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
         member.deletePhoneNumber();
     }
+
+    @Override
+    @Transactional
+    public void delete(final String email) {
+        final Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
+        member.changeStatus(MemberStatus.LEAVE);
+    }
 }

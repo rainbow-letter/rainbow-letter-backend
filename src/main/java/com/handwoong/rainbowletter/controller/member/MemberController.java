@@ -78,4 +78,11 @@ public class MemberController {
         memberService.deletePhoneNumber(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/leave")
+    public ResponseEntity<Void> deleteMember() {
+        final String email = SecurityUtils.getAuthenticationUsername();
+        memberService.delete(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
