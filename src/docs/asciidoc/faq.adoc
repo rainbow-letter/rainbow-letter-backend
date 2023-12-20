@@ -1,0 +1,5 @@
+== FAQ
+
+=== FAQ 목록 조회
+
+operation::faq-controller-test/find_faqs[snippets='http-request,http-response']
