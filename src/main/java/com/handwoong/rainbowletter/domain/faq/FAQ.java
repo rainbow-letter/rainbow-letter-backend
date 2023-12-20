@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.domain.faq;
 
 import com.handwoong.rainbowletter.domain.BaseEntity;
+import com.handwoong.rainbowletter.dto.faq.FAQCreateRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,8 +42,8 @@ public class FAQ extends BaseEntity {
         this.visibility = visibility;
     }
 
-    public static FAQ create(final String summary, final String detail) {
-        return new FAQ(summary, detail, true);
+    public static FAQ create(final FAQCreateRequest request) {
+        return new FAQ(request.summary(), request.detail(), true);
     }
 
     @PostPersist

@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers(convertUriToPathMatcher(AccessAllowUri.values())).permitAll()
                         .requestMatchers(convertUriToPathMatcher(AnonymousAllowUri.values())).anonymous()
+                        .requestMatchers(convertUriToPathMatcher(AdminAllowUri.values())).hasRole("ADMIN")
                         .anyRequest().authenticated()
         );
     }
