@@ -262,6 +262,17 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
+    @Test
+    @DisplayName("휴대폰 번호를 삭제한다.")
+    void delete_phone_number() {
+        // given
+        // when
+        final ExtractableResponse<Response> response = deletePhoneNumber(userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private ExtractableResponse<Response> info(final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -327,6 +338,15 @@ public class MemberControllerTest extends ControllerTestProvider {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .when().put("/api/members/phoneNumber")
+                .then().log().all().extract();
+    }
+
+    private ExtractableResponse<Response> deletePhoneNumber(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().delete("/api/members/phoneNumber")
                 .then().log().all().extract();
     }
 }

@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,6 +69,13 @@ public class MemberController {
     public ResponseEntity<Void> changePhoneNumber(@RequestBody @Valid final ChangePhoneNumberRequest request) {
         final String email = SecurityUtils.getAuthenticationUsername();
         memberService.changePhoneNumber(email, request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/phoneNumber")
+    public ResponseEntity<Void> deletePhoneNumber() {
+        final String email = SecurityUtils.getAuthenticationUsername();
+        memberService.deletePhoneNumber(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

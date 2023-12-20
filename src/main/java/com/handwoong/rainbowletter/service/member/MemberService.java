@@ -22,4 +22,6 @@ public interface MemberService {
     void changePassword(final String email, final ChangePasswordRequest request);
 
     void changePhoneNumber(final String email, final ChangePhoneNumberRequest request);
+
+    void deletePhoneNumber(final String email);
 }

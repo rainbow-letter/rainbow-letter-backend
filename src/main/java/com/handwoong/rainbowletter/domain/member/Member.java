@@ -115,4 +115,8 @@ public class Member extends BaseEntity {
         this.provider = oAuthProvider;
         this.providerId = providerId;
     }
+
+    public void deletePhoneNumber() {
+        this.phoneNumber = null;
+    }
 }

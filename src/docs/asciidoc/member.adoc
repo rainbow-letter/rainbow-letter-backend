@@ -79,3 +79,7 @@ operation::member-controller-test/change_phone_number[snippets='http-request,htt
 ==== [ERROR] 유효하지 않은 휴대폰 번호 형식
 
 operation::member-controller-test/invalid_phone_number[snippets='http-request,http-response']
+
+=== 휴대폰 번호 삭제
+
+operation::member-controller-test/delete_phone_number[snippets='http-request,http-response']
