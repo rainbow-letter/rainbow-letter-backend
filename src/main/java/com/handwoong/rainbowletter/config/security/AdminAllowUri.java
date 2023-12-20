@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AccessAllowUri implements AllowUri {
-    ROOT("/"),
-    INDEX("/index.html"),
-    REPLY_LETTER("/api/letters"),
-    FAQ("/api/faqs/list"),
+public enum AdminAllowUri implements AllowUri {
+    CREATE_FAQ("/api/faqs"),
+    EDIT_FAQ("/api/faqs/**"),
     ;
 
     private final String uri;

@@ -6,3 +6,5 @@
 :sectlinks:
 
 include::member.adoc[]
+
+include::faq.adoc[]

@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     INVALID_MEMBER_STATUS(BAD_REQUEST, "변경 불가능한 회원 상태입니다."),
     INVALID_OAUTH_PROVIDER_TYPE(BAD_REQUEST, "유효하지 않은 소셜 로그인 타입입니다."),
+    INVALID_FAQ_ID(BAD_REQUEST, "해당 ID 리소스로 FAQ를 찾지 못했습니다."),
 
     /**
      * 401 UNAUTHORIZED
