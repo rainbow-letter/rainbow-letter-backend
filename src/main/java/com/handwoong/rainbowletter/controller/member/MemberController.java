@@ -7,13 +7,14 @@ import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
+import com.handwoong.rainbowletter.dto.member.MemberResponse;
 import com.handwoong.rainbowletter.service.member.MemberService;
 import com.handwoong.rainbowletter.util.SecurityUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,15 +27,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/info")
+    public ResponseEntity<MemberResponse> info() {
+        final String email = SecurityUtils.getAuthenticationUsername();
+        final MemberResponse response = memberService.info(email);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<MemberRegisterResponse> register(@RequestBody @Valid final MemberRegisterRequest request) {
         final MemberRegisterResponse response = memberService.register(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping("/verify/{token}")
-    public ResponseEntity<Void> verify(@PathVariable final String token) {
-        memberService.verify(token);
+    @PostMapping("/verify")
+    public ResponseEntity<Void> verify() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

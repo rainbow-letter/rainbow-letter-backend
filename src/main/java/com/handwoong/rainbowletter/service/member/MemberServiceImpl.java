@@ -12,6 +12,7 @@ import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
+import com.handwoong.rainbowletter.dto.member.MemberResponse;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import com.handwoong.rainbowletter.repository.member.MemberRepository;
@@ -35,6 +36,11 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationManagerBuilder authenticationBuilder;
 
     @Override
+    public MemberResponse info(final String email) {
+        return memberRepository.findInfoByEmail(email);
+    }
+
+    @Override
     @Transactional
     public MemberRegisterResponse register(final MemberRegisterRequest request) {
         validateDuplicateEmail(request.email());
@@ -44,15 +50,6 @@ public class MemberServiceImpl implements MemberService {
         member.changeStatus(MemberStatus.ACTIVE);
         memberRepository.save(member);
         return MemberRegisterResponse.from(member);
-    }
-
-    @Override
-    public void verify(final String token) {
-        final String email = tokenProvider.parseVerifyToken(token);
-        final boolean isExistsByEmail = memberRepository.existsByEmail(email);
-        if (!isExistsByEmail) {
-            throw new RainbowLetterException(ErrorCode.INVALID_EMAIL, email);
-        }
     }
 
     private void validateDuplicateEmail(final String email) {

@@ -58,6 +58,17 @@ public class MemberControllerTest extends ControllerTestProvider {
     }
 
     @Test
+    @DisplayName("회원 정보를 조회한다.")
+    void info_member() {
+        // given
+        // when
+        final ExtractableResponse<Response> response = info(userAccessToken);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
     @DisplayName("유효한 회원가입 요청이 들어오면 회원가입에 성공한다.")
     void register_member() {
         // given
@@ -115,7 +126,7 @@ public class MemberControllerTest extends ControllerTestProvider {
 
         // then
         assertThat(verifyResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
-        assertThat(verifyResponse.body().jsonPath().getString("message")).isEqualTo("유효하지 않은 토큰입니다.");
+        assertThat(verifyResponse.body().jsonPath().getString("message")).isEqualTo("인증에 실패하였습니다.");
     }
 
     @Test
@@ -251,6 +262,15 @@ public class MemberControllerTest extends ControllerTestProvider {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
+    private ExtractableResponse<Response> info(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/api/members/info")
+                .then().log().all().extract();
+    }
+
     private ExtractableResponse<Response> register(final MemberRegisterRequest registerRequest, final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
@@ -264,8 +284,9 @@ public class MemberControllerTest extends ControllerTestProvider {
     private ExtractableResponse<Response> verify(final String token) {
         return RestAssured
                 .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().post("/api/members/verify/" + token)
+                .when().post("/api/members/verify")
                 .then().log().all().extract();
     }
 

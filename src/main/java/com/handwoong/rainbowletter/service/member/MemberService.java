@@ -8,11 +8,12 @@ import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
 import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
 import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
+import com.handwoong.rainbowletter.dto.member.MemberResponse;
 
 public interface MemberService {
-    MemberRegisterResponse register(final MemberRegisterRequest request);
+    MemberResponse info(final String email);
 
-    void verify(final String token);
+    MemberRegisterResponse register(final MemberRegisterRequest request);
 
     TokenResponse login(final MemberLoginRequest request);
 

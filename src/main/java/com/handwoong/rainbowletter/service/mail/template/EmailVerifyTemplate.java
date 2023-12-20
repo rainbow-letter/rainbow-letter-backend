@@ -33,7 +33,7 @@ public class EmailVerifyTemplate implements EmailTemplate {
     private String createBody(final String email) {
         final TokenResponse tokenResponse =
                 tokenProvider.generateToken(GrantType.PATH_VARIABLE, email, EmailTemplateType.VERIFY.name());
-        final String verifyUrl = propertiesConfig.getClientUrls().get(0) + "/members/verify/" + tokenResponse.token();
+        final String verifyUrl = propertiesConfig.getClientUrls().get(0) + "/members/verify?token=" + tokenResponse.token();
         final Context context = new Context();
         context.setVariable("verifyUrl", verifyUrl);
         return templateEngine.process("verify", context);
