@@ -1,6 +1,8 @@
 package com.handwoong.rainbowletter.controller.faq;
 
-import com.handwoong.rainbowletter.dto.faq.FAQCreateRequest;
+import com.handwoong.rainbowletter.dto.faq.FAQAdminResponse;
+import com.handwoong.rainbowletter.dto.faq.FAQChangeSequenceRequest;
+import com.handwoong.rainbowletter.dto.faq.FAQRequest;
 import com.handwoong.rainbowletter.dto.faq.FAQResponse;
 import com.handwoong.rainbowletter.service.faq.FAQService;
 import jakarta.validation.Valid;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +30,35 @@ public class FAQController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/list/admin")
+    public ResponseEntity<FAQAdminResponse> findAdminAllFAQs() {
+        final FAQAdminResponse response = faqService.findAll();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid final FAQCreateRequest request) {
+    public ResponseEntity<Void> create(@RequestBody @Valid final FAQRequest request) {
         faqService.create(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/visibility/{faqId}")
+    public ResponseEntity<Void> changeVisibility(@PathVariable final Long faqId) {
+        faqService.changeVisibility(faqId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/sequence/{faqId}")
+    public ResponseEntity<Void> changeSequence(@PathVariable final Long faqId,
+                                               @RequestBody final FAQChangeSequenceRequest request) {
+        faqService.changeSequence(faqId, request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{faqId}")
+    public ResponseEntity<Void> edit(@PathVariable final Long faqId, @RequestBody @Valid final FAQRequest request) {
+        faqService.edit(faqId, request);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{faqId}")

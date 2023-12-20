@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.domain.faq;
 
 import com.handwoong.rainbowletter.domain.BaseEntity;
-import com.handwoong.rainbowletter.dto.faq.FAQCreateRequest;
+import com.handwoong.rainbowletter.dto.faq.FAQRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,12 +42,31 @@ public class FAQ extends BaseEntity {
         this.visibility = visibility;
     }
 
-    public static FAQ create(final FAQCreateRequest request) {
+    public static FAQ create(final FAQRequest request) {
         return new FAQ(request.summary(), request.detail(), true);
     }
 
     @PostPersist
     private void initSortIndex() {
         sortIndex = id;
+    }
+
+    public void edit(final FAQRequest request) {
+        summary = request.summary();
+        detail = request.detail();
+    }
+
+    public void changeVisibility() {
+        this.visibility = !visibility;
+    }
+
+    public void changeSequence(final FAQ faq) {
+        final Long tempIndex = faq.sortIndex;
+        faq.changeSortIndex(this.sortIndex);
+        changeSortIndex(tempIndex);
+    }
+
+    private void changeSortIndex(final Long sortIndex) {
+        this.sortIndex = sortIndex;
     }
 }
