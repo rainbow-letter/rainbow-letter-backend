@@ -1,6 +1,6 @@
-package com.handwoong.rainbowletter.service.mail.template;
+package com.handwoong.rainbowletter.domain.mail.service.template;
 
-import com.handwoong.rainbowletter.dto.mail.EmailTemplateDto;
+import com.handwoong.rainbowletter.domain.mail.dto.EmailTemplateDto;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Map.Entry;

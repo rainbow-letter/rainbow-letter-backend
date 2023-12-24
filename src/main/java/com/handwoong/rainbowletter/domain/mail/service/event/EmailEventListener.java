@@ -1,14 +1,11 @@
-package com.handwoong.rainbowletter.service.mail.event;
+package com.handwoong.rainbowletter.domain.mail.service.event;
 
+import com.handwoong.rainbowletter.domain.mail.service.EmailService;
 import jakarta.mail.MessagingException;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
-
-import com.handwoong.rainbowletter.service.mail.EmailService;
-
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor

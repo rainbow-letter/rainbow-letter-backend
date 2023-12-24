@@ -1,19 +1,15 @@
-package com.handwoong.rainbowletter.service.mail;
+package com.handwoong.rainbowletter.domain.mail.service;
 
-import java.nio.charset.StandardCharsets;
-
+import com.handwoong.rainbowletter.domain.mail.dto.EmailTemplateDto;
+import com.handwoong.rainbowletter.domain.mail.service.template.EmailTemplateManager;
+import com.handwoong.rainbowletter.domain.mail.service.template.EmailTemplateType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-
+import java.nio.charset.StandardCharsets;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import com.handwoong.rainbowletter.dto.mail.EmailTemplateDto;
-import com.handwoong.rainbowletter.service.mail.template.EmailTemplateManager;
-import com.handwoong.rainbowletter.service.mail.template.EmailTemplateType;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

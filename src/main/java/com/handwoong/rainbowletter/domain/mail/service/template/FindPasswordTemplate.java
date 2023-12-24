@@ -1,10 +1,10 @@
-package com.handwoong.rainbowletter.service.mail.template;
+package com.handwoong.rainbowletter.domain.mail.service.template;
 
 import com.handwoong.rainbowletter.config.PropertiesConfig;
 import com.handwoong.rainbowletter.config.security.GrantType;
 import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
 import com.handwoong.rainbowletter.config.security.TokenResponse;
-import com.handwoong.rainbowletter.dto.mail.EmailTemplateDto;
+import com.handwoong.rainbowletter.domain.mail.dto.EmailTemplateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;

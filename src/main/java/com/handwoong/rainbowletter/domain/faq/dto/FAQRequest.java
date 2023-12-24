@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.domain.faq.dto;
 
-import static com.handwoong.rainbowletter.dto.ValidateMessage.EMPTY_MESSAGE;
-import static com.handwoong.rainbowletter.dto.ValidateMessage.FAQ_SUMMARY;
+import static com.handwoong.rainbowletter.util.ValidateMessage.EMPTY_MESSAGE;
+import static com.handwoong.rainbowletter.util.ValidateMessage.FAQ_SUMMARY;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto.mail;
+package com.handwoong.rainbowletter.domain.mail.dto;
 
 public record EmailTemplateDto(
         String subject,

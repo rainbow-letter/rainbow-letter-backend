@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto;
+package com.handwoong.rainbowletter.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

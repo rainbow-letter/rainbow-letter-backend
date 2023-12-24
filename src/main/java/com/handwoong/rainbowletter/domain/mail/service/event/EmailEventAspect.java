@@ -1,15 +1,13 @@
-package com.handwoong.rainbowletter.service.mail.event;
+package com.handwoong.rainbowletter.domain.mail.service.event;
 
+import com.handwoong.rainbowletter.domain.mail.dto.EmailDto;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import com.handwoong.rainbowletter.dto.mail.EmailDto;
-
-import lombok.RequiredArgsConstructor;
 
 @Profile("!test")
 @Aspect
