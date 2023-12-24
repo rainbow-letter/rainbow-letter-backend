@@ -1,17 +1,15 @@
 package com.handwoong.rainbowletter.config.security;
 
+import com.handwoong.rainbowletter.domain.member.model.Member;
+import com.handwoong.rainbowletter.domain.member.model.MemberStatus;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import com.handwoong.rainbowletter.domain.member.Member;
-import com.handwoong.rainbowletter.domain.member.MemberStatus;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
     private final transient Member member;

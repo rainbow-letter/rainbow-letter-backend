@@ -1,15 +1,13 @@
 package com.handwoong.rainbowletter.config.security;
 
+import com.handwoong.rainbowletter.domain.member.model.Member;
+import com.handwoong.rainbowletter.domain.member.repository.MemberRepository;
+import com.handwoong.rainbowletter.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.handwoong.rainbowletter.domain.member.Member;
-import com.handwoong.rainbowletter.exception.ErrorCode;
-import com.handwoong.rainbowletter.repository.member.MemberRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
