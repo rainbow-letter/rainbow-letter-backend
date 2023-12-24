@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.domain.member.controller;
 
-import static com.handwoong.rainbowletter.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
-import static com.handwoong.rainbowletter.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
+import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
 import static com.handwoong.rainbowletter.util.Constants.ADMIN_PASSWORD;
 import static com.handwoong.rainbowletter.util.Constants.NEW_EMAIL;
 import static com.handwoong.rainbowletter.util.Constants.NEW_PASSWORD;
@@ -10,9 +10,9 @@ import static com.handwoong.rainbowletter.util.Constants.USER_PASSWORD;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.handwoong.rainbowletter.config.security.GrantType;
-import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
-import com.handwoong.rainbowletter.config.security.TokenResponse;
+import com.handwoong.rainbowletter.config.security.jwt.GrantType;
+import com.handwoong.rainbowletter.config.security.jwt.JwtTokenProvider;
+import com.handwoong.rainbowletter.config.security.jwt.TokenResponse;
 import com.handwoong.rainbowletter.domain.ControllerTestProvider;
 import com.handwoong.rainbowletter.domain.mail.service.template.EmailTemplateType;
 import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;

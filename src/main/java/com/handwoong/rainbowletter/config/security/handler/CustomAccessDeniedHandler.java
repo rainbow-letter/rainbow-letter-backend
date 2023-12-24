@@ -1,5 +1,6 @@
-package com.handwoong.rainbowletter.config.security;
+package com.handwoong.rainbowletter.config.security.handler;
 
+import com.handwoong.rainbowletter.config.security.handler.AuthenticationErrorHandler;
 import java.io.IOException;
 
 import jakarta.servlet.http.HttpServletRequest;

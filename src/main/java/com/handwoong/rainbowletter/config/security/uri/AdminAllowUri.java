@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.config.security;
+package com.handwoong.rainbowletter.config.security.uri;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

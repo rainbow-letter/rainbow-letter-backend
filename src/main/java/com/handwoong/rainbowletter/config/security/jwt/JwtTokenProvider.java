@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.config.security;
+package com.handwoong.rainbowletter.config.security.jwt;
 
 import static com.handwoong.rainbowletter.util.Constants.TEN_MINUTE_TO_MILLISECOND;
 import static com.handwoong.rainbowletter.util.Constants.TWO_WEEK_TO_MILLISECOND;

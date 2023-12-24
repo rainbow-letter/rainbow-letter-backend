@@ -1,8 +1,8 @@
 package com.handwoong.rainbowletter.domain.member.service;
 
-import com.handwoong.rainbowletter.config.security.GrantType;
-import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
-import com.handwoong.rainbowletter.config.security.TokenResponse;
+import com.handwoong.rainbowletter.config.security.jwt.GrantType;
+import com.handwoong.rainbowletter.config.security.jwt.JwtTokenProvider;
+import com.handwoong.rainbowletter.config.security.jwt.TokenResponse;
 import com.handwoong.rainbowletter.domain.mail.dto.EmailDto;
 import com.handwoong.rainbowletter.domain.mail.service.event.SendEmail;
 import com.handwoong.rainbowletter.domain.mail.service.template.EmailTemplateType;

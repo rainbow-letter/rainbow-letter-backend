@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.domain.member.service;
 
-import com.handwoong.rainbowletter.config.security.TokenResponse;
+import com.handwoong.rainbowletter.config.security.jwt.TokenResponse;
 import com.handwoong.rainbowletter.domain.mail.dto.EmailDto;
 import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;
 import com.handwoong.rainbowletter.domain.member.dto.ChangePhoneNumberRequest;

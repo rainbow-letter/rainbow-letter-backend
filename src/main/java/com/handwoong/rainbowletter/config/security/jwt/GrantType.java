@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.config.security;
+package com.handwoong.rainbowletter.config.security.jwt;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

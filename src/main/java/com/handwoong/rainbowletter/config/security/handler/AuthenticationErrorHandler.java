@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.config.security;
+package com.handwoong.rainbowletter.config.security.handler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.handwoong.rainbowletter.config.PropertiesConfig;
-import com.handwoong.rainbowletter.config.security.GrantType;
-import com.handwoong.rainbowletter.config.security.JwtTokenProvider;
-import com.handwoong.rainbowletter.config.security.TokenResponse;
+import com.handwoong.rainbowletter.config.security.jwt.GrantType;
+import com.handwoong.rainbowletter.config.security.jwt.JwtTokenProvider;
+import com.handwoong.rainbowletter.config.security.jwt.TokenResponse;
 
 import lombok.RequiredArgsConstructor;
 
