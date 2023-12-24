@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto.letter;
+package com.handwoong.rainbowletter.domain.letter.dto;
 
 import java.util.List;
 

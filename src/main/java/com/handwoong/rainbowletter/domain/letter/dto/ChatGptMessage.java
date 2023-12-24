@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto.letter;
+package com.handwoong.rainbowletter.domain.letter.dto;
 
 public record ChatGptMessage(
         String role,

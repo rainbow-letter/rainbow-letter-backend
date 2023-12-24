@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto.letter;
+package com.handwoong.rainbowletter.domain.letter.dto;
 
 public record ChatGptResponseUsage(
         int prompt_tokens,

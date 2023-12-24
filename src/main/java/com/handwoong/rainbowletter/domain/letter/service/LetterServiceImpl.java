@@ -1,5 +1,12 @@
-package com.handwoong.rainbowletter.service.letter;
+package com.handwoong.rainbowletter.domain.letter.service;
 
+import com.handwoong.rainbowletter.config.PropertiesConfig;
+import com.handwoong.rainbowletter.domain.letter.dto.AirtableUpdateDto;
+import com.handwoong.rainbowletter.domain.letter.dto.AirtableUpdateRequestDto;
+import com.handwoong.rainbowletter.domain.letter.dto.ChatGptRequestDto;
+import com.handwoong.rainbowletter.domain.letter.dto.ChatGptResponseDto;
+import com.handwoong.rainbowletter.domain.letter.dto.ReplyRequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -8,15 +15,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-
-import com.handwoong.rainbowletter.config.PropertiesConfig;
-import com.handwoong.rainbowletter.dto.letter.AirtableUpdateDto;
-import com.handwoong.rainbowletter.dto.letter.AirtableUpdateRequestDto;
-import com.handwoong.rainbowletter.dto.letter.ChatGptRequestDto;
-import com.handwoong.rainbowletter.dto.letter.ChatGptResponseDto;
-import com.handwoong.rainbowletter.dto.letter.ReplyRequestDto;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
