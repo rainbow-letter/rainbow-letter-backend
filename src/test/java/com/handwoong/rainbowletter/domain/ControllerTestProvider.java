@@ -1,6 +1,6 @@
-package com.handwoong.rainbowletter.controller;
+package com.handwoong.rainbowletter.domain;
 
-import static com.handwoong.rainbowletter.controller.member.MemberControllerTest.getToken;
+import static com.handwoong.rainbowletter.domain.member.controller.MemberControllerTest.getToken;
 import static com.handwoong.rainbowletter.util.Constants.ADMIN_EMAIL;
 import static com.handwoong.rainbowletter.util.Constants.ADMIN_PASSWORD;
 import static com.handwoong.rainbowletter.util.Constants.USER_EMAIL;
@@ -8,6 +8,12 @@ import static com.handwoong.rainbowletter.util.Constants.USER_PASSWORD;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.setSpecification;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
+import com.handwoong.rainbowletter.domain.member.dto.MemberLoginRequest;
+import com.handwoong.rainbowletter.util.DatabaseCleaner;
+import com.handwoong.rainbowletter.util.RestDocsUtils;
+import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,14 +27,6 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
-import com.handwoong.rainbowletter.util.DatabaseCleaner;
-import com.handwoong.rainbowletter.util.RestDocsUtils;
-
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
 
 @ActiveProfiles("test")
 @Sql({"classpath:seed/data.sql"})

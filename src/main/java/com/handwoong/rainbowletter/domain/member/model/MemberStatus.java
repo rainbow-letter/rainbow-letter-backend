@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.domain.member;
+package com.handwoong.rainbowletter.domain.member.model;
 
 public enum MemberStatus {
     INACTIVE,

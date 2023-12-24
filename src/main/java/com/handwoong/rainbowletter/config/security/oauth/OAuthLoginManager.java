@@ -1,20 +1,18 @@
 package com.handwoong.rainbowletter.config.security.oauth;
 
+import com.handwoong.rainbowletter.config.security.password.OAuthUserPasswordGenerator;
+import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterRequest;
+import com.handwoong.rainbowletter.domain.member.model.Member;
+import com.handwoong.rainbowletter.domain.member.model.MemberStatus;
+import com.handwoong.rainbowletter.domain.member.repository.MemberRepository;
+import com.handwoong.rainbowletter.exception.ErrorCode;
+import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import java.util.EnumMap;
 import java.util.Map;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.handwoong.rainbowletter.config.security.password.OAuthUserPasswordGenerator;
-import com.handwoong.rainbowletter.domain.member.Member;
-import com.handwoong.rainbowletter.domain.member.MemberStatus;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
-import com.handwoong.rainbowletter.exception.ErrorCode;
-import com.handwoong.rainbowletter.exception.RainbowLetterException;
-import com.handwoong.rainbowletter.repository.member.MemberRepository;
 
 @Component
 @Transactional

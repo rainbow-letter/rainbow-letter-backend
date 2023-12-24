@@ -1,14 +1,14 @@
-package com.handwoong.rainbowletter.controller.member;
+package com.handwoong.rainbowletter.domain.member.controller;
 
 import com.handwoong.rainbowletter.config.security.TokenResponse;
-import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
-import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.dto.member.FindPasswordDto;
-import com.handwoong.rainbowletter.dto.member.MemberLoginRequest;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterResponse;
-import com.handwoong.rainbowletter.dto.member.MemberResponse;
-import com.handwoong.rainbowletter.service.member.MemberService;
+import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;
+import com.handwoong.rainbowletter.domain.member.dto.ChangePhoneNumberRequest;
+import com.handwoong.rainbowletter.domain.member.dto.FindPasswordDto;
+import com.handwoong.rainbowletter.domain.member.dto.MemberLoginRequest;
+import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterRequest;
+import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterResponse;
+import com.handwoong.rainbowletter.domain.member.dto.MemberResponse;
+import com.handwoong.rainbowletter.domain.member.service.MemberService;
 import com.handwoong.rainbowletter.util.SecurityUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

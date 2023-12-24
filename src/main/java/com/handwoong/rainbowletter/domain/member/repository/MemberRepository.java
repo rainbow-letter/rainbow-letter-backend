@@ -1,11 +1,9 @@
-package com.handwoong.rainbowletter.repository.member;
+package com.handwoong.rainbowletter.domain.member.repository;
 
-import com.handwoong.rainbowletter.dto.member.MemberResponse;
+import com.handwoong.rainbowletter.domain.member.dto.MemberResponse;
+import com.handwoong.rainbowletter.domain.member.model.Member;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.handwoong.rainbowletter.domain.member.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByEmail(final String email);

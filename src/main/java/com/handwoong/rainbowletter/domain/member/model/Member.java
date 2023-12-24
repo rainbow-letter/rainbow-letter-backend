@@ -1,10 +1,10 @@
-package com.handwoong.rainbowletter.domain.member;
+package com.handwoong.rainbowletter.domain.member.model;
 
 import com.handwoong.rainbowletter.config.security.oauth.OAuthProvider;
 import com.handwoong.rainbowletter.domain.BaseEntity;
-import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
-import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
+import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;
+import com.handwoong.rainbowletter.domain.member.dto.ChangePhoneNumberRequest;
+import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterRequest;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import jakarta.annotation.Nullable;

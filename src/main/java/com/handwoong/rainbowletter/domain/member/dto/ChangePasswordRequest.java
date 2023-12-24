@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto.member;
+package com.handwoong.rainbowletter.domain.member.dto;
 
 import static com.handwoong.rainbowletter.dto.ValidateMessage.EMPTY_MESSAGE;
 import static com.handwoong.rainbowletter.dto.ValidateMessage.PASSWORD_FORMAT;

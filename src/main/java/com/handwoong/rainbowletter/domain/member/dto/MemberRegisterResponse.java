@@ -1,6 +1,6 @@
-package com.handwoong.rainbowletter.dto.member;
+package com.handwoong.rainbowletter.domain.member.dto;
 
-import com.handwoong.rainbowletter.domain.member.Member;
+import com.handwoong.rainbowletter.domain.member.model.Member;
 import com.handwoong.rainbowletter.dto.mail.EmailDto;
 
 public record MemberRegisterResponse(

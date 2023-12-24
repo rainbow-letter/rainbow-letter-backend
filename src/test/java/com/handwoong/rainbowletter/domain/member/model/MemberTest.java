@@ -1,13 +1,13 @@
-package com.handwoong.rainbowletter.domain.member;
+package com.handwoong.rainbowletter.domain.member.model;
 
 import static com.handwoong.rainbowletter.util.Constants.NEW_EMAIL;
 import static com.handwoong.rainbowletter.util.Constants.NEW_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.handwoong.rainbowletter.dto.member.ChangePasswordRequest;
-import com.handwoong.rainbowletter.dto.member.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.dto.member.MemberRegisterRequest;
+import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;
+import com.handwoong.rainbowletter.domain.member.dto.ChangePhoneNumberRequest;
+import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterRequest;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
 import org.junit.jupiter.api.DisplayName;

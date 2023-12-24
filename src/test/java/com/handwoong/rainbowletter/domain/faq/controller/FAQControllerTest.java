@@ -5,7 +5,7 @@ import static com.handwoong.rainbowletter.config.security.JwtTokenAuthentication
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.handwoong.rainbowletter.controller.ControllerTestProvider;
+import com.handwoong.rainbowletter.domain.ControllerTestProvider;
 import com.handwoong.rainbowletter.domain.faq.dto.FAQAdminResponse;
 import com.handwoong.rainbowletter.domain.faq.dto.FAQChangeSequenceRequest;
 import com.handwoong.rainbowletter.domain.faq.dto.FAQRequest;
