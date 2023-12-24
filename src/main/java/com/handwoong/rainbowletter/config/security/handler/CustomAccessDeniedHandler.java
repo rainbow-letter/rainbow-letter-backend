@@ -1,15 +1,11 @@
 package com.handwoong.rainbowletter.config.security.handler;
 
-import com.handwoong.rainbowletter.config.security.handler.AuthenticationErrorHandler;
-import java.io.IOException;
-
+import com.handwoong.rainbowletter.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import java.io.IOException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
-
-import com.handwoong.rainbowletter.exception.ErrorCode;
 
 public class CustomAccessDeniedHandler extends AuthenticationErrorHandler implements AccessDeniedHandler {
     public CustomAccessDeniedHandler() {

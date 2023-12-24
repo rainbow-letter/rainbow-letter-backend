@@ -3,29 +3,25 @@ package com.handwoong.rainbowletter.config.security.jwt;
 import static com.handwoong.rainbowletter.util.Constants.TEN_MINUTE_TO_MILLISECOND;
 import static com.handwoong.rainbowletter.util.Constants.TWO_WEEK_TO_MILLISECOND;
 
+import com.handwoong.rainbowletter.config.PropertiesConfig;
+import com.handwoong.rainbowletter.exception.ErrorCode;
+import com.handwoong.rainbowletter.exception.RainbowLetterException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.crypto.SecretKey;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-
-import com.handwoong.rainbowletter.config.PropertiesConfig;
-import com.handwoong.rainbowletter.exception.ErrorCode;
-import com.handwoong.rainbowletter.exception.RainbowLetterException;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
@@ -76,12 +72,6 @@ public class JwtTokenProvider {
         final List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(payload.get(AUTHORITY)));
         final User principal = new User(payload.get(USERNAME), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
-    }
-
-    public String parseVerifyToken(final String token) {
-        validateToken(token);
-        final Claims claims = parseClaims(token);
-        return claims.getSubject();
     }
 
     private void validateToken(final String token) {
