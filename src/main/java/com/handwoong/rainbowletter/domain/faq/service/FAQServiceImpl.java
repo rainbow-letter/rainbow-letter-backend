@@ -1,15 +1,15 @@
-package com.handwoong.rainbowletter.service.faq;
+package com.handwoong.rainbowletter.domain.faq.service;
 
-import com.handwoong.rainbowletter.domain.faq.FAQ;
-import com.handwoong.rainbowletter.dto.faq.FAQAdminDto;
-import com.handwoong.rainbowletter.dto.faq.FAQAdminResponse;
-import com.handwoong.rainbowletter.dto.faq.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.dto.faq.FAQDto;
-import com.handwoong.rainbowletter.dto.faq.FAQRequest;
-import com.handwoong.rainbowletter.dto.faq.FAQResponse;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQAdminDto;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQAdminResponse;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQChangeSequenceRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQDto;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQResponse;
+import com.handwoong.rainbowletter.domain.faq.model.FAQ;
+import com.handwoong.rainbowletter.domain.faq.repository.FAQRepository;
 import com.handwoong.rainbowletter.exception.ErrorCode;
 import com.handwoong.rainbowletter.exception.RainbowLetterException;
-import com.handwoong.rainbowletter.repository.faq.FAQRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

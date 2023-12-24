@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.dto.faq;
+package com.handwoong.rainbowletter.domain.faq.dto;
 
 public record FAQAdminDto(
         Long id,

@@ -1,7 +1,7 @@
-package com.handwoong.rainbowletter.domain.faq;
+package com.handwoong.rainbowletter.domain.faq.model;
 
 import com.handwoong.rainbowletter.domain.BaseEntity;
-import com.handwoong.rainbowletter.dto.faq.FAQRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

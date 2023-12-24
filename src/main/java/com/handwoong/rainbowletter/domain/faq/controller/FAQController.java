@@ -1,10 +1,10 @@
-package com.handwoong.rainbowletter.controller.faq;
+package com.handwoong.rainbowletter.domain.faq.controller;
 
-import com.handwoong.rainbowletter.dto.faq.FAQAdminResponse;
-import com.handwoong.rainbowletter.dto.faq.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.dto.faq.FAQRequest;
-import com.handwoong.rainbowletter.dto.faq.FAQResponse;
-import com.handwoong.rainbowletter.service.faq.FAQService;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQAdminResponse;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQChangeSequenceRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQResponse;
+import com.handwoong.rainbowletter.domain.faq.service.FAQService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

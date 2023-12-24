@@ -1,9 +1,9 @@
-package com.handwoong.rainbowletter.service.faq;
+package com.handwoong.rainbowletter.domain.faq.service;
 
-import com.handwoong.rainbowletter.dto.faq.FAQAdminResponse;
-import com.handwoong.rainbowletter.dto.faq.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.dto.faq.FAQRequest;
-import com.handwoong.rainbowletter.dto.faq.FAQResponse;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQAdminResponse;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQChangeSequenceRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQRequest;
+import com.handwoong.rainbowletter.domain.faq.dto.FAQResponse;
 
 public interface FAQService {
     FAQResponse findAllVisibilityTrue();
