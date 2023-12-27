@@ -83,3 +83,7 @@ Content-Type: application/json
 ----
 HTTP/1.1 200 OK
 ----
+
+=== 반려 동물 삭제
+
+operation::pet-controller-test/delete_pet[snippets='http-request,http-response']
