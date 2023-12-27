@@ -1,11 +1,11 @@
 package com.handwoong.rainbowletter.domain;
 
 import static com.handwoong.rainbowletter.domain.member.controller.MemberControllerTest.getToken;
-import static com.handwoong.rainbowletter.util.Constants.ADMIN_EMAIL;
-import static com.handwoong.rainbowletter.util.Constants.ADMIN_PASSWORD;
-import static com.handwoong.rainbowletter.util.Constants.USER_EMAIL;
-import static com.handwoong.rainbowletter.util.Constants.USER_PASSWORD;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.setSpecification;
+import static com.handwoong.rainbowletter.util.TestConstants.ADMIN_EMAIL;
+import static com.handwoong.rainbowletter.util.TestConstants.ADMIN_PASSWORD;
+import static com.handwoong.rainbowletter.util.TestConstants.USER_EMAIL;
+import static com.handwoong.rainbowletter.util.TestConstants.USER_PASSWORD;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 import com.handwoong.rainbowletter.domain.member.dto.MemberLoginRequest;
@@ -29,7 +29,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ActiveProfiles("test")
-@Sql({"classpath:seed/data.sql"})
+@Sql({"classpath:sql/member.sql"})
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @AutoConfigureRestDocs

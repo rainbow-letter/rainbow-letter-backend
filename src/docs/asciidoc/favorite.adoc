@@ -1,0 +1,5 @@
+== 좋아요
+
+=== 증가
+
+operation::favorite-controller-test/increase_favorite[snippets='http-request,http-response']

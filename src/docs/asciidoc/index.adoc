@@ -8,3 +8,9 @@
 include::member.adoc[]
 
 include::faq.adoc[]
+
+include::image.adoc[]
+
+include::pet.adoc[]
+
+include::favorite.adoc[]

@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.domain.member.model;
 
-import static com.handwoong.rainbowletter.util.Constants.NEW_EMAIL;
-import static com.handwoong.rainbowletter.util.Constants.NEW_PASSWORD;
+import static com.handwoong.rainbowletter.util.TestConstants.NEW_EMAIL;
+import static com.handwoong.rainbowletter.util.TestConstants.NEW_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
