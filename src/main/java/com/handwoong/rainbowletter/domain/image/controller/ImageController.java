@@ -14,12 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/image")
+@RequestMapping("/api/images")
 public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ImageUploadResponse> upload(@RequestPart MultipartFile file, @RequestParam String type) {
+    public ResponseEntity<ImageUploadResponse> upload(@RequestPart final MultipartFile file,
+                                                      @RequestParam final String type) {
         final ImageUploadResponse response = imageService.upload(file, type);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

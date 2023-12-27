@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.domain.image.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.handwoong.rainbowletter.config.PropertiesConfig;
@@ -32,6 +33,16 @@ public class ImageServiceImpl implements ImageService {
         final Image image = new Image(type, objectKey, propertiesConfig.getS3Bucket(), imageUrl);
         imageRepository.save(image);
         return ImageUploadResponse.from(image);
+    }
+
+    @Override
+    @Transactional
+    public void remove(final Image image) {
+        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(
+                propertiesConfig.getS3Bucket(),
+                image.getObjectKey()
+        );
+        amazonS3.deleteObject(deleteObjectRequest);
     }
 
     private String requestAmazonS3Upload(final MultipartFile file, final String objectKey) {

@@ -26,6 +26,9 @@ public enum ErrorCode {
     INVALID_OAUTH_PROVIDER_TYPE(BAD_REQUEST, "유효하지 않은 소셜 로그인 타입입니다."),
     INVALID_FAQ_ID(BAD_REQUEST, "해당 ID 리소스로 FAQ를 찾지 못했습니다."),
     FAIL_UPLOAD_IMAGE(BAD_REQUEST, "이미지 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요."),
+    INVALID_IMAGE_ID(BAD_REQUEST, "해당 ID 리소스로 이미지를 찾지 못했습니다."),
+    INVALID_PET_ID(BAD_REQUEST, "해당 ID 리소스로 반려 동물을 찾지 못했습니다."),
+    RESOURCE_ID_NOT_FOUND(BAD_REQUEST, "해당 ID로 리소스를 찾지 못했습니다."),
 
     /**
      * 401 UNAUTHORIZED

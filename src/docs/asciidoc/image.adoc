@@ -1,0 +1,35 @@
+== 이미지
+
+=== 이미지 등록
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+POST /api/images/upload?type=pet HTTP/1.1
+Authorization: Bearer 토큰
+Content-Type: multipart/form-data
+----
+
+예제
+
+[source,javascript]
+----
+const imageFile = "<input> file";
+
+const formData = new FormData();
+formData.append("file", imageFile);
+
+// ...fetch
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 201 CREATED
+
+{
+    "id": 1
+}
+----

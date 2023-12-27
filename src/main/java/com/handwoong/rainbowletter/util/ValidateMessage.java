@@ -11,6 +11,11 @@ public class ValidateMessage {
     public static final String PHONE_NUMBER_MESSAGE = "유효하지 않은 휴대폰 번호 형식입니다.";
     public static final String LOGIN_MESSAGE = "이메일 및 비밀번호를 확인 해주세요.";
     public static final String FAQ_SUMMARY = "제목은 30자 이하로 입력해 주세요.";
+    public static final String PET_NAME = "반려 동물의 이름은 20자 이하로 입력해 주세요.";
+    public static final String PET_SPECIES = "반려 동물의 종류는 10자 이하로 입력해 주세요.";
+    public static final String PET_OWNER = "주인을 부르는 호칭은 10자 이하로 입력해 주세요.";
+    public static final String PET_DEATH_ANNIVERSARY = "날짜가 과거가 아니거나, 형식이 잘못되었습니다.";
+    public static final String PET_PERSONALITY_SIZE = "반려 동물의 성격은 최대 3개까지만 선택 가능합니다.";
 
     public static final String PASSWORD_FORMAT = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
     public static final String PHONE_NUMBER_FORMAT = "^01[016789]\\d{7,8}$";
