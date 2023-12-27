@@ -8,7 +8,7 @@ import static com.handwoong.rainbowletter.util.TestConstants.USER_EMAIL;
 import static com.handwoong.rainbowletter.util.TestConstants.USER_PASSWORD;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
-import com.handwoong.rainbowletter.domain.member.dto.MemberLoginRequest;
+import com.handwoong.rainbowletter.member.domain.dto.MemberLoginRequest;
 import com.handwoong.rainbowletter.util.DatabaseCleaner;
 import com.handwoong.rainbowletter.util.RestDocsUtils;
 import io.restassured.RestAssured;

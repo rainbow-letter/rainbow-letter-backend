@@ -5,11 +5,13 @@ import static com.handwoong.rainbowletter.util.TestConstants.NEW_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;
-import com.handwoong.rainbowletter.domain.member.dto.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterRequest;
-import com.handwoong.rainbowletter.exception.ErrorCode;
-import com.handwoong.rainbowletter.exception.RainbowLetterException;
+import com.handwoong.rainbowletter.common.exception.ErrorCode;
+import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
+import com.handwoong.rainbowletter.member.domain.dto.ChangePasswordRequest;
+import com.handwoong.rainbowletter.member.domain.dto.ChangePhoneNumberRequest;
+import com.handwoong.rainbowletter.member.domain.dto.MemberRegisterRequest;
+import com.handwoong.rainbowletter.member.infrastructure.Member;
+import com.handwoong.rainbowletter.member.domain.MemberStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

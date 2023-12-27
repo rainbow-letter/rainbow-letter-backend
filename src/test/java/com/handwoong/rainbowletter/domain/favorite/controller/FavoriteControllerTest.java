@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.domain.favorite.controller;
 
-import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
-import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
+import static com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 

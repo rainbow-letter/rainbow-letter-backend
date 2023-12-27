@@ -1,0 +1,84 @@
+package com.handwoong.rainbowletter.common.exception;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@Slf4j
+@RestControllerAdvice
+public class ApiExceptionHandler {
+    private static final String MESSAGE_FORMAT = "[%s] %s %s";
+
+    @ExceptionHandler({RainbowLetterException.class})
+    public ResponseEntity<ErrorResponse> rainbowLetter(final RainbowLetterException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception, exception.getField());
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({AccountExpiredException.class})
+    public ResponseEntity<ErrorResponse> accountExpired(final AccountExpiredException exception) {
+        final ErrorCode errorCode = ErrorCode.EXPIRED_MEMBER;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({LockedException.class})
+    public ResponseEntity<ErrorResponse> locked(final LockedException exception) {
+        final ErrorCode errorCode = ErrorCode.LOCKED_MEMBER;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({CredentialsExpiredException.class})
+    public ResponseEntity<ErrorResponse> credentialsExpired(final CredentialsExpiredException exception) {
+        final ErrorCode errorCode = ErrorCode.NEED_VERIFY_EMAIL;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({DisabledException.class})
+    public ResponseEntity<ErrorResponse> disabled(final DisabledException exception) {
+        final ErrorCode errorCode = ErrorCode.LEAVE_MEMBER;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<ErrorResponse> badCredentials(final BadCredentialsException exception) {
+        final ErrorCode errorCode = ErrorCode.CHECK_EMAIL_AND_PASSWORD;
+        logWarn(errorCode, exception);
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<ErrorResponse> usernameNotFound(final UsernameNotFoundException exception) {
+        final ErrorCode errorCode = ErrorCode.INVALID_EMAIL;
+        logWarn(errorCode, exception, exception.getMessage());
+        return createErrorResponse(errorCode);
+    }
+
+    private ResponseEntity<ErrorResponse> createErrorResponse(final ErrorCode errorCode) {
+        final ErrorResponse errorResponse = ErrorResponse.from(errorCode);
+        return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+    }
+
+    private void logWarn(final ErrorCode errorCode, final Exception exception) {
+        final String logMessage = String.format(
+                MESSAGE_FORMAT, errorCode.name(), errorCode.getStatus(), errorCode.getMessage());
+        log.warn(logMessage, exception);
+    }
+
+    private void logWarn(final ErrorCode errorCode, final Exception exception, final String field) {
+        final String logMessage = String.format(
+                MESSAGE_FORMAT, errorCode.name(), errorCode.getStatus(), errorCode.getMessage() + "-" + field);
+        log.warn(logMessage, exception);
+    }
+}

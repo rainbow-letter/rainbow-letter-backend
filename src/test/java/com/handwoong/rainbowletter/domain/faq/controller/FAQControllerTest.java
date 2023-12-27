@@ -1,18 +1,18 @@
 package com.handwoong.rainbowletter.domain.faq.controller;
 
-import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
-import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
+import static com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.handwoong.rainbowletter.common.exception.ErrorResponse;
 import com.handwoong.rainbowletter.domain.ControllerTestProvider;
-import com.handwoong.rainbowletter.domain.faq.dto.FAQAdminResponse;
-import com.handwoong.rainbowletter.domain.faq.dto.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.domain.faq.dto.FAQRequest;
-import com.handwoong.rainbowletter.domain.faq.dto.FAQResponse;
-import com.handwoong.rainbowletter.domain.faq.model.FAQ;
-import com.handwoong.rainbowletter.domain.faq.repository.FAQRepository;
-import com.handwoong.rainbowletter.exception.ErrorResponse;
+import com.handwoong.rainbowletter.faq.controller.response.FAQAdminResponse;
+import com.handwoong.rainbowletter.faq.controller.response.FAQResponse;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSequenceRequest;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQRequest;
+import com.handwoong.rainbowletter.faq.infrastructure.FAQ;
+import com.handwoong.rainbowletter.faq.infrastructure.FAQRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

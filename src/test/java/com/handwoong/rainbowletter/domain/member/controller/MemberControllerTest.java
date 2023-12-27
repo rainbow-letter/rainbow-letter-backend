@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.domain.member.controller;
 
-import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
-import static com.handwoong.rainbowletter.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
+import static com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static com.handwoong.rainbowletter.util.TestConstants.ADMIN_PASSWORD;
 import static com.handwoong.rainbowletter.util.TestConstants.NEW_EMAIL;
@@ -10,16 +10,16 @@ import static com.handwoong.rainbowletter.util.TestConstants.USER_EMAIL;
 import static com.handwoong.rainbowletter.util.TestConstants.USER_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.handwoong.rainbowletter.config.security.jwt.GrantType;
-import com.handwoong.rainbowletter.config.security.jwt.JwtTokenProvider;
-import com.handwoong.rainbowletter.config.security.jwt.TokenResponse;
+import com.handwoong.rainbowletter.common.config.security.jwt.GrantType;
+import com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenProvider;
+import com.handwoong.rainbowletter.common.config.security.jwt.TokenResponse;
 import com.handwoong.rainbowletter.domain.ControllerTestProvider;
-import com.handwoong.rainbowletter.domain.mail.service.template.EmailTemplateType;
-import com.handwoong.rainbowletter.domain.member.dto.ChangePasswordRequest;
-import com.handwoong.rainbowletter.domain.member.dto.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.domain.member.dto.FindPasswordDto;
-import com.handwoong.rainbowletter.domain.member.dto.MemberLoginRequest;
-import com.handwoong.rainbowletter.domain.member.dto.MemberRegisterRequest;
+import com.handwoong.rainbowletter.mail.service.template.EmailTemplateType;
+import com.handwoong.rainbowletter.member.domain.dto.ChangePasswordRequest;
+import com.handwoong.rainbowletter.member.domain.dto.ChangePhoneNumberRequest;
+import com.handwoong.rainbowletter.member.domain.dto.FindPasswordDto;
+import com.handwoong.rainbowletter.member.domain.dto.MemberLoginRequest;
+import com.handwoong.rainbowletter.member.domain.dto.MemberRegisterRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
