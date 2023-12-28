@@ -1,6 +1,5 @@
-package com.handwoong.rainbowletter.mail.service.event;
+package com.handwoong.rainbowletter.mail.domain;
 
-import com.handwoong.rainbowletter.mail.service.template.EmailTemplateType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

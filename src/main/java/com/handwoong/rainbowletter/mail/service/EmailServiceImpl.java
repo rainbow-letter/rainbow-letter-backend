@@ -1,32 +1,27 @@
 package com.handwoong.rainbowletter.mail.service;
 
-import com.handwoong.rainbowletter.mail.dto.EmailTemplateDto;
-import com.handwoong.rainbowletter.mail.service.template.EmailTemplateManager;
-import com.handwoong.rainbowletter.mail.service.template.EmailTemplateType;
+import com.handwoong.rainbowletter.mail.domain.EmailTemplateType;
+import com.handwoong.rainbowletter.mail.domain.Mail;
+import com.handwoong.rainbowletter.mail.domain.dto.MailTemplate;
+import com.handwoong.rainbowletter.mail.service.port.EmailTemplateManager;
+import com.handwoong.rainbowletter.mail.service.port.MailRepository;
+import com.handwoong.rainbowletter.mail.service.port.MailSender;
+import com.handwoong.rainbowletter.member.domain.Email;
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
-    private final JavaMailSender mailSender;
+    private final MailSender mailSender;
     private final EmailTemplateManager templateManager;
+    private final MailRepository mailRepository;
 
     @Override
-    public void send(final String email, final EmailTemplateType type) throws MessagingException {
-        final MimeMessage mimeMessage = mailSender.createMimeMessage();
-        final MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
-        messageHelper.setFrom("무지개 편지 <noreply@rainbowletter.com>");
-        messageHelper.setTo(email);
-
-        final EmailTemplateDto template = templateManager.template(email, type);
-        messageHelper.setSubject(template.subject());
-        messageHelper.setText(template.body(), true);
-        mailSender.send(mimeMessage);
+    public void send(final Email email, final EmailTemplateType type) throws MessagingException {
+        final MailTemplate template = templateManager.template(email, type);
+        mailSender.send(email, template);
+        mailRepository.save(Mail.create(email, template, type));
     }
 }

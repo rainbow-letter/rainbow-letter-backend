@@ -63,6 +63,7 @@ public enum ErrorCode {
     /**
      * 500 INTERNAL SERVER ERROR
      */
+    FAIL_SEND_MAIL(INTERNAL_SERVER_ERROR, "이메일 발송에 실패하였습니다."),
     SERVER_ERROR(INTERNAL_SERVER_ERROR, "서버에 문제가 발생하였습니다.");
 
     private final HttpStatus status;

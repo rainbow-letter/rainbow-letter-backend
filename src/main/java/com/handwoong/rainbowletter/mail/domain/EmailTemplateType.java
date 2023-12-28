@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mail.service.template;
+package com.handwoong.rainbowletter.mail.domain;
 
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;

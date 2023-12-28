@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mail.dto;
+package com.handwoong.rainbowletter.mail.domain.dto;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 

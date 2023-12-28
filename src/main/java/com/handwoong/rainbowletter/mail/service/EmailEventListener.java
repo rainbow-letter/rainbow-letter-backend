@@ -1,6 +1,6 @@
-package com.handwoong.rainbowletter.mail.service.event;
+package com.handwoong.rainbowletter.mail.service;
 
-import com.handwoong.rainbowletter.mail.service.EmailService;
+import com.handwoong.rainbowletter.mail.domain.dto.EmailEvent;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
