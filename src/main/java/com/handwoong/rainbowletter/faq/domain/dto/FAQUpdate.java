@@ -6,7 +6,7 @@ import static com.handwoong.rainbowletter.common.util.ValidateMessage.FAQ_SUMMAR
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record FAQRequest(
+public record FAQUpdate(
         @NotBlank(message = EMPTY_MESSAGE)
         @Size(max = 30, message = FAQ_SUMMARY)
         String summary,

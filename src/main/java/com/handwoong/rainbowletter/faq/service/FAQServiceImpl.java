@@ -1,15 +1,11 @@
 package com.handwoong.rainbowletter.faq.service;
 
-import com.handwoong.rainbowletter.common.exception.ErrorCode;
-import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
-import com.handwoong.rainbowletter.faq.infrastructure.FAQ;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQAdminDto;
-import com.handwoong.rainbowletter.faq.controller.response.FAQAdminResponse;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQDto;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQRequest;
-import com.handwoong.rainbowletter.faq.controller.response.FAQResponse;
-import com.handwoong.rainbowletter.faq.infrastructure.FAQRepository;
+import com.handwoong.rainbowletter.faq.domain.FAQ;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSort;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQCreate;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQUpdate;
+import com.handwoong.rainbowletter.faq.exception.FAQResourceNotFoundException;
+import com.handwoong.rainbowletter.faq.service.port.FAQRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,55 +18,59 @@ public class FAQServiceImpl implements FAQService {
     private final FAQRepository faqRepository;
 
     @Override
-    public FAQResponse findAllVisibilityTrue() {
-        final List<FAQDto> faqs = faqRepository.findAllByVisibilityTrueOrderBySortIndexAsc();
-        return new FAQResponse(faqs);
+    public List<FAQ> findAllByUser() {
+        return faqRepository.findAllByUser();
     }
 
     @Override
-    public FAQAdminResponse findAll() {
-        final List<FAQAdminDto> faqs = faqRepository.findAllByOrderBySortIndexAsc();
-        return new FAQAdminResponse(faqs);
+    public List<FAQ> findAllByAdmin() {
+        return faqRepository.findAllByAdmin();
     }
 
     @Override
     @Transactional
-    public void create(final FAQRequest request) {
+    public void create(final FAQCreate request) {
         final FAQ faq = FAQ.create(request);
         faqRepository.save(faq);
     }
 
     @Override
     @Transactional
-    public void edit(final Long faqId, final FAQRequest request) {
-        final FAQ faq = faqRepository.findById(faqId)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_FAQ_ID));
-        faq.edit(request);
+    public void update(final Long id, final FAQUpdate request) {
+        final FAQ faq = findByIdOrElseThrow(id);
+        final FAQ updateFaq = faq.update(request);
+        faqRepository.save(updateFaq);
     }
 
     @Override
     @Transactional
-    public void changeVisibility(final Long faqId) {
-        final FAQ faq = faqRepository.findById(faqId)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_FAQ_ID));
-        faq.changeVisibility();
+    public void changeVisibility(final Long id) {
+        final FAQ faq = findByIdOrElseThrow(id);
+        final FAQ updateFaq = faq.changeVisibility();
+        faqRepository.save(updateFaq);
     }
 
     @Override
     @Transactional
-    public void changeSequence(final Long faqId, final FAQChangeSequenceRequest request) {
-        final FAQ faq = faqRepository.findById(faqId)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_FAQ_ID));
-        final FAQ targetFaq = faqRepository.findById(request.targetId())
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_FAQ_ID));
-        faq.changeSequence(targetFaq);
+    public void changeSortIndex(final Long id, final FAQChangeSort request) {
+        final FAQ faq = findByIdOrElseThrow(id);
+        final FAQ targetFaq = findByIdOrElseThrow(request.targetId());
+
+        final Long tempIndex = faq.sortIndex();
+        final FAQ updateFaq = faq.changeSortIndex(targetFaq.sortIndex());
+        final FAQ updateTargetFaq = targetFaq.changeSortIndex(tempIndex);
+        faqRepository.saveAll(updateFaq, updateTargetFaq);
     }
 
     @Override
     @Transactional
-    public void delete(final Long faqId) {
-        final FAQ faq = faqRepository.findById(faqId)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_FAQ_ID));
+    public void delete(final Long id) {
+        final FAQ faq = findByIdOrElseThrow(id);
         faqRepository.delete(faq);
+    }
+
+    private FAQ findByIdOrElseThrow(final Long id) {
+        return faqRepository.findById(id)
+                .orElseThrow(() -> new FAQResourceNotFoundException(id));
     }
 }

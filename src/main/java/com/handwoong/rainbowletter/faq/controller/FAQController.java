@@ -1,11 +1,14 @@
 package com.handwoong.rainbowletter.faq.controller;
 
-import com.handwoong.rainbowletter.faq.controller.response.FAQAdminResponse;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQRequest;
-import com.handwoong.rainbowletter.faq.controller.response.FAQResponse;
+import com.handwoong.rainbowletter.faq.controller.response.FAQAdminResponses;
+import com.handwoong.rainbowletter.faq.controller.response.FAQUserResponses;
+import com.handwoong.rainbowletter.faq.domain.FAQ;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSort;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQCreate;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQUpdate;
 import com.handwoong.rainbowletter.faq.service.FAQService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,45 +28,47 @@ public class FAQController {
     private final FAQService faqService;
 
     @GetMapping("/list")
-    public ResponseEntity<FAQResponse> findAllFAQs() {
-        final FAQResponse response = faqService.findAllVisibilityTrue();
+    public ResponseEntity<FAQUserResponses> findAllFAQs() {
+        final List<FAQ> faqs = faqService.findAllByUser();
+        final FAQUserResponses response = FAQUserResponses.from(faqs);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/list/admin")
-    public ResponseEntity<FAQAdminResponse> findAdminAllFAQs() {
-        final FAQAdminResponse response = faqService.findAll();
+    public ResponseEntity<FAQAdminResponses> findAdminAllFAQs() {
+        final List<FAQ> faqs = faqService.findAllByAdmin();
+        final FAQAdminResponses response = FAQAdminResponses.from(faqs);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid final FAQRequest request) {
+    public ResponseEntity<Void> create(@RequestBody @Valid final FAQCreate request) {
         faqService.create(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/visibility/{faqId}")
-    public ResponseEntity<Void> changeVisibility(@PathVariable final Long faqId) {
-        faqService.changeVisibility(faqId);
+    @PutMapping("/visibility/{id}")
+    public ResponseEntity<Void> changeVisibility(@PathVariable final Long id) {
+        faqService.changeVisibility(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/sequence/{faqId}")
-    public ResponseEntity<Void> changeSequence(@PathVariable final Long faqId,
-                                               @RequestBody final FAQChangeSequenceRequest request) {
-        faqService.changeSequence(faqId, request);
+    @PutMapping("/sequence/{id}")
+    public ResponseEntity<Void> changeSortIndex(@PathVariable final Long id,
+                                                @RequestBody final FAQChangeSort request) {
+        faqService.changeSortIndex(id, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{faqId}")
-    public ResponseEntity<Void> edit(@PathVariable final Long faqId, @RequestBody @Valid final FAQRequest request) {
-        faqService.edit(faqId, request);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> edit(@PathVariable final Long id, @RequestBody @Valid final FAQUpdate request) {
+        faqService.update(id, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{faqId}")
-    public ResponseEntity<Void> delete(@PathVariable final Long faqId) {
-        faqService.delete(faqId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable final Long id) {
+        faqService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

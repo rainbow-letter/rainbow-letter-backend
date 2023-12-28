@@ -1,13 +1,14 @@
 package com.handwoong.rainbowletter.faq.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQRequest;
+import com.handwoong.rainbowletter.faq.domain.FAQ;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,9 +17,10 @@ import org.hibernate.annotations.DynamicInsert;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
-public class FAQ extends BaseEntity {
+@Table(name = "faq")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class FAQEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,37 +38,28 @@ public class FAQ extends BaseEntity {
 
     private Long sortIndex;
 
-    private FAQ(final String summary, final String detail, final boolean visibility) {
-        this.summary = summary;
-        this.detail = detail;
-        this.visibility = visibility;
-    }
-
-    public static FAQ create(final FAQRequest request) {
-        return new FAQ(request.summary(), request.detail(), true);
-    }
-
     @PostPersist
     private void initSortIndex() {
         sortIndex = id;
     }
 
-    public void edit(final FAQRequest request) {
-        summary = request.summary();
-        detail = request.detail();
+    public FAQ toModel() {
+        return FAQ.builder()
+                .id(id)
+                .summary(summary)
+                .detail(detail)
+                .visibility(visibility)
+                .sortIndex(sortIndex)
+                .build();
     }
 
-    public void changeVisibility() {
-        this.visibility = !visibility;
-    }
-
-    public void changeSequence(final FAQ faq) {
-        final Long tempIndex = faq.sortIndex;
-        faq.changeSortIndex(this.sortIndex);
-        changeSortIndex(tempIndex);
-    }
-
-    private void changeSortIndex(final Long sortIndex) {
-        this.sortIndex = sortIndex;
+    public static FAQEntity fromModel(final FAQ faq) {
+        final FAQEntity faqEntity = new FAQEntity();
+        faqEntity.id = faq.id();
+        faqEntity.summary = faq.summary();
+        faqEntity.detail = faq.detail();
+        faqEntity.visibility = faq.visibility();
+        faqEntity.sortIndex = faq.sortIndex();
+        return faqEntity;
     }
 }

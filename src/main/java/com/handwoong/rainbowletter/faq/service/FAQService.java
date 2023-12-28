@@ -1,22 +1,23 @@
 package com.handwoong.rainbowletter.faq.service;
 
-import com.handwoong.rainbowletter.faq.controller.response.FAQAdminResponse;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSequenceRequest;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQRequest;
-import com.handwoong.rainbowletter.faq.controller.response.FAQResponse;
+import com.handwoong.rainbowletter.faq.domain.FAQ;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSort;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQCreate;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQUpdate;
+import java.util.List;
 
 public interface FAQService {
-    FAQResponse findAllVisibilityTrue();
+    List<FAQ> findAllByUser();
 
-    FAQAdminResponse findAll();
+    List<FAQ> findAllByAdmin();
 
-    void create(final FAQRequest request);
+    void create(final FAQCreate request);
 
-    void edit(final Long faqId, final FAQRequest request);
+    void update(final Long id, final FAQUpdate request);
 
-    void changeVisibility(final Long faqId);
+    void changeVisibility(final Long id);
 
-    void changeSequence(final Long faqId, final FAQChangeSequenceRequest request);
+    void changeSortIndex(final Long id, final FAQChangeSort request);
 
-    void delete(final Long faqId);
+    void delete(final Long id);
 }
