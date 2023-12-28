@@ -2,7 +2,7 @@ package com.handwoong.rainbowletter.pet.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
 import com.handwoong.rainbowletter.favorite.infrastructure.Favorite;
-import com.handwoong.rainbowletter.image.infrastructure.Image;
+import com.handwoong.rainbowletter.image.infrastructure.ImageEntity;
 import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
 import com.handwoong.rainbowletter.pet.domain.dto.PetRequest;
 import jakarta.persistence.CascadeType;
@@ -56,7 +56,7 @@ public class Pet extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
+    private ImageEntity imageEntity;
 
     private Pet(final String name,
                 final String species,
@@ -85,12 +85,12 @@ public class Pet extends BaseEntity {
                 memberEntity);
     }
 
-    public void changeImage(final Image image) {
-        this.image = image;
+    public void changeImage(final ImageEntity imageEntity) {
+        this.imageEntity = imageEntity;
     }
 
     public void removeImage() {
-        this.image = null;
+        this.imageEntity = null;
     }
 
     public void update(final PetRequest request) {

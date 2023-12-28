@@ -7,7 +7,7 @@ import lombok.Builder;
 @Builder
 public record Mail(
         Long id,
-        Email email,
+        Email mail,
         String title,
         String content,
         EmailTemplateType templateType

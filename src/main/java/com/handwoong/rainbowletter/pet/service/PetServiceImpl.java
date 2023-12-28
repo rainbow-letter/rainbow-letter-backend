@@ -2,8 +2,8 @@ package com.handwoong.rainbowletter.pet.service;
 
 import com.handwoong.rainbowletter.common.exception.ErrorCode;
 import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
-import com.handwoong.rainbowletter.image.infrastructure.Image;
-import com.handwoong.rainbowletter.image.infrastructure.ImageRepository;
+import com.handwoong.rainbowletter.image.infrastructure.ImageEntity;
+import com.handwoong.rainbowletter.image.infrastructure.ImageJpaRepository;
 import com.handwoong.rainbowletter.image.service.ImageService;
 import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
 import com.handwoong.rainbowletter.member.infrastructure.MemberJpaRepository;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
-    private final ImageRepository imageRepository;
+    private final ImageJpaRepository imageJpaRepository;
     private final ImageService imageService;
     private final MemberJpaRepository memberJpaRepository;
 
@@ -35,9 +35,9 @@ public class PetServiceImpl implements PetService {
         final com.handwoong.rainbowletter.pet.infrastructure.Pet pet = com.handwoong.rainbowletter.pet.infrastructure.Pet.create(
                 request, memberEntity);
         if (Objects.nonNull(request.image())) {
-            final Image image = imageRepository.findById(request.image())
+            final ImageEntity imageEntity = imageJpaRepository.findById(request.image())
                     .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_IMAGE_ID));
-            pet.changeImage(image);
+            pet.changeImage(imageEntity);
         }
         petRepository.save(pet);
     }
@@ -61,9 +61,9 @@ public class PetServiceImpl implements PetService {
                 .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_PET_ID));
         pet.update(request);
         if (Objects.nonNull(request.image())) {
-            final Image image = imageRepository.findById(request.image())
+            final ImageEntity imageEntity = imageJpaRepository.findById(request.image())
                     .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_IMAGE_ID));
-            pet.changeImage(image);
+            pet.changeImage(imageEntity);
         }
     }
 
@@ -72,7 +72,7 @@ public class PetServiceImpl implements PetService {
     public void deleteImage(final String email, final Long petId) {
         final com.handwoong.rainbowletter.pet.infrastructure.Pet pet = petRepository.findPetWithImage(email, petId)
                 .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_PET_ID));
-        imageService.remove(pet.getImage());
+        imageService.remove(pet.getImageEntity());
         pet.removeImage();
     }
 

@@ -9,7 +9,7 @@ include::memberEntity.adoc[]
 
 include::faq.adoc[]
 
-include::image.adoc[]
+include::imageEntity.adoc[]
 
 include::pet.adoc[]
 

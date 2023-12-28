@@ -23,7 +23,7 @@ public record PetResponse(
                 pet.getOwner(),
                 pet.getPersonality(),
                 pet.getDeathAnniversary(),
-                ImageResponse.from(pet.getImage()),
+                ImageResponse.from(pet.getImageEntity()),
                 FavoriteResponse.from(pet.getFavorite())
         );
     }

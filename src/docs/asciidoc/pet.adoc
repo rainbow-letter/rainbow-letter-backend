@@ -28,7 +28,7 @@ operation::pet-controller-test/create_pet[snippets='http-request']
 | 반려 동물 기일
 | *yyyy-MM-dd 형식의 문자열 가능*
 
-| image
+| imageEntity
 | 반려 동물 사진
 | 이미지 등록 응답 ID
 |===
@@ -43,7 +43,7 @@ const petInfo = {
     owner: "형님",
     personality: ["귀여움"],
     deathAnniversary: "2023-12-23",
-    image: 1
+    imageEntity: 1
 }
 
 // ...fetch
@@ -72,7 +72,7 @@ operation::pet-controller-test/edit_pet[snippets='http-request,http-response']
 
 [source,http,options="nowrap"]
 ----
-DELETE /api/pets/1/image HTTP/1.1
+DELETE /api/pets/1/imageEntity HTTP/1.1
 Authorization: Bearer TOKEN
 Content-Type: application/json
 ----

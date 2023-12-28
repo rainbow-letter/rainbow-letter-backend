@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.image.controller.response;
 
-import com.handwoong.rainbowletter.image.infrastructure.Image;
+import com.handwoong.rainbowletter.image.domain.Image;
 import java.util.Objects;
 
 public record ImageResponse(
@@ -12,6 +12,6 @@ public record ImageResponse(
         if (Objects.isNull(image)) {
             return null;
         }
-        return new ImageResponse(image.getId(), image.getObjectKey(), image.getUrl());
+        return new ImageResponse(image.id(), image.objectKey(), image.url());
     }
 }

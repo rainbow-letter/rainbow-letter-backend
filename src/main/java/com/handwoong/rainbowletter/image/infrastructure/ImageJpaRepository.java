@@ -2,5 +2,5 @@ package com.handwoong.rainbowletter.image.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ImageRepository extends JpaRepository<Image, Long> {
+public interface ImageJpaRepository extends JpaRepository<ImageEntity, Long> {
 }

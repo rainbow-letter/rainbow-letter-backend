@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.image.controller;
 
 import com.handwoong.rainbowletter.image.controller.response.ImageUploadResponse;
+import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,8 @@ public class ImageController {
     @PostMapping("/upload")
     public ResponseEntity<ImageUploadResponse> upload(@RequestPart final MultipartFile file,
                                                       @RequestParam final String type) {
-        final ImageUploadResponse response = imageService.upload(file, type);
+        final Image image = imageService.upload(file, type);
+        final ImageUploadResponse response = ImageUploadResponse.from(image);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
