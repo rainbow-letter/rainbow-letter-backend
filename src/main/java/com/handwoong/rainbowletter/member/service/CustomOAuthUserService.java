@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuthUserService extends DefaultOAuth2UserService {
-    private final OAuthLoginService oAuthLoginService;
+    private final OAuthLoginService oauthLoginService;
 
     @Override
     public OAuth2User loadUser(final OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         final OAuth2User oAuth2User = super.loadUser(userRequest);
         final String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        final Member member = oAuthLoginService.process(registrationId, oAuth2User);
+        final Member member = oauthLoginService.process(registrationId, oAuth2User);
         return new CustomUserDetails(member, oAuth2User.getAttributes());
     }
 }

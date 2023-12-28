@@ -5,9 +5,9 @@ import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberRole;
 import com.handwoong.rainbowletter.member.domain.MemberStatus;
+import com.handwoong.rainbowletter.member.domain.OAuthProvider;
 import com.handwoong.rainbowletter.member.domain.Password;
 import com.handwoong.rainbowletter.member.domain.PhoneNumber;
-import com.handwoong.rainbowletter.member.service.port.OAuthProvider;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,14 +18,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "member")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,7 +5,7 @@ import com.handwoong.rainbowletter.member.domain.Member;
 import java.util.Optional;
 
 public interface MemberRepository {
-    void save(Member member);
+    Member save(Member member);
 
     Optional<Member> findByEmail(Email email);
 

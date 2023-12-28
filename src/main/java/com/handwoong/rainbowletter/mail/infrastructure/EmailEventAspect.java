@@ -3,6 +3,7 @@ package com.handwoong.rainbowletter.mail.infrastructure;
 import com.handwoong.rainbowletter.mail.domain.SendEmail;
 import com.handwoong.rainbowletter.mail.domain.dto.EmailDto;
 import com.handwoong.rainbowletter.mail.domain.dto.EmailEvent;
+import com.handwoong.rainbowletter.member.domain.Email;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,6 +25,6 @@ public class EmailEventAspect {
 
     @AfterReturning(value = "pointcut(sendEmail)", returning = "returnValue", argNames = "sendEmail,returnValue")
     public void afterReturning(final SendEmail sendEmail, final EmailDto returnValue) {
-        eventPublisher.publishEvent(new EmailEvent(sendEmail.type(), returnValue.email()));
+        eventPublisher.publishEvent(new EmailEvent(sendEmail.type(), new Email(returnValue.email())));
     }
 }

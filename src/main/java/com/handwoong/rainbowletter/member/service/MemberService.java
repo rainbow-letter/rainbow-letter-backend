@@ -24,13 +24,13 @@ public interface MemberService {
 
     EmailDto findPassword(FindPassword request);
 
-    void changePassword(String email, ChangePassword request);
+    Member changePassword(String email, ChangePassword request);
 
-    void resetPassword(String email, ResetPassword request);
+    Member resetPassword(String email, ResetPassword request);
 
-    void updatePhoneNumber(String email, PhoneNumberUpdate request);
+    Member updatePhoneNumber(String email, PhoneNumberUpdate request);
 
-    void deletePhoneNumber(String email);
+    Member deletePhoneNumber(String email);
 
-    void delete(String email);
+    Member delete(String email);
 }

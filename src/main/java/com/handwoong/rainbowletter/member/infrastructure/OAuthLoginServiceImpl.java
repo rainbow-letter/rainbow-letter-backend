@@ -2,13 +2,13 @@ package com.handwoong.rainbowletter.member.infrastructure;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
+import com.handwoong.rainbowletter.member.domain.OAuthProvider;
 import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
 import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
 import com.handwoong.rainbowletter.member.infrastructure.password.OAuthUserPasswordGenerator;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import com.handwoong.rainbowletter.member.service.port.OAuthLoginService;
 import com.handwoong.rainbowletter.member.service.port.OAuthLoginUserParser;
-import com.handwoong.rainbowletter.member.service.port.OAuthProvider;
 import java.util.EnumMap;
 import java.util.Map;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,24 +39,22 @@ public class OAuthLoginServiceImpl implements OAuthLoginService {
     }
 
     private Member saveOrUpdate(final MemberRegister request, final OAuthProvider provider, final String providerId) {
-        final boolean existsByEmail = memberRepository.existsByEmail(request.email());
+        final boolean existsByEmail = memberRepository.existsByEmail(new Email(request.email()));
         if (existsByEmail) {
-            return update(request.email(), provider, providerId);
+            return update(new Email(request.email()), provider, providerId);
         }
         return save(request, provider, providerId);
     }
 
     private Member save(final MemberRegister request, final OAuthProvider provider, final String providerId) {
         final Member member = Member.create(request, passwordEncoder, provider, providerId);
-        memberRepository.save(member);
-        return member;
+        return memberRepository.save(member);
     }
 
     private Member update(final Email email, final OAuthProvider provider, final String providerId) {
         final Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberEmailNotFoundException(email.toString()));
         final Member updateMember = member.update(provider, providerId);
-        memberRepository.save(updateMember);
-        return updateMember;
+        return memberRepository.save(updateMember);
     }
 }

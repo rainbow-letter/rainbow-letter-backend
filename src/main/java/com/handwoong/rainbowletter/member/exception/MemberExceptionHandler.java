@@ -3,6 +3,8 @@ package com.handwoong.rainbowletter.member.exception;
 import com.handwoong.rainbowletter.common.exception.BaseExceptionHandler;
 import com.handwoong.rainbowletter.common.exception.ErrorCode;
 import com.handwoong.rainbowletter.common.exception.ErrorResponse;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class MemberExceptionHandler extends BaseExceptionHandler {
     @ExceptionHandler({DuplicateEmailException.class})
     public ResponseEntity<ErrorResponse> duplicateEmail(final DuplicateEmailException exception) {

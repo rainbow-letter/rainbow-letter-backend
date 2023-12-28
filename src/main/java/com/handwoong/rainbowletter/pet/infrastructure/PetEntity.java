@@ -22,14 +22,11 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "pet")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PetEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

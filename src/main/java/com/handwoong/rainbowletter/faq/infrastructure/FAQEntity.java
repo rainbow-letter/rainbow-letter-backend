@@ -10,16 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 @Getter
 @Entity
 @DynamicInsert
 @Table(name = "faq")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FAQEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

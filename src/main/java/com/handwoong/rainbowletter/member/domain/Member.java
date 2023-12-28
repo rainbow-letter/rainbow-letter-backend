@@ -5,7 +5,6 @@ import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
 import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;
 import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
 import com.handwoong.rainbowletter.member.exception.MemberStatusNotValidException;
-import com.handwoong.rainbowletter.member.service.port.OAuthProvider;
 import lombok.Builder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -22,8 +21,8 @@ public record Member(
 ) {
     public static Member create(final MemberRegister request, final PasswordEncoder passwordEncoder) {
         return Member.builder()
-                .email(request.email())
-                .password(request.password().encode(passwordEncoder))
+                .email(new Email(request.email()))
+                .password(new Password(request.password()).encode(passwordEncoder))
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .provider(OAuthProvider.NONE)
@@ -36,8 +35,8 @@ public record Member(
                                 final OAuthProvider provider,
                                 final String providerId) {
         return Member.builder()
-                .email(request.email())
-                .password(request.password().encode(passwordEncoder))
+                .email(new Email(request.email()))
+                .password(new Password(request.password()).encode(passwordEncoder))
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .provider(provider)
@@ -67,7 +66,7 @@ public record Member(
                 .id(id)
                 .email(email)
                 .password(password)
-                .phoneNumber(request.phoneNumber())
+                .phoneNumber(new PhoneNumber(request.phoneNumber()))
                 .role(role)
                 .status(status)
                 .provider(provider)
@@ -92,11 +91,11 @@ public record Member(
     }
 
     public Member changePassword(final ChangePassword request, final PasswordEncoder passwordEncoder) {
-        password.compare(passwordEncoder, request.password());
+        password.compare(passwordEncoder, new Password(request.password()));
         return Member.builder()
                 .id(id)
                 .email(email)
-                .password(request.password().encode(passwordEncoder))
+                .password(new Password(request.password()).encode(passwordEncoder))
                 .phoneNumber(phoneNumber)
                 .role(role)
                 .status(status)
@@ -109,7 +108,7 @@ public record Member(
         return Member.builder()
                 .id(id)
                 .email(email)
-                .password(request.newPassword().encode(passwordEncoder))
+                .password(new Password(request.newPassword()).encode(passwordEncoder))
                 .phoneNumber(phoneNumber)
                 .role(role)
                 .status(status)

@@ -1,7 +1,5 @@
 package com.handwoong.rainbowletter.faq.infrastructure;
 
-import static com.handwoong.rainbowletter.faq.infrastructure.QFAQ.fAQ;
-
 import com.handwoong.rainbowletter.faq.domain.FAQ;
 import com.handwoong.rainbowletter.faq.service.port.FAQRepository;
 import com.querydsl.core.types.Projections;
@@ -38,7 +36,7 @@ public class FAQRepositoryImpl implements FAQRepository {
 
     @Override
     public List<FAQ> findAllByUser() {
-        final QFAQ f = fAQ;
+        final QFAQEntity f = QFAQEntity.fAQEntity;
         return queryFactory.select(Projections.fields(FAQ.class, f.id, f.summary, f.detail))
                 .from(f)
                 .where(f.visibility.isTrue())
@@ -48,7 +46,7 @@ public class FAQRepositoryImpl implements FAQRepository {
 
     @Override
     public List<FAQ> findAllByAdmin() {
-        final QFAQ f = fAQ;
+        final QFAQEntity f = QFAQEntity.fAQEntity;
         return queryFactory.select(Projections.fields(FAQ.class, f.id, f.summary, f.detail, f.visibility))
                 .from(f)
                 .orderBy(f.sortIndex.asc())

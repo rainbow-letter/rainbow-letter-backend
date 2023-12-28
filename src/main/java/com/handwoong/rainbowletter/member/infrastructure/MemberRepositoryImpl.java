@@ -18,8 +18,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     private final MemberJpaRepository memberJpaRepository;
 
     @Override
-    public void save(final Member member) {
-        memberJpaRepository.save(MemberEntity.fromModel(member));
+    public Member save(final Member member) {
+        return memberJpaRepository.save(MemberEntity.fromModel(member)).toModel();
     }
 
     @Override
@@ -30,11 +30,14 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Optional<Member> findInfoByEmail(final Email email) {
         final QMemberEntity m = memberEntity;
-        return Optional.ofNullable(
-                queryFactory.select(Projections.fields(Member.class, m.id, m.email, m.phoneNumber, m.role))
+        final MemberEntity memberEntity =
+                queryFactory.select(Projections.fields(MemberEntity.class, m.id, m.email, m.phoneNumber, m.role))
                         .from(m)
                         .where(m.email.eq(email.toString()))
-                        .fetchFirst());
+                        .fetchFirst();
+        return Optional
+                .ofNullable(memberEntity)
+                .map(MemberEntity::toModel);
     }
 
     @Override

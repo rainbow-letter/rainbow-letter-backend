@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.member.service.port;
+package com.handwoong.rainbowletter.member.domain;
 
 import com.handwoong.rainbowletter.common.exception.ErrorCode;
 import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
