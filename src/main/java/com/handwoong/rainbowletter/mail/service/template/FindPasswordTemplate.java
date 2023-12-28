@@ -1,9 +1,9 @@
 package com.handwoong.rainbowletter.mail.service.template;
 
 import com.handwoong.rainbowletter.common.config.client.ClientConfig;
-import com.handwoong.rainbowletter.common.config.security.jwt.GrantType;
-import com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenProvider;
-import com.handwoong.rainbowletter.common.config.security.jwt.TokenResponse;
+import com.handwoong.rainbowletter.common.util.jwt.GrantType;
+import com.handwoong.rainbowletter.common.util.jwt.JwtTokenProvider;
+import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
 import com.handwoong.rainbowletter.mail.dto.EmailTemplateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

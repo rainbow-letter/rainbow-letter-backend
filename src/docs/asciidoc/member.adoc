@@ -2,39 +2,39 @@
 
 === 회원 정보 조회
 
-operation::member-controller-test/info_member[snippets='http-request,http-response']
+operation::memberEntity-controller-test/info_member[snippets='http-request,http-response']
 
 === 회원 가입
 
-operation::member-controller-test/register_member[snippets='http-request,http-response']
+operation::memberEntity-controller-test/register_member[snippets='http-request,http-response']
 
 ==== [ERROR] 회원 가입 시 이메일 중복
 
-operation::member-controller-test/duplicate_register_member[snippets='http-request,http-response']
+operation::memberEntity-controller-test/duplicate_register_member[snippets='http-request,http-response']
 
 ==== [ERROR] 이미 로그인에 성공한 사용자가 회원가입 시도
 
-operation::member-controller-test/already_login_member_register[snippets='http-request,http-response']
+operation::memberEntity-controller-test/already_login_member_register[snippets='http-request,http-response']
 
 === 회원 토큰 검증
 
-operation::member-controller-test/verify_member_token[snippets='http-request,http-response']
+operation::memberEntity-controller-test/verify_member_token[snippets='http-request,http-response']
 
 ==== [ERROR] 유효하지 않은 회원 토큰으로 검증 시도
 
-operation::member-controller-test/verify_member_invalid_token[snippets='http-request,http-response']
+operation::memberEntity-controller-test/verify_member_invalid_token[snippets='http-request,http-response']
 
 === 로그인
 
-operation::member-controller-test/login[snippets='http-request,http-response']
+operation::memberEntity-controller-test/login[snippets='http-request,http-response']
 
 ==== [ERROR] 존재하지 않는 이메일로 로그인 시도
 
-operation::member-controller-test/login_notfound_member[snippets='http-request,http-response']
+operation::memberEntity-controller-test/login_notfound_member[snippets='http-request,http-response']
 
 ==== [ERROR] 이미 로그인에 성공한 사용자가 로그인 시도
 
-operation::member-controller-test/already_login_member_login[snippets='http-request,http-response']
+operation::memberEntity-controller-test/already_login_member_login[snippets='http-request,http-response']
 
 === 구글 로그인
 
@@ -50,7 +50,7 @@ http://localhost:3000/oauth/success?token=ACCESS_TOKEN
 
 === 비밀번호 찾기
 
-operation::member-controller-test/send_change_password_email[snippets='http-request,http-response']
+operation::memberEntity-controller-test/send_change_password_email[snippets='http-request,http-response']
 
 ==== REDIRECT
 
@@ -62,28 +62,28 @@ http://localhost:3000/members/password/reset?token=ACCESS_TOKEN
 
 ==== Case 비밀번호 찾기 비밀번호 변경
 
-operation::member-controller-test/reset_password[snippets='http-request,http-response']
+operation::memberEntity-controller-test/reset_password[snippets='http-request,http-response']
 
 ==== Case 로그인 회원 비밀번호 변경
 
-operation::member-controller-test/change_member_password[snippets='http-request,http-response']
+operation::memberEntity-controller-test/change_member_password[snippets='http-request,http-response']
 
 ==== [ERROR] 비밀번호 변경 시 기존 비밀번호가 일치하지 않음
 
-operation::member-controller-test/invalid_change_password[snippets='http-request,http-response']
+operation::memberEntity-controller-test/invalid_change_password[snippets='http-request,http-response']
 
 === 휴대폰 번호 변경
 
-operation::member-controller-test/change_phone_number[snippets='http-request,http-response']
+operation::memberEntity-controller-test/change_phone_number[snippets='http-request,http-response']
 
 ==== [ERROR] 유효하지 않은 휴대폰 번호 형식
 
-operation::member-controller-test/invalid_phone_number[snippets='http-request,http-response']
+operation::memberEntity-controller-test/invalid_phone_number[snippets='http-request,http-response']
 
 === 휴대폰 번호 삭제
 
-operation::member-controller-test/delete_phone_number[snippets='http-request,http-response']
+operation::memberEntity-controller-test/delete_phone_number[snippets='http-request,http-response']
 
 === 회원 탈퇴
 
-operation::member-controller-test/delete_member[snippets='http-request,http-response']
+operation::memberEntity-controller-test/delete_member[snippets='http-request,http-response']

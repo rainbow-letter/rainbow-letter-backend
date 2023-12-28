@@ -5,7 +5,7 @@
 :toclevels: 3
 :sectlinks:
 
-include::member.adoc[]
+include::memberEntity.adoc[]
 
 include::faq.adoc[]
 

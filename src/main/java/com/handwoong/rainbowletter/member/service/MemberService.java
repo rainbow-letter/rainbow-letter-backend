@@ -1,29 +1,34 @@
 package com.handwoong.rainbowletter.member.service;
 
-import com.handwoong.rainbowletter.common.config.security.jwt.TokenResponse;
+import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
 import com.handwoong.rainbowletter.mail.dto.EmailDto;
-import com.handwoong.rainbowletter.member.controller.response.MemberRegisterResponse;
-import com.handwoong.rainbowletter.member.controller.response.MemberResponse;
-import com.handwoong.rainbowletter.member.domain.dto.ChangePasswordRequest;
-import com.handwoong.rainbowletter.member.domain.dto.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.member.domain.dto.FindPasswordDto;
-import com.handwoong.rainbowletter.member.domain.dto.MemberLoginRequest;
-import com.handwoong.rainbowletter.member.domain.dto.MemberRegisterRequest;
+import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.member.domain.Member;
+import com.handwoong.rainbowletter.member.domain.dto.ChangePassword;
+import com.handwoong.rainbowletter.member.domain.dto.FindPassword;
+import com.handwoong.rainbowletter.member.domain.dto.MemberLogin;
+import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
+import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;
+import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
 
 public interface MemberService {
-    MemberResponse info(final String email);
+    Member info(String email);
 
-    MemberRegisterResponse register(final MemberRegisterRequest request);
+    Member register(MemberRegister request);
 
-    TokenResponse login(final MemberLoginRequest request);
+    boolean existsByEmail(Email email);
 
-    EmailDto findPassword(final FindPasswordDto request);
+    TokenResponse login(MemberLogin request);
 
-    void changePassword(final String email, final ChangePasswordRequest request);
+    EmailDto findPassword(FindPassword request);
 
-    void changePhoneNumber(final String email, final ChangePhoneNumberRequest request);
+    void changePassword(String email, ChangePassword request);
 
-    void deletePhoneNumber(final String email);
+    void resetPassword(String email, ResetPassword request);
+
+    void updatePhoneNumber(String email, PhoneNumberUpdate request);
+
+    void deletePhoneNumber(String email);
 
     void delete(String email);
 }

@@ -1,23 +1,23 @@
 package com.handwoong.rainbowletter.member.service;
 
-import com.handwoong.rainbowletter.common.config.security.jwt.GrantType;
-import com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenProvider;
-import com.handwoong.rainbowletter.common.config.security.jwt.TokenResponse;
-import com.handwoong.rainbowletter.common.exception.ErrorCode;
-import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
+import com.handwoong.rainbowletter.common.util.jwt.GrantType;
+import com.handwoong.rainbowletter.common.util.jwt.JwtTokenProvider;
+import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
 import com.handwoong.rainbowletter.mail.dto.EmailDto;
 import com.handwoong.rainbowletter.mail.service.event.SendEmail;
 import com.handwoong.rainbowletter.mail.service.template.EmailTemplateType;
-import com.handwoong.rainbowletter.member.controller.response.MemberRegisterResponse;
-import com.handwoong.rainbowletter.member.controller.response.MemberResponse;
+import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberStatus;
-import com.handwoong.rainbowletter.member.domain.dto.ChangePasswordRequest;
-import com.handwoong.rainbowletter.member.domain.dto.ChangePhoneNumberRequest;
-import com.handwoong.rainbowletter.member.domain.dto.FindPasswordDto;
-import com.handwoong.rainbowletter.member.domain.dto.MemberLoginRequest;
-import com.handwoong.rainbowletter.member.domain.dto.MemberRegisterRequest;
-import com.handwoong.rainbowletter.member.infrastructure.Member;
-import com.handwoong.rainbowletter.member.infrastructure.MemberRepository;
+import com.handwoong.rainbowletter.member.domain.dto.ChangePassword;
+import com.handwoong.rainbowletter.member.domain.dto.FindPassword;
+import com.handwoong.rainbowletter.member.domain.dto.MemberLogin;
+import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
+import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;
+import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
+import com.handwoong.rainbowletter.member.exception.DuplicateEmailException;
+import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
+import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,76 +36,90 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationManagerBuilder authenticationBuilder;
 
     @Override
-    public MemberResponse info(final String email) {
-        return memberRepository.findInfoByEmail(email);
+    public Member info(final String email) {
+        return memberRepository.findInfoByEmail(new Email(email))
+                .orElseThrow(() -> new MemberEmailNotFoundException(email));
     }
 
     @Override
     @Transactional
-    public MemberRegisterResponse register(final MemberRegisterRequest request) {
+    public Member register(final MemberRegister request) {
         validateDuplicateEmail(request.email());
-
-        final Member member = Member.create(request);
-        member.encodePassword(passwordEncoder);
-        member.changeStatus(MemberStatus.ACTIVE);
+        final Member member = Member.create(request, passwordEncoder);
         memberRepository.save(member);
-        return MemberRegisterResponse.from(member);
+        return member;
     }
 
-    private void validateDuplicateEmail(final String email) {
-        final boolean isExistsByEmail = memberRepository.existsByEmail(email);
-        if (isExistsByEmail) {
-            throw new RainbowLetterException(ErrorCode.EXISTS_EMAIL, email);
+    private void validateDuplicateEmail(final Email email) {
+        if (existsByEmail(email)) {
+            throw new DuplicateEmailException(email.toString());
         }
     }
 
     @Override
-    public TokenResponse login(final MemberLoginRequest request) {
+    public boolean existsByEmail(final Email email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public TokenResponse login(final MemberLogin request) {
         final UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(request.email(), request.password());
+                new UsernamePasswordAuthenticationToken(request.email().toString(), request.password().toString());
         final Authentication authentication = authenticationBuilder.getObject().authenticate(authenticationToken);
         return tokenProvider.generateToken(GrantType.BEARER, authentication);
     }
 
     @Override
     @SendEmail(type = EmailTemplateType.FIND_PASSWORD)
-    public EmailDto findPassword(final FindPasswordDto request) {
-        final boolean existsByEmail = memberRepository.existsByEmail(request.email());
-        if (!existsByEmail) {
-            throw new RainbowLetterException(ErrorCode.INVALID_EMAIL, request.email());
+    public EmailDto findPassword(final FindPassword request) {
+        if (!existsByEmail(request.email())) {
+            throw new MemberEmailNotFoundException(request.email().toString());
         }
         return request;
     }
 
     @Override
     @Transactional
-    public void changePassword(final String email, final ChangePasswordRequest request) {
-        final Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
-        member.changePassword(request, passwordEncoder);
+    public void changePassword(final String email, final ChangePassword request) {
+        final Member member = findByEmailOrElseThrow(new Email(email));
+        final Member updateMember = member.changePassword(request, passwordEncoder);
+        memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
-    public void changePhoneNumber(final String email, final ChangePhoneNumberRequest request) {
-        final Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
-        member.changePhoneNumber(request);
+    public void resetPassword(final String email, final ResetPassword request) {
+        final Member member = findByEmailOrElseThrow(new Email(email));
+        final Member updateMember = member.resetPassword(request, passwordEncoder);
+        memberRepository.save(updateMember);
+    }
+
+    @Override
+    @Transactional
+    public void updatePhoneNumber(final String email, final PhoneNumberUpdate request) {
+        final Member member = findByEmailOrElseThrow(new Email(email));
+        final Member updateMember = member.update(request);
+        memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
     public void deletePhoneNumber(final String email) {
-        final Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
-        member.deletePhoneNumber();
+        final Member member = findByEmailOrElseThrow(new Email(email));
+        final Member updateMember = member.deletePhoneNumber();
+        memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
     public void delete(final String email) {
-        final Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_EMAIL, email));
-        member.changeStatus(MemberStatus.LEAVE);
+        final Member member = findByEmailOrElseThrow(new Email(email));
+        final Member updateMember = member.update(MemberStatus.LEAVE);
+        memberRepository.save(updateMember);
+    }
+
+    private Member findByEmailOrElseThrow(final Email email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberEmailNotFoundException(email.toString()));
     }
 }

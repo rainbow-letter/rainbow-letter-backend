@@ -17,7 +17,12 @@ public enum ErrorCode {
     /**
      * 400 BAD REQUEST
      */
+    INVALID_EMAIL_FORMAT(BAD_REQUEST, "유효하지 않은 이메일 형식입니다."),
+    INVALID_PASSWORD_FORMAT(BAD_REQUEST, "비밀번호는 영문, 숫자를 조합하여 8글자 이상으로 입력해주세요."),
+    INVALID_PHONE_NUMBER_FORMAT(BAD_REQUEST, "유효하지 않은 휴대폰 번호 형식입니다."),
+    FAIL_PASSWORD_COMPARE(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     EXISTS_EMAIL(BAD_REQUEST, "이미 존재하는 이메일입니다."),
+
     INVALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
     METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
     CHECK_EMAIL_AND_PASSWORD(BAD_REQUEST, "이메일 및 비밀번호를 확인 해주세요."),

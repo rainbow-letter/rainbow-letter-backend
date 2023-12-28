@@ -1,13 +1,14 @@
 package com.handwoong.rainbowletter.member.controller.response;
 
 import com.handwoong.rainbowletter.mail.dto.EmailDto;
-import com.handwoong.rainbowletter.member.infrastructure.Member;
+import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.member.domain.Member;
 
 public record MemberRegisterResponse(
         Long id,
-        String email
+        Email email
 ) implements EmailDto {
     public static MemberRegisterResponse from(final Member member) {
-        return new MemberRegisterResponse(member.getId(), member.getEmail());
+        return new MemberRegisterResponse(member.id(), member.email());
     }
 }

@@ -2,13 +2,12 @@ package com.handwoong.rainbowletter.common.config.security;
 
 import com.handwoong.rainbowletter.common.config.security.handler.CustomAccessDeniedHandler;
 import com.handwoong.rainbowletter.common.config.security.handler.CustomAuthenticationEntryPoint;
-import com.handwoong.rainbowletter.common.config.security.jwt.JwtTokenAuthenticationFilter;
-import com.handwoong.rainbowletter.common.config.security.oauth.CustomOAuthUserService;
-import com.handwoong.rainbowletter.common.config.security.oauth.OAuthSuccessHandler;
+import com.handwoong.rainbowletter.common.config.security.handler.OAuthSuccessHandler;
 import com.handwoong.rainbowletter.common.config.security.uri.AccessAllowUri;
 import com.handwoong.rainbowletter.common.config.security.uri.AdminAllowUri;
 import com.handwoong.rainbowletter.common.config.security.uri.AllowUri;
 import com.handwoong.rainbowletter.common.config.security.uri.AnonymousAllowUri;
+import com.handwoong.rainbowletter.member.service.CustomOAuthUserService;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

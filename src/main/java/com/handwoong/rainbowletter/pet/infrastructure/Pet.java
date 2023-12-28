@@ -3,7 +3,7 @@ package com.handwoong.rainbowletter.pet.infrastructure;
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
 import com.handwoong.rainbowletter.favorite.infrastructure.Favorite;
 import com.handwoong.rainbowletter.image.infrastructure.Image;
-import com.handwoong.rainbowletter.member.infrastructure.Member;
+import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
 import com.handwoong.rainbowletter.pet.domain.dto.PetRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
@@ -48,7 +48,7 @@ public class Pet extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private Member member;
+    private MemberEntity memberEntity;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "favorite_id", referencedColumnName = "id")
@@ -64,17 +64,17 @@ public class Pet extends BaseEntity {
                 final LocalDate deathAnniversary,
                 final Set<String> personality,
                 final Favorite favorite,
-                final Member member) {
+                final MemberEntity memberEntity) {
         this.name = name;
         this.species = species;
         this.owner = owner;
         this.deathAnniversary = deathAnniversary;
         this.personality = personality;
         this.favorite = favorite;
-        this.member = member;
+        this.memberEntity = memberEntity;
     }
 
-    public static Pet create(final PetRequest request, final Member member) {
+    public static Pet create(final PetRequest request, final MemberEntity memberEntity) {
         final Favorite favorite = Favorite.create();
         return new Pet(request.name(),
                 request.species(),
@@ -82,7 +82,7 @@ public class Pet extends BaseEntity {
                 request.deathAnniversary(),
                 request.personality(),
                 favorite,
-                member);
+                memberEntity);
     }
 
     public void changeImage(final Image image) {
@@ -103,6 +103,6 @@ public class Pet extends BaseEntity {
 
     public void disconnect() {
         removeImage();
-        this.member = null;
+        this.memberEntity = null;
     }
 }

@@ -5,8 +5,8 @@ import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
 import com.handwoong.rainbowletter.image.infrastructure.Image;
 import com.handwoong.rainbowletter.image.infrastructure.ImageRepository;
 import com.handwoong.rainbowletter.image.service.ImageService;
-import com.handwoong.rainbowletter.member.infrastructure.Member;
-import com.handwoong.rainbowletter.member.infrastructure.MemberRepository;
+import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
+import com.handwoong.rainbowletter.member.infrastructure.MemberJpaRepository;
 import com.handwoong.rainbowletter.pet.controller.response.PetListResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.domain.dto.PetRequest;
@@ -24,16 +24,16 @@ public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
     private final ImageRepository imageRepository;
     private final ImageService imageService;
-    private final MemberRepository memberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
     @Override
     @Transactional
     public void create(final String email, final PetRequest request) {
-        final Member member = memberRepository.findByEmail(email)
+        final MemberEntity memberEntity = memberJpaRepository.findByEmail(email)
                 .orElseThrow(() -> new RainbowLetterException(ErrorCode.NOT_FOUND_MEMBER, email));
 
         final com.handwoong.rainbowletter.pet.infrastructure.Pet pet = com.handwoong.rainbowletter.pet.infrastructure.Pet.create(
-                request, member);
+                request, memberEntity);
         if (Objects.nonNull(request.image())) {
             final Image image = imageRepository.findById(request.image())
                     .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_IMAGE_ID));

@@ -22,6 +22,6 @@ public class EmailEventAspect {
 
     @AfterReturning(value = "pointcut(sendEmail)", returning = "returnValue", argNames = "sendEmail,returnValue")
     public void afterReturning(final SendEmail sendEmail, final EmailDto returnValue) {
-        eventPublisher.publishEvent(new EmailEvent(sendEmail.type(), returnValue.email()));
+        eventPublisher.publishEvent(new EmailEvent(sendEmail.type(), returnValue.email().toString()));
     }
 }
