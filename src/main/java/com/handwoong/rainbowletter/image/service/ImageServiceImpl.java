@@ -2,8 +2,11 @@ package com.handwoong.rainbowletter.image.service;
 
 import com.handwoong.rainbowletter.common.config.aws.S3Config;
 import com.handwoong.rainbowletter.image.domain.Image;
+import com.handwoong.rainbowletter.image.exception.ImageResourceNotFoundException;
 import com.handwoong.rainbowletter.image.service.port.AmazonS3Service;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
+import jakarta.annotation.Nullable;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,20 @@ public class ImageServiceImpl implements ImageService {
     private final S3Config s3Config;
     private final AmazonS3Service amazonS3Service;
     private final ImageRepository imageRepository;
+
+    @Override
+    public Image findByIdOrElseThrow(final Long id) {
+        return imageRepository.findById(id)
+                .orElseThrow(() -> new ImageResourceNotFoundException(id));
+    }
+
+    @Override
+    public Image findById(@Nullable final Long id) {
+        if (Objects.nonNull(id)) {
+            return findByIdOrElseThrow(id);
+        }
+        return null;
+    }
 
     @Override
     @Transactional

@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.pet.controller.response;
 
 import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
+import com.handwoong.rainbowletter.pet.domain.Pet;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -15,16 +16,16 @@ public record PetResponse(
         ImageResponse image,
         FavoriteResponse favorite
 ) {
-    public static PetResponse from(final com.handwoong.rainbowletter.pet.infrastructure.Pet pet) {
+    public static PetResponse from(final Pet pet) {
         return new PetResponse(
-                pet.getId(),
-                pet.getName(),
-                pet.getSpecies(),
-                pet.getOwner(),
-                pet.getPersonality(),
-                pet.getDeathAnniversary(),
-                ImageResponse.from(pet.getImageEntity()),
-                FavoriteResponse.from(pet.getFavoriteEntity())
+                pet.id(),
+                pet.name(),
+                pet.species(),
+                pet.owner(),
+                pet.personality(),
+                pet.deathAnniversary(),
+                ImageResponse.from(pet.image()),
+                FavoriteResponse.from(pet.favorite())
         );
     }
 }

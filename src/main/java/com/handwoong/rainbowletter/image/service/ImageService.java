@@ -1,10 +1,15 @@
 package com.handwoong.rainbowletter.image.service;
 
 import com.handwoong.rainbowletter.image.domain.Image;
+import jakarta.annotation.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
-    Image upload(final MultipartFile file, final String type);
+    Image findByIdOrElseThrow(Long id);
 
-    void remove(final Image image);
+    Image findById(@Nullable Long id);
+
+    Image upload(MultipartFile file, String type);
+
+    void remove(Image image);
 }

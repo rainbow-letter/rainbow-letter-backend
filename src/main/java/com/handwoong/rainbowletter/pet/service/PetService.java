@@ -1,19 +1,23 @@
 package com.handwoong.rainbowletter.pet.service;
 
-import com.handwoong.rainbowletter.pet.controller.response.PetListResponse;
-import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
-import com.handwoong.rainbowletter.pet.domain.dto.PetRequest;
+import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.domain.Pet;
+import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
+import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
+import java.util.List;
 
 public interface PetService {
-    void create(final String email, final PetRequest request);
+    Pet findByIdOrElseThrow(Email email, Long id);
 
-    PetListResponse findAll(final String email);
+    Pet findById(String email, Long id);
 
-    PetResponse findById(final String email, final Long petId);
+    List<Pet> findAll(String email);
 
-    void edit(final String email, final Long petId, final PetRequest request);
+    void create(String email, PetCreate request);
 
-    void deleteImage(final String email, final Long petId);
+    void update(String email, Long id, PetUpdate request);
 
-    void delete(final String email, final Long petId);
+    void deleteImage(String email, Long id);
+
+    void delete(String email, Long id);
 }

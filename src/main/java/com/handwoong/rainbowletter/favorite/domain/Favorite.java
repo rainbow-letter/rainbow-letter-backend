@@ -12,6 +12,14 @@ public record Favorite(
         boolean canIncrease,
         LocalDateTime updatedAt
 ) {
+    public static Favorite create() {
+        return Favorite.builder()
+                .total(0)
+                .dayIncreaseCount(0)
+                .canIncrease(true)
+                .build();
+    }
+    
     public Favorite checkRequireInitDayCount() {
         if (updatedAt.isBefore(LocalDate.now().atStartOfDay())) {
             return Favorite.builder()

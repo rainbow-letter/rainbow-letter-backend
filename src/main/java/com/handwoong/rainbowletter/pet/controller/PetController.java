@@ -1,11 +1,14 @@
 package com.handwoong.rainbowletter.pet.controller;
 
 import com.handwoong.rainbowletter.common.util.SecurityUtils;
-import com.handwoong.rainbowletter.pet.controller.response.PetListResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
-import com.handwoong.rainbowletter.pet.domain.dto.PetRequest;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponses;
+import com.handwoong.rainbowletter.pet.domain.Pet;
+import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
+import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import com.handwoong.rainbowletter.pet.service.PetService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,31 +28,33 @@ public class PetController {
     private final PetService petService;
 
     @GetMapping
-    public ResponseEntity<PetListResponse> findAll() {
+    public ResponseEntity<PetResponses> findAll() {
         final String email = SecurityUtils.getAuthenticationUsername();
-        final PetListResponse response = petService.findAll(email);
+        final List<Pet> pets = petService.findAll(email);
+        final PetResponses response = PetResponses.from(pets);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PetResponse> findOneById(@PathVariable final Long id) {
         final String email = SecurityUtils.getAuthenticationUsername();
-        final PetResponse response = petService.findById(email, id);
+        final Pet pet = petService.findById(email, id);
+        final PetResponse response = PetResponse.from(pet);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid final PetRequest request) {
+    public ResponseEntity<Void> create(@RequestBody @Valid final PetCreate request) {
         final String email = SecurityUtils.getAuthenticationUsername();
         petService.create(email, request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> edit(@PathVariable final Long id,
-                                     @RequestBody @Valid final PetRequest request) {
+    public ResponseEntity<Void> update(@PathVariable final Long id,
+                                       @RequestBody @Valid final PetUpdate request) {
         final String email = SecurityUtils.getAuthenticationUsername();
-        petService.edit(email, id, request);
+        petService.update(email, id, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

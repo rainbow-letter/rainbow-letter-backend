@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ImageExceptionHandler extends BaseExceptionHandler {
+    @ExceptionHandler({ImageResourceNotFoundException.class})
+    public ResponseEntity<ErrorResponse> imageResourceNotFound(final ImageResourceNotFoundException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getId().toString());
+        return createErrorResponse(errorCode);
+    }
+
     @ExceptionHandler({ImageUploadFailException.class})
     public ResponseEntity<ErrorResponse> imageUploadFail(final ImageUploadFailException exception) {
         final ErrorCode errorCode = exception.getErrorCode();

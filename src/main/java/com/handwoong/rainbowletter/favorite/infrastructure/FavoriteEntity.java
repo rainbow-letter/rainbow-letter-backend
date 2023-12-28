@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,35 +25,6 @@ public class FavoriteEntity extends BaseEntity {
     private int dayIncreaseCount;
 
     private boolean canIncrease;
-
-    private FavoriteEntity(final int total, final int dayIncreaseCount, final boolean canIncrease) {
-        this.total = total;
-        this.dayIncreaseCount = dayIncreaseCount;
-        this.canIncrease = canIncrease;
-    }
-
-    public static FavoriteEntity create() {
-        return new FavoriteEntity(0, 0, true);
-    }
-
-    public void increase() {
-        if (possibleIncrease()) {
-            this.total += 1;
-            this.dayIncreaseCount += 1;
-        }
-    }
-
-    private boolean possibleIncrease() {
-        if (getUpdatedAt().isBefore(LocalDate.now().atStartOfDay())) {
-            dayIncreaseCount = 0;
-            canIncrease = true;
-        }
-
-        if (dayIncreaseCount >= 3) {
-            canIncrease = false;
-        }
-        return canIncrease;
-    }
 
     public Favorite toModel() {
         return Favorite.builder()

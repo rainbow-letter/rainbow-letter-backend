@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
 
-public record PetRequest(
+public record PetCreate(
         @NotBlank(message = EMPTY_MESSAGE)
         @Size(max = 20, message = PET_NAME)
         String name,

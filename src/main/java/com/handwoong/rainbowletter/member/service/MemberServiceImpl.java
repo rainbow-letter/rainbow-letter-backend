@@ -36,6 +36,12 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationManagerBuilder authenticationBuilder;
 
     @Override
+    public Member findByEmailOrElseThrow(final Email email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberEmailNotFoundException(email.toString()));
+    }
+
+    @Override
     public Member info(final String email) {
         return memberRepository.findInfoByEmail(new Email(email))
                 .orElseThrow(() -> new MemberEmailNotFoundException(email));
@@ -116,10 +122,5 @@ public class MemberServiceImpl implements MemberService {
         final Member member = findByEmailOrElseThrow(new Email(email));
         final Member updateMember = member.update(MemberStatus.LEAVE);
         memberRepository.save(updateMember);
-    }
-
-    private Member findByEmailOrElseThrow(final Email email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberEmailNotFoundException(email.toString()));
     }
 }
