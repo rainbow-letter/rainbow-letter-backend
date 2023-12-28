@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ImageExceptionHandler extends BaseExceptionHandler {
     @ExceptionHandler({ImageUploadFailException.class})
-    public ResponseEntity<ErrorResponse> duplicateEmail(final ImageUploadFailException exception) {
+    public ResponseEntity<ErrorResponse> imageUploadFail(final ImageUploadFailException exception) {
         final ErrorCode errorCode = exception.getErrorCode();
         logError(errorCode, exception);
         return createErrorResponse(errorCode);

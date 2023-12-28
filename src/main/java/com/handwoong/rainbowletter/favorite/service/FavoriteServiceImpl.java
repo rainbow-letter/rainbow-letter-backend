@@ -1,10 +1,8 @@
 package com.handwoong.rainbowletter.favorite.service;
 
-import com.handwoong.rainbowletter.common.exception.ErrorCode;
-import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
-import com.handwoong.rainbowletter.favorite.infrastructure.Favorite;
-import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
-import com.handwoong.rainbowletter.favorite.infrastructure.FavoriteRepository;
+import com.handwoong.rainbowletter.favorite.domain.Favorite;
+import com.handwoong.rainbowletter.favorite.exception.FavoriteResourceNotFoundException;
+import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +15,12 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     @Transactional
-    public FavoriteResponse increase(final Long id) {
+    public Favorite increase(final Long id) {
         final Favorite favorite = favoriteRepository.findById(id)
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.RESOURCE_ID_NOT_FOUND, "Favorite"));
-        favorite.increase();
-        return FavoriteResponse.from(favorite);
+                .orElseThrow(() -> new FavoriteResourceNotFoundException(id));
+        final Favorite checkedFavorite = favorite.checkRequireInitDayCount();
+        final Favorite updateFavorite = checkedFavorite.increase();
+        favoriteRepository.save(updateFavorite);
+        return updateFavorite;
     }
 }

@@ -24,7 +24,7 @@ public record PetResponse(
                 pet.getPersonality(),
                 pet.getDeathAnniversary(),
                 ImageResponse.from(pet.getImageEntity()),
-                FavoriteResponse.from(pet.getFavorite())
+                FavoriteResponse.from(pet.getFavoriteEntity())
         );
     }
 }

@@ -53,6 +53,7 @@ public enum ErrorCode {
     /**
      * 404 NOT FOUND
      */
+    NOT_FOUND_FAVORITE(NOT_FOUND, "해당 좋아요를 찾을 수 없습니다."),
     NOT_FOUND_MEMBER(NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
 
     /**

@@ -2,4 +2,4 @@
 
 === 증가
 
-operation::favorite-controller-test/increase_favorite[snippets='http-request,http-response']
+operation::favoriteEntity-controller-test/increase_favorite[snippets='http-request,http-response']

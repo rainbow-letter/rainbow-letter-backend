@@ -13,4 +13,4 @@ include::imageEntity.adoc[]
 
 include::pet.adoc[]
 
-include::favorite.adoc[]
+include::favoriteEntity.adoc[]

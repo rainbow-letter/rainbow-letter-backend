@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.favorite.controller;
 
 import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
+import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.favorite.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,8 @@ public class FavoriteController {
 
     @PostMapping("/{id}")
     public ResponseEntity<FavoriteResponse> increase(@PathVariable final Long id) {
-        final FavoriteResponse response = favoriteService.increase(id);
+        final Favorite favorite = favoriteService.increase(id);
+        final FavoriteResponse response = FavoriteResponse.from(favorite);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

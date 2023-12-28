@@ -7,14 +7,12 @@ import lombok.Builder;
 @Builder
 public record Mail(
         Long id,
-        Email mail,
+        Email email,
         String title,
         String content,
         EmailTemplateType templateType
 ) {
-    public static Mail create(final Email email,
-                              final MailTemplate template,
-                              final EmailTemplateType templateType) {
+    public static Mail create(final Email email, final MailTemplate template, final EmailTemplateType templateType) {
         return Mail.builder()
                 .email(email)
                 .title(template.subject())

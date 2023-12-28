@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.favorite.controller.response;
 
-import com.handwoong.rainbowletter.favorite.infrastructure.Favorite;
+import com.handwoong.rainbowletter.favorite.domain.Favorite;
 
 public record FavoriteResponse(
         Long id,
@@ -10,9 +10,9 @@ public record FavoriteResponse(
 ) {
     public static FavoriteResponse from(final Favorite favorite) {
         return new FavoriteResponse(
-                favorite.getId(),
-                favorite.getTotal(),
-                favorite.getDayIncreaseCount(),
-                favorite.isCanIncrease());
+                favorite.id(),
+                favorite.total(),
+                favorite.dayIncreaseCount(),
+                favorite.canIncrease());
     }
 }

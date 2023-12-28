@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.pet.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
-import com.handwoong.rainbowletter.favorite.infrastructure.Favorite;
+import com.handwoong.rainbowletter.favorite.infrastructure.FavoriteEntity;
 import com.handwoong.rainbowletter.image.infrastructure.ImageEntity;
 import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
 import com.handwoong.rainbowletter.pet.domain.dto.PetRequest;
@@ -52,7 +52,7 @@ public class Pet extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "favorite_id", referencedColumnName = "id")
-    private Favorite favorite;
+    private FavoriteEntity favoriteEntity;
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
@@ -63,25 +63,25 @@ public class Pet extends BaseEntity {
                 final String owner,
                 final LocalDate deathAnniversary,
                 final Set<String> personality,
-                final Favorite favorite,
+                final FavoriteEntity favoriteEntity,
                 final MemberEntity memberEntity) {
         this.name = name;
         this.species = species;
         this.owner = owner;
         this.deathAnniversary = deathAnniversary;
         this.personality = personality;
-        this.favorite = favorite;
+        this.favoriteEntity = favoriteEntity;
         this.memberEntity = memberEntity;
     }
 
     public static Pet create(final PetRequest request, final MemberEntity memberEntity) {
-        final Favorite favorite = Favorite.create();
+        final FavoriteEntity favoriteEntity = FavoriteEntity.create();
         return new Pet(request.name(),
                 request.species(),
                 request.owner(),
                 request.deathAnniversary(),
                 request.personality(),
-                favorite,
+                favoriteEntity,
                 memberEntity);
     }
 
