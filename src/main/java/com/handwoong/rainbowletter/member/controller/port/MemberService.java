@@ -1,7 +1,7 @@
-package com.handwoong.rainbowletter.member.service;
+package com.handwoong.rainbowletter.member.controller.port;
 
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
-import com.handwoong.rainbowletter.mail.domain.dto.EmailDto;
+import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.dto.ChangePassword;
@@ -14,7 +14,7 @@ import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
 public interface MemberService {
     Member findByEmailOrElseThrow(Email email);
 
-    Member info(String email);
+    Member info(Email email);
 
     Member register(MemberRegister request);
 
@@ -22,15 +22,15 @@ public interface MemberService {
 
     TokenResponse login(MemberLogin request);
 
-    EmailDto findPassword(FindPassword request);
+    MailDto findPassword(FindPassword request);
 
-    Member changePassword(String email, ChangePassword request);
+    Member changePassword(Email email, ChangePassword request);
 
-    Member resetPassword(String email, ResetPassword request);
+    Member resetPassword(Email email, ResetPassword request);
 
-    Member updatePhoneNumber(String email, PhoneNumberUpdate request);
+    Member updatePhoneNumber(Email email, PhoneNumberUpdate request);
 
-    Member deletePhoneNumber(String email);
+    Member deletePhoneNumber(Email email);
 
-    Member delete(String email);
+    Member delete(Email email);
 }

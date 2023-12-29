@@ -5,5 +5,6 @@ public enum MemberStatus {
     ACTIVE,
     SLEEP,
     LOCK,
-    LEAVE
+    LEAVE,
+    ;
 }

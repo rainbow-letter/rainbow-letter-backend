@@ -32,7 +32,7 @@ public class MemberEntity extends BaseEntity {
     @Column(length = 50, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @NotNull
     private String password;
 
     @Column(length = 20)
@@ -53,6 +53,19 @@ public class MemberEntity extends BaseEntity {
     @NotNull
     private String providerId;
 
+    public static MemberEntity from(final Member member) {
+        final MemberEntity memberEntity = new MemberEntity();
+        memberEntity.id = member.id();
+        memberEntity.email = member.email().toString();
+        memberEntity.password = member.password().toString();
+        memberEntity.phoneNumber = Objects.nonNull(member.phoneNumber()) ? member.phoneNumber().toString() : null;
+        memberEntity.role = member.role();
+        memberEntity.status = member.status();
+        memberEntity.provider = member.provider();
+        memberEntity.providerId = member.providerId();
+        return memberEntity;
+    }
+
     public Member toModel() {
         return Member.builder()
                 .id(id)
@@ -64,18 +77,5 @@ public class MemberEntity extends BaseEntity {
                 .provider(provider)
                 .providerId(providerId)
                 .build();
-    }
-
-    public static MemberEntity fromModel(final Member member) {
-        final MemberEntity memberEntity = new MemberEntity();
-        memberEntity.id = member.id();
-        memberEntity.email = member.email().toString();
-        memberEntity.password = member.password().toString();
-        memberEntity.phoneNumber = Objects.nonNull(member.phoneNumber()) ? member.phoneNumber().toString() : null;
-        memberEntity.role = member.role();
-        memberEntity.status = member.status();
-        memberEntity.provider = member.provider();
-        memberEntity.providerId = member.providerId();
-        return memberEntity;
     }
 }

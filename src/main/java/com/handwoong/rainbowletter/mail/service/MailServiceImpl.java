@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.mail.service;
 
-import com.handwoong.rainbowletter.mail.domain.EmailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.Mail;
+import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.dto.MailTemplate;
 import com.handwoong.rainbowletter.mail.service.port.EmailTemplateManager;
 import com.handwoong.rainbowletter.mail.service.port.MailRepository;
@@ -13,15 +13,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class EmailServiceImpl implements EmailService {
+public class MailServiceImpl implements MailService {
     private final MailSender mailSender;
     private final EmailTemplateManager templateManager;
     private final MailRepository mailRepository;
 
     @Override
-    public void send(final Email email, final EmailTemplateType type) throws MessagingException {
+    public Mail send(final Email email, final MailTemplateType type) throws MessagingException {
         final MailTemplate template = templateManager.template(email, type);
-        mailSender.send(email, template);
-        mailRepository.save(Mail.create(email, template, type));
+        final Mail mail = Mail.create(email, template, type);
+        mailSender.send(mail);
+        return mailRepository.save(mail);
     }
 }

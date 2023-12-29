@@ -4,7 +4,7 @@ import com.handwoong.rainbowletter.common.config.client.ClientConfig;
 import com.handwoong.rainbowletter.common.util.jwt.GrantType;
 import com.handwoong.rainbowletter.common.util.jwt.JwtTokenProvider;
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
-import com.handwoong.rainbowletter.mail.domain.EmailTemplateType;
+import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.dto.MailTemplate;
 import com.handwoong.rainbowletter.member.domain.Email;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class FindPasswordTemplate implements EmailTemplate {
 
     private String createBody(final Email email) {
         final TokenResponse tokenResponse =
-                tokenProvider.generateToken(GrantType.PATH_VARIABLE, email.toString(), EmailTemplateType.VERIFY.name());
+                tokenProvider.generateToken(GrantType.PATH_VARIABLE, email.toString(), MailTemplateType.VERIFY.name());
         final String resetPasswordUrl =
                 clientConfig.getClientUrl() + "/members/password/reset?token=" + tokenResponse.token();
         final Context context = new Context();

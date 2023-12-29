@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.letter.controller;
 
+import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.dto.ReplyRequestDto;
-import com.handwoong.rainbowletter.letter.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

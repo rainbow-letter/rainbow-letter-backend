@@ -7,17 +7,17 @@ import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import java.util.List;
 
 public interface PetService {
-    Pet findByIdOrElseThrow(Email email, Long id);
+    Pet findByEmailAndIdOrElseThrow(Email email, Long id);
 
-    Pet findById(String email, Long id);
+    Pet findByEmailAndId(Email email, Long id);
 
-    List<Pet> findAll(String email);
+    List<Pet> findAllByEmail(Email email);
 
-    void create(String email, PetCreate request);
+    Pet create(Email email, PetCreate request);
 
-    void update(String email, Long id, PetUpdate request);
+    Pet update(Email email, Long id, PetUpdate request);
 
-    void deleteImage(String email, Long id);
+    Pet deleteImage(Email email, Long id);
 
-    void delete(String email, Long id);
+    void delete(Email email, Long id);
 }

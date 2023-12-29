@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
@@ -17,11 +18,23 @@ public class FavoriteEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private int total;
 
+    @NotNull
     private int dayIncreaseCount;
 
+    @NotNull
     private boolean canIncrease;
+
+    public static FavoriteEntity from(final Favorite favorite) {
+        final FavoriteEntity favoriteEntity = new FavoriteEntity();
+        favoriteEntity.id = favorite.id();
+        favoriteEntity.total = favorite.total();
+        favoriteEntity.dayIncreaseCount = favorite.dayIncreaseCount();
+        favoriteEntity.canIncrease = favorite.canIncrease();
+        return favoriteEntity;
+    }
 
     public Favorite toModel() {
         return Favorite.builder()
@@ -31,14 +44,5 @@ public class FavoriteEntity extends BaseEntity {
                 .canIncrease(canIncrease)
                 .updatedAt(getUpdatedAt())
                 .build();
-    }
-
-    public static FavoriteEntity fromModel(final Favorite favorite) {
-        final FavoriteEntity favoriteEntity = new FavoriteEntity();
-        favoriteEntity.id = favorite.id();
-        favoriteEntity.total = favorite.total();
-        favoriteEntity.dayIncreaseCount = favorite.dayIncreaseCount();
-        favoriteEntity.canIncrease = favorite.canIncrease();
-        return favoriteEntity;
     }
 }

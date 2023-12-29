@@ -1,8 +1,8 @@
 package com.handwoong.rainbowletter.favorite.controller;
 
+import com.handwoong.rainbowletter.favorite.controller.port.FavoriteService;
 import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
-import com.handwoong.rainbowletter.favorite.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -12,8 +12,8 @@ public class FavoriteRepositoryImpl implements FavoriteRepository {
     private final FavoriteJpaRepository favoriteJpaRepository;
 
     @Override
-    public void save(final Favorite favorite) {
-        favoriteJpaRepository.save(FavoriteEntity.fromModel(favorite));
+    public Favorite save(final Favorite favorite) {
+        return favoriteJpaRepository.save(FavoriteEntity.from(favorite)).toModel();
     }
 
     @Override

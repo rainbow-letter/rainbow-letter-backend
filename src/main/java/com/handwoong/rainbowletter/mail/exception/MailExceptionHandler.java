@@ -13,6 +13,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MailExceptionHandler extends BaseExceptionHandler {
+    @ExceptionHandler({MailTemplateNotFoundException.class})
+    public ResponseEntity<ErrorResponse> mailTemplateNotFound(final MailTemplateNotFoundException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getTemplateName());
+        return createErrorResponse(errorCode);
+    }
+    
     @ExceptionHandler({MessagingException.class})
     public ResponseEntity<ErrorResponse> messaging(final MessagingException exception) {
         final ErrorCode errorCode = ErrorCode.FAIL_SEND_MAIL;

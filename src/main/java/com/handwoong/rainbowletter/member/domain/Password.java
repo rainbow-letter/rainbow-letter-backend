@@ -6,9 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
-public record Password(
-        String password
-) {
+public record Password(String password) {
     public static final String PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*()-_=+`~]{8,}$";
 
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);

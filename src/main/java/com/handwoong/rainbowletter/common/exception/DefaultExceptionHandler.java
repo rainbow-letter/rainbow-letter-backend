@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.common.exception;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -20,6 +21,13 @@ public class DefaultExceptionHandler extends BaseExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseEntity<ErrorResponse> httpMessageNotReadable(final HttpMessageNotReadableException exception) {
         final ErrorCode errorCode = ErrorCode.METHOD_ARGUMENT_NOT_VALID;
+        logWarn(errorCode, exception.getMessage());
+        return createErrorResponse(errorCode);
+    }
+
+    @ExceptionHandler({ConversionFailedException.class})
+    public ResponseEntity<ErrorResponse> conversionFailed(final ConversionFailedException exception) {
+        final ErrorCode errorCode = ErrorCode.INVALID_PARAM_VALUE;
         logWarn(errorCode, exception.getMessage());
         return createErrorResponse(errorCode);
     }

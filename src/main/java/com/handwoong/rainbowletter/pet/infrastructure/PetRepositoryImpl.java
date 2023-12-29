@@ -14,23 +14,23 @@ public class PetRepositoryImpl implements PetRepository {
     private final PetJpaRepository petJpaRepository;
 
     @Override
-    public Optional<Pet> findById(final Email email, final Long id) {
+    public Optional<Pet> findByEmailAndId(final Email email, final Long id) {
         return petJpaRepository.findOneById(email.toString(), id);
     }
 
     @Override
-    public List<Pet> findAll(final Email email) {
+    public List<Pet> findAllByEmail(final Email email) {
         return petJpaRepository.findAll(email.toString());
     }
 
     @Override
-    public Optional<Pet> findByIdWithImage(final Email email, final Long id) {
+    public Optional<Pet> findByEmailAndIdWithImage(final Email email, final Long id) {
         return petJpaRepository.findOneByIdWithImage(email.toString(), id);
     }
 
     @Override
-    public void save(final Pet pet) {
-        petJpaRepository.save(PetEntity.fromModel(pet));
+    public Pet save(final Pet pet) {
+        return petJpaRepository.save(PetEntity.fromModel(pet)).toModel();
     }
 
     @Override

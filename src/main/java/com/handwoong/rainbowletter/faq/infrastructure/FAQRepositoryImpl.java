@@ -17,16 +17,19 @@ public class FAQRepositoryImpl implements FAQRepository {
     private final FAQJpaRepository faqJpaRepository;
 
     @Override
-    public void save(final FAQ faq) {
-        faqJpaRepository.save(FAQEntity.fromModel(faq));
+    public FAQ save(final FAQ faq) {
+        return faqJpaRepository.save(FAQEntity.from(faq)).toModel();
     }
 
     @Override
-    public void saveAll(final FAQ... faqs) {
+    public List<FAQ> saveAll(final FAQ... faqs) {
         final List<FAQEntity> faqEntities = Arrays.stream(faqs)
-                .map(FAQEntity::fromModel)
+                .map(FAQEntity::from)
                 .toList();
-        faqJpaRepository.saveAll(faqEntities);
+        return faqJpaRepository.saveAll(faqEntities)
+                .stream()
+                .map(FAQEntity::toModel)
+                .toList();
     }
 
     @Override
@@ -40,7 +43,7 @@ public class FAQRepositoryImpl implements FAQRepository {
         return queryFactory.select(Projections.fields(FAQ.class, f.id, f.summary, f.detail))
                 .from(f)
                 .where(f.visibility.isTrue())
-                .orderBy(f.sortIndex.asc())
+                .orderBy(f.sequence.asc())
                 .fetch();
     }
 
@@ -49,12 +52,12 @@ public class FAQRepositoryImpl implements FAQRepository {
         final QFAQEntity f = QFAQEntity.fAQEntity;
         return queryFactory.select(Projections.fields(FAQ.class, f.id, f.summary, f.detail, f.visibility))
                 .from(f)
-                .orderBy(f.sortIndex.asc())
+                .orderBy(f.sequence.asc())
                 .fetch();
     }
 
     @Override
     public void delete(final FAQ faq) {
-        faqJpaRepository.delete(FAQEntity.fromModel(faq));
+        faqJpaRepository.delete(FAQEntity.from(faq));
     }
 }

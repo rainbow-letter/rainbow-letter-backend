@@ -1,7 +1,8 @@
 package com.handwoong.rainbowletter.faq.service;
 
+import com.handwoong.rainbowletter.faq.controller.port.FAQService;
 import com.handwoong.rainbowletter.faq.domain.FAQ;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSort;
+import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSequence;
 import com.handwoong.rainbowletter.faq.domain.dto.FAQCreate;
 import com.handwoong.rainbowletter.faq.domain.dto.FAQUpdate;
 import com.handwoong.rainbowletter.faq.exception.FAQResourceNotFoundException;
@@ -29,37 +30,37 @@ public class FAQServiceImpl implements FAQService {
 
     @Override
     @Transactional
-    public void create(final FAQCreate request) {
+    public FAQ create(final FAQCreate request) {
         final FAQ faq = FAQ.create(request);
-        faqRepository.save(faq);
+        return faqRepository.save(faq);
     }
 
     @Override
     @Transactional
-    public void update(final Long id, final FAQUpdate request) {
+    public FAQ update(final Long id, final FAQUpdate request) {
         final FAQ faq = findByIdOrElseThrow(id);
         final FAQ updateFaq = faq.update(request);
-        faqRepository.save(updateFaq);
+        return faqRepository.save(updateFaq);
     }
 
     @Override
     @Transactional
-    public void changeVisibility(final Long id) {
+    public FAQ changeVisibility(final Long id) {
         final FAQ faq = findByIdOrElseThrow(id);
         final FAQ updateFaq = faq.changeVisibility();
-        faqRepository.save(updateFaq);
+        return faqRepository.save(updateFaq);
     }
 
     @Override
     @Transactional
-    public void changeSortIndex(final Long id, final FAQChangeSort request) {
+    public List<FAQ> changeSequence(final Long id, final FAQChangeSequence request) {
         final FAQ faq = findByIdOrElseThrow(id);
         final FAQ targetFaq = findByIdOrElseThrow(request.targetId());
 
-        final Long tempIndex = faq.sortIndex();
-        final FAQ updateFaq = faq.changeSortIndex(targetFaq.sortIndex());
-        final FAQ updateTargetFaq = targetFaq.changeSortIndex(tempIndex);
-        faqRepository.saveAll(updateFaq, updateTargetFaq);
+        final Long tempSequence = faq.sequence();
+        final FAQ updateFaq = faq.changeSequence(targetFaq.sequence());
+        final FAQ updateTargetFaq = targetFaq.changeSequence(tempSequence);
+        return faqRepository.saveAll(updateFaq, updateTargetFaq);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
+import jakarta.annotation.Nullable;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
@@ -17,22 +18,21 @@ public record Pet(
         String species,
         String owner,
         Set<String> personality,
-        LocalDate deathAnniversary,
+        @Nullable LocalDate deathAnniversary,
+        @Nullable Image image,
         Member member,
-        Favorite favorite,
-        Image image
+        Favorite favorite
 ) {
-    public static Pet create(final Member member, final PetCreate request, final Image image) {
-        final Favorite favorite = Favorite.create();
+    public static Pet create(final Member member, final Image image, final Favorite favorite, final PetCreate request) {
         return Pet.builder()
                 .name(request.name())
                 .species(request.species())
                 .owner(request.owner())
                 .personality(request.personality())
                 .deathAnniversary(request.deathAnniversary())
-                .favorite(favorite)
-                .member(member)
                 .image(image)
+                .member(member)
+                .favorite(favorite)
                 .build();
     }
 
@@ -44,9 +44,9 @@ public record Pet(
                 .owner(request.owner())
                 .personality(request.personality())
                 .deathAnniversary(request.deathAnniversary())
-                .favorite(favorite)
-                .member(member)
                 .image(Objects.nonNull(image) ? image : this.image)
+                .member(member)
+                .favorite(favorite)
                 .build();
     }
 
@@ -64,7 +64,7 @@ public record Pet(
                 .build();
     }
 
-    public Pet disconnectRelationShip() {
+    public Pet clean() {
         return Pet.builder()
                 .id(id)
                 .name(name)

@@ -1,10 +1,12 @@
 package com.handwoong.rainbowletter.pet.service;
 
+import com.handwoong.rainbowletter.favorite.controller.port.FavoriteService;
+import com.handwoong.rainbowletter.favorite.domain.Favorite;
+import com.handwoong.rainbowletter.image.controller.port.ImageService;
 import com.handwoong.rainbowletter.image.domain.Image;
-import com.handwoong.rainbowletter.image.service.ImageService;
+import com.handwoong.rainbowletter.member.controller.port.MemberService;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
-import com.handwoong.rainbowletter.member.service.MemberService;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
@@ -19,59 +21,62 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PetServiceImpl implements PetService {
-    private final ImageService imageService;
     private final MemberService memberService;
+    private final ImageService imageService;
+    private final FavoriteService favoriteService;
     private final PetRepository petRepository;
 
     @Override
-    public Pet findByIdOrElseThrow(final Email email, final Long id) {
-        return petRepository.findById(email, id)
+    public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
+        return petRepository.findByEmailAndId(email, id)
                 .orElseThrow(() -> new PetResourceNotFoundException(id));
     }
 
     @Override
-    public Pet findById(final String email, final Long id) {
-        return findByIdOrElseThrow(new Email(email), id);
+    public Pet findByEmailAndId(final Email email, final Long id) {
+        return findByEmailAndIdOrElseThrow(email, id);
     }
 
     @Override
-    public List<Pet> findAll(final String email) {
-        return petRepository.findAll(new Email(email));
+    public List<Pet> findAllByEmail(final Email email) {
+        return petRepository.findAllByEmail(email);
     }
 
     @Override
     @Transactional
-    public void create(final String email, final PetCreate request) {
-        final Member member = memberService.findByEmailOrElseThrow(new Email(email));
+    public Pet create(final Email email, final PetCreate request) {
+        final Member member = memberService.findByEmailOrElseThrow(email);
         final Image image = imageService.findById(request.image());
-        Pet pet = Pet.create(member, request, image);
-        petRepository.save(pet);
+        final Favorite favorite = favoriteService.create();
+
+        Pet pet = Pet.create(member, image, favorite, request);
+        return petRepository.save(pet);
     }
 
     @Override
     @Transactional
-    public void update(final String email, final Long id, final PetUpdate request) {
-        final Pet pet = findByIdOrElseThrow(new Email(email), id);
+    public Pet update(final Email email, final Long id, final PetUpdate request) {
+        final Pet pet = findByEmailAndIdOrElseThrow(email, id);
         final Image image = imageService.findById(request.image());
         final Pet updatePet = pet.update(request, image);
-        petRepository.save(updatePet);
+        return petRepository.save(updatePet);
     }
 
     @Override
     @Transactional
-    public void deleteImage(final String email, final Long id) {
-        final Pet pet = petRepository.findByIdWithImage(new Email(email), id)
+    public Pet deleteImage(final Email email, final Long id) {
+        final Pet pet = petRepository.findByEmailAndIdWithImage(email, id)
                 .orElseThrow(() -> new PetResourceNotFoundException(id));
         imageService.remove(pet.image());
         final Pet updatePet = pet.removeImage();
-        petRepository.save(updatePet);
+        return petRepository.save(updatePet);
     }
 
     @Override
     @Transactional
-    public void delete(final String email, final Long id) {
-        final Pet pet = findByIdOrElseThrow(new Email(email), id);
-        final Pet disconnectedPet = pet.disconnectRelationShip();
-        petRepository.delete(disconnectedPet);
+    public void delete(final Email email, final Long id) {
+        final Pet pet = findByEmailAndIdOrElseThrow(email, id);
+        final Pet cleanPet = pet.clean();
+        petRepository.delete(cleanPet);
     }
 }

@@ -41,7 +41,6 @@ public class PetEntity extends BaseEntity {
     @NotNull
     private String owner;
 
-    @NotNull
     private LocalDate deathAnniversary;
 
     @ElementCollection
@@ -82,9 +81,9 @@ public class PetEntity extends BaseEntity {
         petEntity.owner = pet.owner();
         petEntity.deathAnniversary = pet.deathAnniversary();
         petEntity.personality = pet.personality();
-        petEntity.memberEntity = MemberEntity.fromModel(pet.member());
-        petEntity.favoriteEntity = FavoriteEntity.fromModel(pet.favorite());
-        petEntity.imageEntity = Objects.nonNull(pet.image()) ? ImageEntity.fromModel(pet.image()) : null;
+        petEntity.memberEntity = MemberEntity.from(pet.member());
+        petEntity.favoriteEntity = FavoriteEntity.from(pet.favorite());
+        petEntity.imageEntity = Objects.nonNull(pet.image()) ? ImageEntity.from(pet.image()) : null;
         return petEntity;
     }
 }

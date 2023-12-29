@@ -9,7 +9,5 @@ public interface MemberRepository {
 
     Optional<Member> findByEmail(Email email);
 
-    Optional<Member> findInfoByEmail(Email email);
-
     boolean existsByEmail(Email email);
 }

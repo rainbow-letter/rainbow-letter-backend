@@ -5,7 +5,9 @@ import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import java.time.LocalDate;
 import java.util.Set;
+import lombok.Builder;
 
+@Builder
 public record PetResponse(
         Long id,
         String name,
@@ -17,15 +19,15 @@ public record PetResponse(
         FavoriteResponse favorite
 ) {
     public static PetResponse from(final Pet pet) {
-        return new PetResponse(
-                pet.id(),
-                pet.name(),
-                pet.species(),
-                pet.owner(),
-                pet.personality(),
-                pet.deathAnniversary(),
-                ImageResponse.from(pet.image()),
-                FavoriteResponse.from(pet.favorite())
-        );
+        return PetResponse.builder()
+                .id(pet.id())
+                .name(pet.name())
+                .species(pet.species())
+                .owner(pet.owner())
+                .personality(pet.personality())
+                .deathAnniversary(pet.deathAnniversary())
+                .image(ImageResponse.from(pet.image()))
+                .favorite(FavoriteResponse.from(pet.favorite()))
+                .build();
     }
 }

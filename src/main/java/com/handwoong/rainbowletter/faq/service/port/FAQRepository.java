@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FAQRepository {
-    void save(FAQ faq);
+    FAQ save(FAQ faq);
 
-    void saveAll(FAQ... faqs);
+    List<FAQ> saveAll(FAQ... faqs);
 
     Optional<FAQ> findById(Long id);
 

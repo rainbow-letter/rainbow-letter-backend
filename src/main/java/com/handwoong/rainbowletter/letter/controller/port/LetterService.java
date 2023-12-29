@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.letter.service;
+package com.handwoong.rainbowletter.letter.controller.port;
 
 import com.handwoong.rainbowletter.letter.dto.ReplyRequestDto;
 

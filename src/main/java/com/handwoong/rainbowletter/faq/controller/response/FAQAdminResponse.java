@@ -1,14 +1,16 @@
 package com.handwoong.rainbowletter.faq.controller.response;
 
 import com.handwoong.rainbowletter.faq.domain.FAQ;
+import lombok.Builder;
 
-public record FAQAdminResponse(
-        Long id,
-        String summary,
-        String detail,
-        boolean visibility
-) {
+@Builder
+public record FAQAdminResponse(Long id, String summary, String detail, boolean visibility) {
     public static FAQAdminResponse from(final FAQ faq) {
-        return new FAQAdminResponse(faq.id(), faq.summary(), faq.detail(), faq.visibility());
+        return FAQAdminResponse.builder()
+                .id(faq.id())
+                .summary(faq.summary())
+                .detail(faq.detail())
+                .visibility(faq.visibility())
+                .build();
     }
 }

@@ -17,7 +17,7 @@ public class ImageRepositoryImpl implements ImageRepository {
     }
 
     @Override
-    public void save(final Image image) {
-        imageJpaRepository.save(ImageEntity.fromModel(image));
+    public Image save(final Image image) {
+        return imageJpaRepository.save(ImageEntity.from(image)).toModel();
     }
 }

@@ -1,13 +1,14 @@
 package com.handwoong.rainbowletter.member.controller;
 
 import com.handwoong.rainbowletter.common.util.SecurityUtils;
+import com.handwoong.rainbowletter.member.controller.port.MemberService;
+import com.handwoong.rainbowletter.member.controller.request.ChangePasswordRequest;
+import com.handwoong.rainbowletter.member.controller.request.MemberRegisterRequest;
+import com.handwoong.rainbowletter.member.controller.request.PhoneNumberUpdateRequest;
+import com.handwoong.rainbowletter.member.controller.request.ResetPasswordRequest;
 import com.handwoong.rainbowletter.member.controller.response.MemberRegisterResponse;
+import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
-import com.handwoong.rainbowletter.member.domain.dto.ChangePassword;
-import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
-import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;
-import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
-import com.handwoong.rainbowletter.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,44 +27,44 @@ public class MemberWriteController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberRegisterResponse> register(@RequestBody @Valid final MemberRegister request) {
-        final Member member = memberService.register(request);
+    public ResponseEntity<MemberRegisterResponse> register(@RequestBody @Valid final MemberRegisterRequest request) {
+        final Member member = memberService.register(request.toDto());
         final MemberRegisterResponse response = MemberRegisterResponse.from(member);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/password")
-    public ResponseEntity<Void> changePassword(@RequestBody @Valid final ChangePassword request) {
-        final String email = SecurityUtils.getAuthenticationUsername();
-        memberService.changePassword(email, request);
+    public ResponseEntity<Void> changePassword(@RequestBody @Valid final ChangePasswordRequest request) {
+        final Email email = SecurityUtils.getAuthenticationUsername();
+        memberService.changePassword(email, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/password/reset")
-    public ResponseEntity<Void> changePassword(@RequestBody @Valid final ResetPassword request) {
-        final String email = SecurityUtils.getAuthenticationUsername();
-        memberService.resetPassword(email, request);
+    public ResponseEntity<Void> resetPassword(@RequestBody @Valid final ResetPasswordRequest request) {
+        final Email email = SecurityUtils.getAuthenticationUsername();
+        memberService.resetPassword(email, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/phoneNumber")
-    public ResponseEntity<Void> changePhoneNumber(@RequestBody @Valid final PhoneNumberUpdate request) {
-        final String email = SecurityUtils.getAuthenticationUsername();
-        memberService.updatePhoneNumber(email, request);
+    public ResponseEntity<Void> changePhoneNumber(@RequestBody @Valid final PhoneNumberUpdateRequest request) {
+        final Email email = SecurityUtils.getAuthenticationUsername();
+        memberService.updatePhoneNumber(email, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @DeleteMapping("/phoneNumber")
     public ResponseEntity<Void> deletePhoneNumber() {
-        final String email = SecurityUtils.getAuthenticationUsername();
+        final Email email = SecurityUtils.getAuthenticationUsername();
         memberService.deletePhoneNumber(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/leave")
     public ResponseEntity<Void> leave() {
-        final String email = SecurityUtils.getAuthenticationUsername();
+        final Email email = SecurityUtils.getAuthenticationUsername();
         memberService.delete(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.favorite.service;
 
+import com.handwoong.rainbowletter.favorite.controller.port.FavoriteService;
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.favorite.exception.FavoriteResourceNotFoundException;
 import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
@@ -14,12 +15,18 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
 
     @Override
+    public Favorite create() {
+        final Favorite favorite = Favorite.create();
+        return favoriteRepository.save(favorite);
+    }
+
+    @Override
     @Transactional
     public Favorite increase(final Long id) {
         final Favorite favorite = favoriteRepository.findById(id)
                 .orElseThrow(() -> new FavoriteResourceNotFoundException(id));
-        final Favorite checkedFavorite = favorite.checkRequireInitDayCount();
-        final Favorite updateFavorite = checkedFavorite.increase();
+        final Favorite initFavorite = favorite.initDayIncreaseCount();
+        final Favorite updateFavorite = initFavorite.increase();
         favoriteRepository.save(updateFavorite);
         return updateFavorite;
     }

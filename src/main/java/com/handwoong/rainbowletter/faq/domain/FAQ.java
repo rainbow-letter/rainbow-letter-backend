@@ -5,13 +5,7 @@ import com.handwoong.rainbowletter.faq.domain.dto.FAQUpdate;
 import lombok.Builder;
 
 @Builder
-public record FAQ(
-        Long id,
-        String summary,
-        String detail,
-        boolean visibility,
-        Long sortIndex
-) {
+public record FAQ(Long id, String summary, String detail, boolean visibility, Long sequence) {
     public static FAQ create(final FAQCreate request) {
         return FAQ.builder()
                 .summary(request.summary())
@@ -26,7 +20,7 @@ public record FAQ(
                 .summary(request.summary())
                 .detail(request.detail())
                 .visibility(visibility)
-                .sortIndex(sortIndex)
+                .sequence(sequence)
                 .build();
     }
 
@@ -36,17 +30,17 @@ public record FAQ(
                 .summary(summary)
                 .detail(detail)
                 .visibility(!visibility)
-                .sortIndex(sortIndex)
+                .sequence(sequence)
                 .build();
     }
 
-    public FAQ changeSortIndex(final Long sortIndex) {
+    public FAQ changeSequence(final Long sequence) {
         return FAQ.builder()
                 .id(id)
                 .summary(summary)
                 .detail(detail)
                 .visibility(visibility)
-                .sortIndex(sortIndex)
+                .sequence(sequence)
                 .build();
     }
 }

@@ -11,7 +11,7 @@ public class MailRepositoryImpl implements MailRepository {
     private final MailJpaRepository mailJpaRepository;
 
     @Override
-    public void save(final Mail mail) {
-        mailJpaRepository.save(MailEntity.fromModel(mail));
+    public Mail save(final Mail mail) {
+        return mailJpaRepository.save(MailEntity.fromModel(mail)).toModel();
     }
 }

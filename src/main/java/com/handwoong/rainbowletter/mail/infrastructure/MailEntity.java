@@ -1,8 +1,8 @@
 package com.handwoong.rainbowletter.mail.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
-import com.handwoong.rainbowletter.mail.domain.EmailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.Mail;
+import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.member.domain.Email;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +36,7 @@ public class MailEntity extends BaseEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
-    private EmailTemplateType templateType;
+    private MailTemplateType templateType;
 
     public Mail toModel() {
         return Mail.builder()

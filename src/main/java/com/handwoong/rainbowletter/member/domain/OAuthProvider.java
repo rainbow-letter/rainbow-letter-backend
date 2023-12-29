@@ -1,7 +1,6 @@
 package com.handwoong.rainbowletter.member.domain;
 
-import com.handwoong.rainbowletter.common.exception.ErrorCode;
-import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
+import com.handwoong.rainbowletter.member.exception.OAuthProviderTypeNotValidException;
 import java.util.Arrays;
 
 public enum OAuthProvider {
@@ -14,6 +13,6 @@ public enum OAuthProvider {
                 .filter(provider -> provider != NONE)
                 .filter(provider -> provider.name().toLowerCase().equals(registrationId))
                 .findAny()
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.INVALID_OAUTH_PROVIDER_TYPE, registrationId));
+                .orElseThrow(() -> new OAuthProviderTypeNotValidException(registrationId));
     }
 }

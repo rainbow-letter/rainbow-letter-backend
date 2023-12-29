@@ -33,11 +33,21 @@ public class FAQEntity extends BaseEntity {
     @NotNull
     private boolean visibility;
 
-    private Long sortIndex;
+    private Long sequence;
 
     @PostPersist
-    private void initSortIndex() {
-        sortIndex = id;
+    private void initSequence() {
+        sequence = id;
+    }
+
+    public static FAQEntity from(final FAQ faq) {
+        final FAQEntity faqEntity = new FAQEntity();
+        faqEntity.id = faq.id();
+        faqEntity.summary = faq.summary();
+        faqEntity.detail = faq.detail();
+        faqEntity.visibility = faq.visibility();
+        faqEntity.sequence = faq.sequence();
+        return faqEntity;
     }
 
     public FAQ toModel() {
@@ -46,17 +56,7 @@ public class FAQEntity extends BaseEntity {
                 .summary(summary)
                 .detail(detail)
                 .visibility(visibility)
-                .sortIndex(sortIndex)
+                .sequence(sequence)
                 .build();
-    }
-
-    public static FAQEntity fromModel(final FAQ faq) {
-        final FAQEntity faqEntity = new FAQEntity();
-        faqEntity.id = faq.id();
-        faqEntity.summary = faq.summary();
-        faqEntity.detail = faq.detail();
-        faqEntity.visibility = faq.visibility();
-        faqEntity.sortIndex = faq.sortIndex();
-        return faqEntity;
     }
 }

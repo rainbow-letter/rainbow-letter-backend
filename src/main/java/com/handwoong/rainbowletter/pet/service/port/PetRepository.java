@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PetRepository {
-    Optional<Pet> findById(Email email, Long id);
+    Optional<Pet> findByEmailAndId(Email email, Long id);
 
-    List<Pet> findAll(Email email);
+    List<Pet> findAllByEmail(Email email);
 
-    Optional<Pet> findByIdWithImage(Email email, Long id);
+    Optional<Pet> findByEmailAndIdWithImage(Email email, Long id);
 
-    void save(Pet pet);
+    Pet save(Pet pet);
 
     void delete(Pet pet);
 }

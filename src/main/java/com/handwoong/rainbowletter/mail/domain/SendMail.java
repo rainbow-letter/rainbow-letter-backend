@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface SendEmail {
-    EmailTemplateType type();
+public @interface SendMail {
+    MailTemplateType type();
 }

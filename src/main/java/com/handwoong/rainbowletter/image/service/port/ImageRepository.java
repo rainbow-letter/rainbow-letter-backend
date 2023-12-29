@@ -6,5 +6,5 @@ import java.util.Optional;
 public interface ImageRepository {
     Optional<Image> findById(Long id);
 
-    void save(Image image);
+    Image save(Image image);
 }

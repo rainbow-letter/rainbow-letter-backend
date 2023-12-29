@@ -46,6 +46,13 @@ public class MemberExceptionHandler extends BaseExceptionHandler {
         return createErrorResponse(errorCode);
     }
 
+    @ExceptionHandler({OAuthProviderTypeNotValidException.class})
+    public ResponseEntity<ErrorResponse> oauthProviderTypeNotValid(final OAuthProviderTypeNotValidException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getRegistrationId());
+        return createErrorResponse(errorCode);
+    }
+
     @ExceptionHandler({PasswordFormatNotValidException.class})
     public ResponseEntity<ErrorResponse> passwordFormatNotValid(final PasswordFormatNotValidException exception) {
         final ErrorCode errorCode = exception.getErrorCode();

@@ -2,11 +2,12 @@ package com.handwoong.rainbowletter.member.controller;
 
 import com.handwoong.rainbowletter.common.util.SecurityUtils;
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
+import com.handwoong.rainbowletter.member.controller.port.MemberService;
+import com.handwoong.rainbowletter.member.controller.request.FindPasswordRequest;
+import com.handwoong.rainbowletter.member.controller.request.MemberLoginRequest;
 import com.handwoong.rainbowletter.member.controller.response.MemberInfoResponse;
+import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
-import com.handwoong.rainbowletter.member.domain.dto.FindPassword;
-import com.handwoong.rainbowletter.member.domain.dto.MemberLogin;
-import com.handwoong.rainbowletter.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,15 +26,15 @@ public class MemberReadController {
 
     @GetMapping("/info")
     public ResponseEntity<MemberInfoResponse> info() {
-        final String email = SecurityUtils.getAuthenticationUsername();
+        final Email email = SecurityUtils.getAuthenticationUsername();
         final Member member = memberService.info(email);
         final MemberInfoResponse response = MemberInfoResponse.from(member);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody @Valid final MemberLogin request) {
-        final TokenResponse token = memberService.login(request);
+    public ResponseEntity<TokenResponse> login(@RequestBody @Valid final MemberLoginRequest request) {
+        final TokenResponse token = memberService.login(request.toDto());
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
@@ -43,8 +44,8 @@ public class MemberReadController {
     }
 
     @PostMapping("/password/find")
-    public ResponseEntity<Void> findPassword(@RequestBody @Valid final FindPassword request) {
-        memberService.findPassword(request);
+    public ResponseEntity<Void> findPassword(@RequestBody @Valid final FindPasswordRequest request) {
+        memberService.findPassword(request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

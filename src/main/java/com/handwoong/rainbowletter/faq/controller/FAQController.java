@@ -1,12 +1,12 @@
 package com.handwoong.rainbowletter.faq.controller;
 
+import com.handwoong.rainbowletter.faq.controller.port.FAQService;
+import com.handwoong.rainbowletter.faq.controller.request.FAQChangeSequenceRequest;
+import com.handwoong.rainbowletter.faq.controller.request.FAQCreateRequest;
+import com.handwoong.rainbowletter.faq.controller.request.FAQUpdateRequest;
 import com.handwoong.rainbowletter.faq.controller.response.FAQAdminResponses;
 import com.handwoong.rainbowletter.faq.controller.response.FAQUserResponses;
 import com.handwoong.rainbowletter.faq.domain.FAQ;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQChangeSort;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQCreate;
-import com.handwoong.rainbowletter.faq.domain.dto.FAQUpdate;
-import com.handwoong.rainbowletter.faq.service.FAQService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +42,8 @@ public class FAQController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid final FAQCreate request) {
-        faqService.create(request);
+    public ResponseEntity<Void> create(@RequestBody @Valid final FAQCreateRequest request) {
+        faqService.create(request.toDto());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -55,14 +55,14 @@ public class FAQController {
 
     @PutMapping("/sequence/{id}")
     public ResponseEntity<Void> changeSortIndex(@PathVariable final Long id,
-                                                @RequestBody final FAQChangeSort request) {
-        faqService.changeSortIndex(id, request);
+                                                @RequestBody final FAQChangeSequenceRequest request) {
+        faqService.changeSequence(id, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> edit(@PathVariable final Long id, @RequestBody @Valid final FAQUpdate request) {
-        faqService.update(id, request);
+    public ResponseEntity<Void> edit(@PathVariable final Long id, @RequestBody @Valid final FAQUpdateRequest request) {
+        faqService.update(id, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

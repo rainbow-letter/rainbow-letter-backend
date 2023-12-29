@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.letter.service;
 
 import com.handwoong.rainbowletter.common.config.PropertiesConfig;
+import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.dto.AirtableUpdateDto;
 import com.handwoong.rainbowletter.letter.dto.AirtableUpdateRequestDto;
 import com.handwoong.rainbowletter.letter.dto.ChatGptRequestDto;

@@ -1,13 +1,13 @@
 package com.handwoong.rainbowletter.member.service;
 
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
-import com.handwoong.rainbowletter.mail.domain.EmailTemplateType;
-import com.handwoong.rainbowletter.mail.domain.SendEmail;
-import com.handwoong.rainbowletter.mail.domain.dto.EmailDto;
+import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
+import com.handwoong.rainbowletter.mail.domain.SendMail;
+import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
+import com.handwoong.rainbowletter.member.controller.port.MemberService;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberStatus;
-import com.handwoong.rainbowletter.member.domain.Password;
 import com.handwoong.rainbowletter.member.domain.dto.ChangePassword;
 import com.handwoong.rainbowletter.member.domain.dto.FindPassword;
 import com.handwoong.rainbowletter.member.domain.dto.MemberLogin;
@@ -38,15 +38,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member info(final String email) {
-        return memberRepository.findInfoByEmail(new Email(email))
-                .orElseThrow(() -> new MemberEmailNotFoundException(email));
+    public Member info(final Email email) {
+        return findByEmailOrElseThrow(email);
     }
 
     @Override
     @Transactional
     public Member register(final MemberRegister request) {
-        validateDuplicateEmail(new Email(request.email()));
+        validateDuplicateEmail(request.email());
         final Member member = Member.create(request, passwordEncoder);
         return memberRepository.save(member);
     }
@@ -64,54 +63,54 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public TokenResponse login(final MemberLogin request) {
-        return authenticationService.login(new Email(request.email()), new Password(request.password()));
+        return authenticationService.login(request.email(), request.password());
     }
 
     @Override
-    @SendEmail(type = EmailTemplateType.FIND_PASSWORD)
-    public EmailDto findPassword(final FindPassword request) {
-        if (!existsByEmail(new Email(request.email()))) {
-            throw new MemberEmailNotFoundException(request.email());
+    @SendMail(type = MailTemplateType.FIND_PASSWORD)
+    public MailDto findPassword(final FindPassword request) {
+        if (!existsByEmail(request.email())) {
+            throw new MemberEmailNotFoundException(request.email().toString());
         }
         return request;
     }
 
     @Override
     @Transactional
-    public Member changePassword(final String email, final ChangePassword request) {
-        final Member member = findByEmailOrElseThrow(new Email(email));
+    public Member changePassword(final Email email, final ChangePassword request) {
+        final Member member = findByEmailOrElseThrow(email);
         final Member updateMember = member.changePassword(request, passwordEncoder);
         return memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
-    public Member resetPassword(final String email, final ResetPassword request) {
-        final Member member = findByEmailOrElseThrow(new Email(email));
+    public Member resetPassword(final Email email, final ResetPassword request) {
+        final Member member = findByEmailOrElseThrow(email);
         final Member updateMember = member.resetPassword(request, passwordEncoder);
         return memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
-    public Member updatePhoneNumber(final String email, final PhoneNumberUpdate request) {
-        final Member member = findByEmailOrElseThrow(new Email(email));
+    public Member updatePhoneNumber(final Email email, final PhoneNumberUpdate request) {
+        final Member member = findByEmailOrElseThrow(email);
         final Member updateMember = member.update(request);
         return memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
-    public Member deletePhoneNumber(final String email) {
-        final Member member = findByEmailOrElseThrow(new Email(email));
+    public Member deletePhoneNumber(final Email email) {
+        final Member member = findByEmailOrElseThrow(email);
         final Member updateMember = member.deletePhoneNumber();
         return memberRepository.save(updateMember);
     }
 
     @Override
     @Transactional
-    public Member delete(final String email) {
-        final Member member = findByEmailOrElseThrow(new Email(email));
+    public Member delete(final Email email) {
+        final Member member = findByEmailOrElseThrow(email);
         final Member updateMember = member.update(MemberStatus.LEAVE);
         return memberRepository.save(updateMember);
     }

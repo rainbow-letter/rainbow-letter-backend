@@ -21,8 +21,8 @@ public record Member(
 ) {
     public static Member create(final MemberRegister request, final PasswordEncoder passwordEncoder) {
         return Member.builder()
-                .email(new Email(request.email()))
-                .password(new Password(request.password()).encode(passwordEncoder))
+                .email(request.email())
+                .password(request.password().encode(passwordEncoder))
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .provider(OAuthProvider.NONE)
@@ -35,8 +35,8 @@ public record Member(
                                 final OAuthProvider provider,
                                 final String providerId) {
         return Member.builder()
-                .email(new Email(request.email()))
-                .password(new Password(request.password()).encode(passwordEncoder))
+                .email(request.email())
+                .password(request.password().encode(passwordEncoder))
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .provider(provider)
@@ -66,7 +66,7 @@ public record Member(
                 .id(id)
                 .email(email)
                 .password(password)
-                .phoneNumber(new PhoneNumber(request.phoneNumber()))
+                .phoneNumber(request.phoneNumber())
                 .role(role)
                 .status(status)
                 .provider(provider)
@@ -91,11 +91,11 @@ public record Member(
     }
 
     public Member changePassword(final ChangePassword request, final PasswordEncoder passwordEncoder) {
-        password.compare(passwordEncoder, new Password(request.password()));
+        password.compare(passwordEncoder, request.password());
         return Member.builder()
                 .id(id)
                 .email(email)
-                .password(new Password(request.password()).encode(passwordEncoder))
+                .password(request.newPassword().encode(passwordEncoder))
                 .phoneNumber(phoneNumber)
                 .role(role)
                 .status(status)
@@ -108,7 +108,7 @@ public record Member(
         return Member.builder()
                 .id(id)
                 .email(email)
-                .password(new Password(request.newPassword()).encode(passwordEncoder))
+                .password(request.newPassword().encode(passwordEncoder))
                 .phoneNumber(phoneNumber)
                 .role(role)
                 .status(status)
