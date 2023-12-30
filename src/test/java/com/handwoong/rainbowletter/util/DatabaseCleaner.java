@@ -1,10 +1,8 @@
 package com.handwoong.rainbowletter.util;
 
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Locale;
-
-import jakarta.persistence.EntityManager;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,7 @@ public class DatabaseCleaner implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         tables = entityManager.getMetamodel().getEntities().stream()
-                .map(entityType -> entityType.getName().toLowerCase(Locale.ROOT))
+                .map(entityType -> entityType.getName().toLowerCase(Locale.ROOT).replace("entity", ""))
                 .toList();
     }
 

@@ -54,7 +54,6 @@ public class MemberWriteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @DeleteMapping("/phoneNumber")
     public ResponseEntity<Void> deletePhoneNumber() {
         final Email email = SecurityUtils.getAuthenticationUsername();

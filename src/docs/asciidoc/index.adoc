@@ -2,15 +2,15 @@
 :doctype: book
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 3
+:toclevels: 2
 :sectlinks:
 
-include::memberEntity.adoc[]
+include::member.adoc[]
 
 include::faq.adoc[]
 
-include::imageEntity.adoc[]
+include::image.adoc[]
 
 include::pet.adoc[]
 
-include::favoriteEntity.adoc[]
+include::favorite.adoc[]

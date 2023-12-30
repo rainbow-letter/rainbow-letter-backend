@@ -24,6 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private String formatExceptionMessage(final String username) {
-        return String.format("%s - %s", ErrorCode.NOT_FOUND_MEMBER, username);
+        return String.format("%s - %s", ErrorCode.NOT_FOUND_MEMBER.getMessage(), username);
     }
 }

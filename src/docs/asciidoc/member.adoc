@@ -2,88 +2,59 @@
 
 === 회원 정보 조회
 
-operation::memberEntity-controller-test/info_member[snippets='http-request,http-response']
+operation::member-read-controller-test/회원_정보_조회[snippets='http-request,request-headers,http-response,response-fields']
 
 === 회원 가입
 
-operation::memberEntity-controller-test/register_member[snippets='http-request,http-response']
-
-==== [ERROR] 회원 가입 시 이메일 중복
-
-operation::memberEntity-controller-test/duplicate_register_member[snippets='http-request,http-response']
-
-==== [ERROR] 이미 로그인에 성공한 사용자가 회원가입 시도
-
-operation::memberEntity-controller-test/already_login_member_register[snippets='http-request,http-response']
-
-=== 회원 토큰 검증
-
-operation::memberEntity-controller-test/verify_member_token[snippets='http-request,http-response']
-
-==== [ERROR] 유효하지 않은 회원 토큰으로 검증 시도
-
-operation::memberEntity-controller-test/verify_member_invalid_token[snippets='http-request,http-response']
+operation::member-write-controller-test/회원_가입[snippets='http-request,request-fields,http-response,response-fields']
 
 === 로그인
 
-operation::memberEntity-controller-test/login[snippets='http-request,http-response']
+operation::member-read-controller-test/회원_로그인[snippets='http-request,request-fields,http-response,response-fields']
 
-==== [ERROR] 존재하지 않는 이메일로 로그인 시도
+=== 소셜 로그인
 
-operation::memberEntity-controller-test/login_notfound_member[snippets='http-request,http-response']
+[NOTE]
+.구글
+====
+아래 URL로 접속하면 구글 로그인이 진행됩니다. +
+http://SERVER_URL/api/oauth2/authorization/google
 
-==== [ERROR] 이미 로그인에 성공한 사용자가 로그인 시도
+성공적으로 구글 로그인이 완료되면 아래 URL로 리다이렉트 됩니다. +
+http://CLIENT_URL/oauth/success?token=ACCESS_TOKEN
+====
 
-operation::memberEntity-controller-test/already_login_member_login[snippets='http-request,http-response']
+=== 회원 토큰 검증
 
-=== 구글 로그인
-
-==== HTTP request
-
-해당 URL로 접속하여 로그인 합니다. +
-http://localhost:8081/api/oauth2/authorization/google
-
-==== HTTP response
-
-로그인에 성공하면 해당 URL로 리다이렉트 됩니다. +
-http://localhost:3000/oauth/success?token=ACCESS_TOKEN
+operation::member-read-controller-test/회원_토큰_검증[snippets='http-request,request-headers,http-response']
 
 === 비밀번호 찾기
 
-operation::memberEntity-controller-test/send_change_password_email[snippets='http-request,http-response']
+operation::member-read-controller-test/회원_비밀번호_찾기[snippets='http-request,request-fields,http-response']
 
-==== REDIRECT
-
-사용자는 비밀번호 찾기 이메일을 수신합니다. +
-수신한 이메일을 통해 접속하는 페이지 URL 입니다. +
-http://localhost:3000/members/password/reset?token=ACCESS_TOKEN
+[IMPORTANT]
+====
+사용자의 이메일로 비밀번호 찾기 이메일이 발송됩니다. +
+발송된 이메일을 통해 사용자는 아래 URL에 접속하여 비밀번호 변경을 진행합니다. +
+http://CLIENT_URL/members/password/reset?token=ACCESSTOKEN
+====
 
 === 비밀번호 변경
 
-==== Case 비밀번호 찾기 비밀번호 변경
+operation::member-write-controller-test/회원_비밀번호_변경[snippets='http-request,request-headers,request-fields,http-response']
 
-operation::memberEntity-controller-test/reset_password[snippets='http-request,http-response']
+=== 비밀번호 초기화
 
-==== Case 로그인 회원 비밀번호 변경
-
-operation::memberEntity-controller-test/change_member_password[snippets='http-request,http-response']
-
-==== [ERROR] 비밀번호 변경 시 기존 비밀번호가 일치하지 않음
-
-operation::memberEntity-controller-test/invalid_change_password[snippets='http-request,http-response']
+operation::member-write-controller-test/회원_비밀번호_초기화[snippets='http-request,request-headers,request-fields,http-response']
 
 === 휴대폰 번호 변경
 
-operation::memberEntity-controller-test/change_phone_number[snippets='http-request,http-response']
-
-==== [ERROR] 유효하지 않은 휴대폰 번호 형식
-
-operation::memberEntity-controller-test/invalid_phone_number[snippets='http-request,http-response']
+operation::member-write-controller-test/회원_휴대폰_번호_변경[snippets='http-request,request-headers,request-fields,http-response']
 
 === 휴대폰 번호 삭제
 
-operation::memberEntity-controller-test/delete_phone_number[snippets='http-request,http-response']
+operation::member-write-controller-test/회원_휴대폰_번호_삭제[snippets='http-request,request-headers,http-response']
 
 === 회원 탈퇴
 
-operation::memberEntity-controller-test/delete_member[snippets='http-request,http-response']
+operation::member-write-controller-test/회원_탈퇴[snippets='http-request,request-headers']

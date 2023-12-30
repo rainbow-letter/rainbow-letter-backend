@@ -75,8 +75,8 @@ public record Member(
     }
 
     public Member update(final MemberStatus status) {
-        if (this.status.equals(MemberStatus.INACTIVE)) {
-            throw new MemberStatusNotValidException(this.status.name());
+        if (status.equals(MemberStatus.INACTIVE)) {
+            throw new MemberStatusNotValidException(status.name());
         }
         return Member.builder()
                 .id(id)

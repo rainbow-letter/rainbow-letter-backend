@@ -8,36 +8,26 @@ import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
 import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import com.handwoong.rainbowletter.member.service.port.OAuthLoginService;
-import java.util.EnumMap;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@RequiredArgsConstructor
 @Transactional
 public class OAuthLoginServiceImpl implements OAuthLoginService {
     private final UuidGenerator uuidGenerator;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-    private final Map<OAuthProvider, OAuthLoginUserParser> parsers = new EnumMap<>(OAuthProvider.class);
-
-    public OAuthLoginServiceImpl(final UuidGenerator uuidGenerator,
-                                 final PasswordEncoder passwordEncoder,
-                                 final MemberRepository memberRepository) {
-        this.uuidGenerator = uuidGenerator;
-        this.passwordEncoder = passwordEncoder;
-        this.memberRepository = memberRepository;
-        parsers.put(OAuthProvider.GOOGLE, new GoogleLoginUserParser());
-    }
+    private final OAuthLoginUserParsingManager parsingManager;
 
     @Override
-    public Member process(final String registrationId, final OAuth2User user) {
+    public Member process(final String registrationId, final OAuth2User oauth2User) {
         final OAuthProvider provider = OAuthProvider.match(registrationId);
-        final OAuthLoginUserParser parser = parsers.get(provider);
-        final MemberRegister request = parser.parseDetails(user, uuidGenerator);
-        final String providerId = parser.parseProviderId(user);
+        final MemberRegister request = parsingManager.getRegisterRequest(provider, oauth2User, uuidGenerator);
+        final String providerId = parsingManager.getProviderId(provider, oauth2User);
         return saveOrUpdate(request, provider, providerId);
     }
 
