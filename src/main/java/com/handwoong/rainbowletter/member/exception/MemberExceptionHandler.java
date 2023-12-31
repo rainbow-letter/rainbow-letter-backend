@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MemberExceptionHandler extends BaseExceptionHandler {
+    @ExceptionHandler({UnAuthorizationException.class})
+    public ResponseEntity<ErrorResponse> unAuthorization(final UnAuthorizationException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode);
+        return createErrorResponse(errorCode);
+    }
+    
     @ExceptionHandler({DuplicateEmailException.class})
     public ResponseEntity<ErrorResponse> duplicateEmail(final DuplicateEmailException exception) {
         final ErrorCode errorCode = exception.getErrorCode();

@@ -3,8 +3,8 @@ package com.handwoong.rainbowletter.common.util.jwt;
 import static com.handwoong.rainbowletter.common.util.TimeConstants.TEN_MINUTE_TO_MILLISECOND;
 import static com.handwoong.rainbowletter.common.util.TimeConstants.TWO_WEEK_TO_MILLISECOND;
 
-import com.handwoong.rainbowletter.common.exception.ErrorCode;
-import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
+import com.handwoong.rainbowletter.common.exception.JwtTokenInvalidException;
+import com.handwoong.rainbowletter.member.exception.UnAuthorizationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -53,7 +53,7 @@ public class JwtTokenProvider {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .findAny()
-                .orElseThrow(() -> new RainbowLetterException(ErrorCode.UN_AUTHORIZE));
+                .orElseThrow(UnAuthorizationException::new);
     }
 
     private String createToken(final String subject, final String claim, final Date expireDate) {
@@ -77,7 +77,7 @@ public class JwtTokenProvider {
         try {
             parseClaims(token);
         } catch (final IllegalArgumentException | JwtException exception) {
-            throw new RainbowLetterException(ErrorCode.INVALID_TOKEN);
+            throw new JwtTokenInvalidException(exception);
         }
     }
 

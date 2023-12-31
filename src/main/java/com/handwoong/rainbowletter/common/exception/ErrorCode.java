@@ -17,25 +17,23 @@ public enum ErrorCode {
     /**
      * 400 BAD REQUEST
      */
+    INVALID_PARAM_VALUE(BAD_REQUEST, "유효하지 않은 쿼리 파라미터 값입니다."),
+    METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
+
     INVALID_EMAIL_FORMAT(BAD_REQUEST, "유효하지 않은 이메일 형식입니다."),
+    INVALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
+    EXISTS_EMAIL(BAD_REQUEST, "이미 존재하는 이메일입니다."),
+
     INVALID_PASSWORD_FORMAT(BAD_REQUEST, "비밀번호는 영문, 숫자를 조합하여 8글자 이상으로 입력해주세요."),
+    FAIL_PASSWORD_COMPARE(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    CHECK_EMAIL_AND_PASSWORD(BAD_REQUEST, "이메일 및 비밀번호를 확인 해주세요."),
+
     INVALID_PHONE_NUMBER_FORMAT(BAD_REQUEST, "유효하지 않은 휴대폰 번호 형식입니다."),
     INVALID_OAUTH_PROVIDER_TYPE(BAD_REQUEST, "유효하지 않은 소셜 로그인 타입입니다."),
-    INVALID_PARAM_VALUE(BAD_REQUEST, "유효하지 않은 쿼리 파라미터 값입니다."),
-    FAIL_PASSWORD_COMPARE(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
-    EXISTS_EMAIL(BAD_REQUEST, "이미 존재하는 이메일입니다."),
-    MAIL_TEMPLATE_NOT_FOUND(BAD_REQUEST, "이메일 템플릿을 찾을 수 없습니다."),
-
-    INVALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
-    METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
-    CHECK_EMAIL_AND_PASSWORD(BAD_REQUEST, "이메일 및 비밀번호를 확인 해주세요."),
-    INVALID_PASSWORD(BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     INVALID_MEMBER_STATUS(BAD_REQUEST, "변경 불가능한 회원 상태입니다."),
-    INVALID_FAQ_ID(BAD_REQUEST, "해당 ID 리소스로 FAQ를 찾지 못했습니다."),
+
+    MAIL_TEMPLATE_NOT_FOUND(BAD_REQUEST, "이메일 템플릿을 찾을 수 없습니다."),
     FAIL_UPLOAD_IMAGE(BAD_REQUEST, "이미지 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요."),
-    INVALID_IMAGE_ID(BAD_REQUEST, "해당 ID 리소스로 이미지를 찾지 못했습니다."),
-    INVALID_PET_ID(BAD_REQUEST, "해당 ID 리소스로 반려 동물을 찾지 못했습니다."),
-    RESOURCE_ID_NOT_FOUND(BAD_REQUEST, "해당 ID로 리소스를 찾지 못했습니다."),
 
     /**
      * 401 UNAUTHORIZED

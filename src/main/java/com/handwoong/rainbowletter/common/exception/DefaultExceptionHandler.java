@@ -9,8 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Order
 @RestControllerAdvice
+@Order
 public class DefaultExceptionHandler extends BaseExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> methodArgumentNotValid(final MethodArgumentNotValidException exception) {

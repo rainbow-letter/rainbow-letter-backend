@@ -2,8 +2,10 @@ package com.handwoong.rainbowletter.mail.domain;
 
 import com.handwoong.rainbowletter.mail.exception.MailTemplateNotFoundException;
 import java.util.Arrays;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public enum MailTemplateType {
     VERIFY("emailVerifyTemplate"),

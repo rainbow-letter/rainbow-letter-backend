@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.common.config.security;
 
-import com.handwoong.rainbowletter.common.exception.RainbowLetterException;
+import com.handwoong.rainbowletter.common.exception.JwtTokenInvalidException;
 import com.handwoong.rainbowletter.common.util.jwt.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.GenericFilter;
@@ -45,7 +45,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilter {
         try {
             final Authentication authentication = tokenProvider.parseToken(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (final RainbowLetterException exception) {
+        } catch (final JwtTokenInvalidException exception) {
             SecurityContextHolder.getContext().setAuthentication(null);
         }
     }
