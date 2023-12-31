@@ -15,8 +15,6 @@ public class ValidateMessage {
     public static final String PET_SPECIES = "반려 동물의 종류는 10자 이하로 입력해 주세요.";
     public static final String PET_OWNER = "주인을 부르는 호칭은 10자 이하로 입력해 주세요.";
     public static final String PET_DEATH_ANNIVERSARY = "날짜가 과거가 아니거나, 형식이 잘못되었습니다.";
+    public static final String PET_PERSONALITY = "반려 동물의 성격은 10자 이하로 입력해 주세요.";
     public static final String PET_PERSONALITY_SIZE = "반려 동물의 성격은 최대 3개까지만 선택 가능합니다.";
-
-    public static final String PASSWORD_FORMAT = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
-    public static final String PHONE_NUMBER_FORMAT = "^01[016789]\\d{7,8}$";
 }

@@ -5,12 +5,28 @@ import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Order
 @RestControllerAdvice
 public class DefaultExceptionHandler extends BaseExceptionHandler {
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity<ErrorResponse> methodArgumentNotValid(final MethodArgumentNotValidException exception) {
+        final ErrorCode errorCode = ErrorCode.METHOD_ARGUMENT_NOT_VALID;
+        final String errorMessage = getValidationFirstMessage(exception);
+        logWarn(errorCode, errorMessage);
+        return createErrorResponse(errorCode, errorMessage);
+    }
+
+    private String getValidationFirstMessage(final MethodArgumentNotValidException exception) {
+        return exception.getBindingResult()
+                .getAllErrors()
+                .get(0)
+                .getDefaultMessage();
+    }
+
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<ErrorResponse> methodNotSupported(final HttpRequestMethodNotSupportedException exception) {
         final ErrorCode errorCode = ErrorCode.NOT_SUPPORT_METHOD;

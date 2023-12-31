@@ -40,20 +40,26 @@ public class FAQRepositoryImpl implements FAQRepository {
     @Override
     public List<FAQ> findAllByUser() {
         final QFAQEntity f = QFAQEntity.fAQEntity;
-        return queryFactory.select(Projections.fields(FAQ.class, f.id, f.summary, f.detail))
+        return queryFactory.select(Projections.fields(FAQEntity.class, f.id, f.summary, f.detail))
                 .from(f)
                 .where(f.visibility.isTrue())
                 .orderBy(f.sequence.asc())
-                .fetch();
+                .fetch()
+                .stream()
+                .map(FAQEntity::toModel)
+                .toList();
     }
 
     @Override
     public List<FAQ> findAllByAdmin() {
         final QFAQEntity f = QFAQEntity.fAQEntity;
-        return queryFactory.select(Projections.fields(FAQ.class, f.id, f.summary, f.detail, f.visibility))
+        return queryFactory.select(Projections.fields(FAQEntity.class, f.id, f.summary, f.detail, f.visibility))
                 .from(f)
                 .orderBy(f.sequence.asc())
-                .fetch();
+                .fetch()
+                .stream()
+                .map(FAQEntity::toModel)
+                .toList();
     }
 
     @Override

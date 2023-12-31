@@ -54,14 +54,15 @@ public class FAQController {
     }
 
     @PutMapping("/sequence/{id}")
-    public ResponseEntity<Void> changeSortIndex(@PathVariable final Long id,
-                                                @RequestBody final FAQChangeSequenceRequest request) {
+    public ResponseEntity<Void> changeSequence(@PathVariable final Long id,
+                                               @RequestBody @Valid final FAQChangeSequenceRequest request) {
         faqService.changeSequence(id, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> edit(@PathVariable final Long id, @RequestBody @Valid final FAQUpdateRequest request) {
+    public ResponseEntity<Void> update(@PathVariable final Long id,
+                                       @RequestBody @Valid final FAQUpdateRequest request) {
         faqService.update(id, request.toDto());
         return new ResponseEntity<>(HttpStatus.OK);
     }

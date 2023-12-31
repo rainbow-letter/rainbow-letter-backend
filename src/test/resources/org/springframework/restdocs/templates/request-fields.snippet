@@ -1,5 +1,5 @@
 |===
-|필드명|타입|필수|설명
+|필드명|타입|필수|설명|조건
 
 {{#fields}}
 
@@ -7,6 +7,7 @@
 |{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
 |{{#tableCellContent}}{{#optional}}false{{/optional}}{{^optional}}true{{/optional}}{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#constraints}}{{constraints}}{{/constraints}}{{/tableCellContent}}
 
 {{/fields}}
 

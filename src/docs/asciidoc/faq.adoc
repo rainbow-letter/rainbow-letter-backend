@@ -1,61 +1,29 @@
 == FAQ
 
-=== FAQ 목록 조회
+=== 일반 사용자 목록 조회
 
-==== 일반 사용자
+operation::faq-controller-test/faq_목록_일반_사용자_조회[snippets='http-request,request-headers,http-response,response-fields']
 
-operation::faq-controller-test/find_faqs[snippets='http-request,http-response']
+=== 관리자 목록 조회
 
-==== 관리자
+operation::faq-controller-test/faq_목록_관리자_조회[snippets='http-request,request-headers,http-response,response-fields']
 
-operation::faq-controller-test/find_admin_faqs[snippets='http-request,http-response']
+=== 생성
 
-=== FAQ 생성
+operation::faq-controller-test/faq_생성[snippets='http-request,request-headers,request-fields,http-response']
 
-*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
+=== 수정
 
-operation::faq-controller-test/create_faq[snippets='http-request,http-response']
+operation::faq-controller-test/faq_업데이트[snippets='http-request,path-parameters,request-headers,request-fields,http-response']
 
-==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 생성 요청
+=== 사용자에게 보이기 여부 변경
 
-operation::faq-controller-test/invalid_role_create_faq[snippets='http-request,http-response']
+operation::faq-controller-test/faq_사용자에게_보이기_여부_변경[snippets='http-request,path-parameters,request-headers,http-response']
 
-=== FAQ 수정
+=== 순서 변경
 
-*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
+operation::faq-controller-test/faq_순서_변경[snippets='http-request,path-parameters,request-headers,request-fields,http-response']
 
-operation::faq-controller-test/edit_faq[snippets='http-request,http-response']
+=== 삭제
 
-==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 수정 요청
-
-operation::faq-controller-test/invalid_role_edit_faq[snippets='http-request,http-response']
-
-=== FAQ 보이기 여부 변경
-
-*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
-
-operation::faq-controller-test/change_visibility_faq[snippets='http-request,http-response']
-
-==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 보이기 여부 변경 요청
-
-operation::faq-controller-test/invalid_role_change_visibility_faq[snippets='http-request,http-response']
-
-=== FAQ 순서 변경
-
-*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
-
-operation::faq-controller-test/change_sequence_faq[snippets='http-request,http-response']
-
-==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 순서 변경 요청
-
-operation::faq-controller-test/invalid_role_change_sequence_faq[snippets='http-request,http-response']
-
-=== FAQ 삭제
-
-*관리자 권한이 있는 사용자의 토큰이 필요합니다.*
-
-operation::faq-controller-test/delete_faq[snippets='http-request,http-response']
-
-==== [ERROR] 관리자 권한이 없는 사용자가 FAQ 삭제 요청
-
-operation::faq-controller-test/invalid_role_delete_faq[snippets='http-request,http-response']
+operation::faq-controller-test/faq_삭제[snippets='http-request,path-parameters,request-headers,http-response']
