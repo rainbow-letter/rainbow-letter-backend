@@ -22,7 +22,7 @@ import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
 import com.handwoong.rainbowletter.member.exception.DuplicateEmailException;
 import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
 import com.handwoong.rainbowletter.member.exception.PasswordNotMatchedException;
-import com.handwoong.rainbowletter.mock.TestContainer;
+import com.handwoong.rainbowletter.mock.member.MemberTestContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.BadCredentialsException;
 
@@ -42,11 +42,11 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         // when
-        final Member findMember = testContainer.memberService.findByEmailOrElseThrow(email);
+        final Member findMember = testContainer.service.findByEmailOrElseThrow(email);
 
         // then
         assertThat(findMember.id()).isEqualTo(1);
@@ -62,12 +62,12 @@ class MemberServiceTest {
     @Test
     void 이메일로_회원을_찾지못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Email email = new Email("handwoong@gmail.com");
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.findByEmailOrElseThrow(email))
+        assertThatThrownBy(() -> testContainer.service.findByEmailOrElseThrow(email))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -87,11 +87,11 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         // when
-        final Member infoMember = testContainer.memberService.info(email);
+        final Member infoMember = testContainer.service.info(email);
 
         // then
         assertThat(infoMember.id()).isEqualTo(1);
@@ -107,12 +107,12 @@ class MemberServiceTest {
     @Test
     void 이메일로_회원의_정보를_조회하지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Email email = new Email("handwoong@gmail.com");
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.info(email))
+        assertThatThrownBy(() -> testContainer.service.info(email))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -120,14 +120,14 @@ class MemberServiceTest {
     @Test
     void 회원을_생성한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final MemberRegister request = MemberRegister.builder()
                 .email(new Email("handwoong@gmail.com"))
                 .password(new Password("@password1"))
                 .build();
 
         // when
-        final Member member = testContainer.memberService.register(request);
+        final Member member = testContainer.service.register(request);
 
         // then
         assertThat(member.id()).isEqualTo(1);
@@ -155,8 +155,8 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         final MemberRegister request = MemberRegister.builder()
                 .email(email)
@@ -165,7 +165,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.register(request))
+        assertThatThrownBy(() -> testContainer.service.register(request))
                 .isInstanceOf(DuplicateEmailException.class)
                 .hasMessage("이미 존재하는 이메일입니다.");
     }
@@ -173,11 +173,11 @@ class MemberServiceTest {
     @Test
     void 가입된_이메일이_없으면_FALSE를_반환한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Email email = new Email("handwoong@gmail.com");
 
         // when
-        final boolean result = testContainer.memberService.existsByEmail(email);
+        final boolean result = testContainer.service.existsByEmail(email);
 
         // then
         assertThat(result).isFalse();
@@ -198,11 +198,11 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         // when
-        final boolean result = testContainer.memberService.existsByEmail(email);
+        final boolean result = testContainer.service.existsByEmail(email);
 
         // then
         assertThat(result).isTrue();
@@ -223,8 +223,8 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         final MemberLogin request = MemberLogin.builder()
                 .email(email)
@@ -232,7 +232,7 @@ class MemberServiceTest {
                 .build();
 
         // when
-        final TokenResponse result = testContainer.memberService.login(request);
+        final TokenResponse result = testContainer.service.login(request);
 
         // then
         assertThat(result.grantType()).isEqualTo(GrantType.BEARER.getName());
@@ -254,8 +254,8 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         final MemberLogin request = MemberLogin.builder()
                 .email(new Email("handwoong@naver.com"))
@@ -264,7 +264,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.login(request))
+        assertThatThrownBy(() -> testContainer.service.login(request))
                 .isInstanceOf(BadCredentialsException.class)
                 .hasMessage("자격 증명에 실패하였습니다.");
     }
@@ -284,8 +284,8 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         final MemberLogin request = MemberLogin.builder()
                 .email(email)
@@ -294,7 +294,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.login(request))
+        assertThatThrownBy(() -> testContainer.service.login(request))
                 .isInstanceOf(BadCredentialsException.class)
                 .hasMessage("자격 증명에 실패하였습니다.");
     }
@@ -314,15 +314,15 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
-        testContainer.memberRepository.save(member);
+        final MemberTestContainer testContainer = new MemberTestContainer();
+        testContainer.repository.save(member);
 
         final FindPassword request = FindPassword.builder()
                 .email(email)
                 .build();
 
         // when
-        final MailDto result = testContainer.memberService.findPassword(request);
+        final MailDto result = testContainer.service.findPassword(request);
 
         // then
         assertThat(result.email()).hasToString("handwoong@gmail.com");
@@ -336,11 +336,11 @@ class MemberServiceTest {
                 .email(email)
                 .build();
 
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.findPassword(request))
+        assertThatThrownBy(() -> testContainer.service.findPassword(request))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -348,7 +348,7 @@ class MemberServiceTest {
     @Test
     void 회원의_비밀번호를_변경한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
         final Password password = new Password("@password1");
@@ -362,7 +362,7 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         final ChangePassword request = ChangePassword.builder()
                 .password(password)
@@ -370,7 +370,7 @@ class MemberServiceTest {
                 .build();
 
         // when
-        final Member updateMember = testContainer.memberService.changePassword(email, request);
+        final Member updateMember = testContainer.service.changePassword(email, request);
 
         // then
         assertThat(updateMember.id()).isEqualTo(1);
@@ -386,7 +386,7 @@ class MemberServiceTest {
     @Test
     void 회원_비밀번호_변경시_회원을_찾지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
 
@@ -394,7 +394,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.changePassword(email, request))
+        assertThatThrownBy(() -> testContainer.service.changePassword(email, request))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -402,7 +402,7 @@ class MemberServiceTest {
     @Test
     void 회원_비밀번호_변경시_기존_비밀번호가_일치하지_않으면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
         final Password password = new Password("@password1");
@@ -416,7 +416,7 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         final ChangePassword request = ChangePassword.builder()
                 .password(new Password("pass1234"))
@@ -425,7 +425,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.changePassword(email, request))
+        assertThatThrownBy(() -> testContainer.service.changePassword(email, request))
                 .isInstanceOf(PasswordNotMatchedException.class)
                 .hasMessage("비밀번호가 일치하지 않습니다.");
     }
@@ -433,7 +433,7 @@ class MemberServiceTest {
     @Test
     void 회원_비밀번호를_초기화한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
         final Password password = new Password("@password1");
@@ -447,14 +447,14 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         final ResetPassword request = ResetPassword.builder()
                 .newPassword(new Password("pass1234"))
                 .build();
 
         // when
-        final Member updateMember = testContainer.memberService.resetPassword(email, request);
+        final Member updateMember = testContainer.service.resetPassword(email, request);
 
         // then
         assertThat(updateMember.id()).isEqualTo(1);
@@ -470,7 +470,7 @@ class MemberServiceTest {
     @Test
     void 회원_비밀번호_초기화시_회원을_찾지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
 
@@ -478,7 +478,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.resetPassword(email, request))
+        assertThatThrownBy(() -> testContainer.service.resetPassword(email, request))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -486,7 +486,7 @@ class MemberServiceTest {
     @Test
     void 회원_휴대폰_번호를_변경한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
         final Password password = new Password("@password1");
@@ -500,14 +500,14 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         final PhoneNumberUpdate request = PhoneNumberUpdate.builder()
                 .phoneNumber(new PhoneNumber("01011112222"))
                 .build();
 
         // when
-        final Member updateMember = testContainer.memberService.updatePhoneNumber(email, request);
+        final Member updateMember = testContainer.service.updatePhoneNumber(email, request);
 
         // then
         assertThat(updateMember.id()).isEqualTo(1);
@@ -523,7 +523,7 @@ class MemberServiceTest {
     @Test
     void 회원_휴대폰_번호_변경시_회원을_찾지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
 
@@ -531,7 +531,7 @@ class MemberServiceTest {
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.updatePhoneNumber(email, request))
+        assertThatThrownBy(() -> testContainer.service.updatePhoneNumber(email, request))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -539,7 +539,7 @@ class MemberServiceTest {
     @Test
     void 회원_휴대폰_번호를_삭제한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
         final Password password = new Password("@password1");
@@ -553,10 +553,10 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         // when
-        final Member updateMember = testContainer.memberService.deletePhoneNumber(email);
+        final Member updateMember = testContainer.service.deletePhoneNumber(email);
 
         // then
         assertThat(updateMember.id()).isEqualTo(1);
@@ -572,13 +572,13 @@ class MemberServiceTest {
     @Test
     void 회원_휴대폰_번호_삭제시_회원을_찾지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.deletePhoneNumber(email))
+        assertThatThrownBy(() -> testContainer.service.deletePhoneNumber(email))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }
@@ -586,7 +586,7 @@ class MemberServiceTest {
     @Test
     void 회원을_탈퇴_처리한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
         final Password password = new Password("@password1");
@@ -600,10 +600,10 @@ class MemberServiceTest {
                 .providerId(OAuthProvider.NONE.name())
                 .build();
 
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         // when
-        final Member updateMember = testContainer.memberService.delete(email);
+        final Member updateMember = testContainer.service.delete(email);
 
         // then
         assertThat(updateMember.id()).isEqualTo(1);
@@ -619,13 +619,13 @@ class MemberServiceTest {
     @Test
     void 회원_탈퇴시_회원을_찾지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Email email = new Email("handwoong@gmail.com");
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.memberService.delete(email))
+        assertThatThrownBy(() -> testContainer.service.delete(email))
                 .isInstanceOf(MemberEmailNotFoundException.class)
                 .hasMessage("해당 회원을 찾을 수 없습니다.");
     }

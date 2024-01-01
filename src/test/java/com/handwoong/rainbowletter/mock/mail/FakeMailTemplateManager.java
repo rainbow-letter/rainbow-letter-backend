@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mock;
+package com.handwoong.rainbowletter.mock.mail;
 
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.dto.MailTemplate;

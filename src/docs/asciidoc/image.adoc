@@ -2,34 +2,6 @@
 
 === 이미지 등록
 
-==== HTTP request
+이미지 파일 바이너리 데이터가 너무 길어 curl request로 대체하였습니다.
 
-[source,http,options="nowrap"]
-----
-POST /api/images/upload?type=pet HTTP/1.1
-Authorization: Bearer 토큰
-Content-Type: multipart/form-data
-----
-
-예제
-
-[source,javascript]
-----
-const imageFile = "<input> file";
-
-const formData = new FormData();
-formData.append("file", imageFile);
-
-// ...fetch
-----
-
-==== HTTP response
-
-[source,http,options="nowrap"]
-----
-HTTP/1.1 201 CREATED
-
-{
-    "id": 1
-}
-----
+operation::image-controller-test/이미지_업로드[snippets='curl-request,query-parameters,request-headers,request-parts,http-response,response-fields']

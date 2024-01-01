@@ -1,6 +1,5 @@
 package com.handwoong.rainbowletter.image.service;
 
-import com.handwoong.rainbowletter.common.config.aws.S3Config;
 import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.image.controller.port.ImageService;
 import com.handwoong.rainbowletter.image.domain.Image;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ImageServiceImpl implements ImageService {
-    private final S3Config s3Config;
     private final UuidGenerator uuidGenerator;
     private final AmazonS3Service amazonS3Service;
     private final ImageRepository imageRepository;
@@ -32,18 +30,18 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Image findById(@Nullable final Long id) {
-        if (Objects.nonNull(id)) {
-            return findByIdOrElseThrow(id);
+        if (Objects.isNull(id)) {
+            return null;
         }
-        return null;
+        return findByIdOrElseThrow(id);
     }
 
     @Override
     @Transactional
     public Image upload(final MultipartFile file, final ImageType type) {
         final String objectKey = uuidGenerator.generate();
-        final String imageUrl = amazonS3Service.upload(file, s3Config.getBucketName(), objectKey);
-        final Image image = Image.create(type, objectKey, s3Config.getBucketName(), imageUrl);
+        final String imageUrl = amazonS3Service.upload(file, objectKey);
+        final Image image = Image.create(type, objectKey, amazonS3Service.getBucketName(), imageUrl);
         return imageRepository.save(image);
     }
 

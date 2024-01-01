@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mock;
+package com.handwoong.rainbowletter.mock.member;
 
 import com.handwoong.rainbowletter.common.util.jwt.GrantType;
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;

@@ -8,7 +8,7 @@ import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberRole;
 import com.handwoong.rainbowletter.member.domain.MemberStatus;
 import com.handwoong.rainbowletter.member.domain.Password;
-import com.handwoong.rainbowletter.mock.TestContainer;
+import com.handwoong.rainbowletter.mock.member.MemberTestContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +17,7 @@ class CustomUserDetailsServiceTest {
     @Test
     void 이메일로_회원을_찾으면_UserDetails를_생성한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
 
         final Member member = Member.builder()
                 .email(new Email("handwoong@gmail.com"))
@@ -25,10 +25,10 @@ class CustomUserDetailsServiceTest {
                 .role(MemberRole.ROLE_USER)
                 .status(MemberStatus.ACTIVE)
                 .build();
-        testContainer.memberRepository.save(member);
+        testContainer.repository.save(member);
 
         final CustomUserDetailsService userDetailsService =
-                new CustomUserDetailsService(testContainer.memberRepository);
+                new CustomUserDetailsService(testContainer.repository);
 
         // when
         final UserDetails userDetails = userDetailsService.loadUserByUsername("handwoong@gmail.com");
@@ -46,9 +46,9 @@ class CustomUserDetailsServiceTest {
     @Test
     void 이메일로_회원을_찾지_못하면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final CustomUserDetailsService userDetailsService =
-                new CustomUserDetailsService(testContainer.memberRepository);
+                new CustomUserDetailsService(testContainer.repository);
 
         // when
         // then

@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.handwoong.rainbowletter.member.exception.PasswordFormatNotValidException;
 import com.handwoong.rainbowletter.member.exception.PasswordNotMatchedException;
-import com.handwoong.rainbowletter.mock.TestContainer;
+import com.handwoong.rainbowletter.mock.member.MemberTestContainer;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -45,7 +45,7 @@ class PasswordTest {
     @ValueSource(strings = {"password1", "@password1", "pass1234", "@pass123"})
     void 비밀번호_암호화에_성공한다(final String password) {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Password pwd = new Password(password);
 
         // when
@@ -59,7 +59,7 @@ class PasswordTest {
     @ValueSource(strings = {"password1", "@password1", "pass1234", "@pass123"})
     void 암호화된_비밀번호와_평문_비밀번호가_일치_여부_검사에_성공한다(final String password) {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Password pwd = new Password(password);
         final Password encoded = pwd.encode(testContainer.passwordEncoder);
 
@@ -72,13 +72,14 @@ class PasswordTest {
     @ValueSource(strings = {"password1", "@password1", "pass1234", "@pass123"})
     void 암호화된_비밀번호와_평문_비밀번호가_일치하지_않으면_예외가_발생한다(final String password) {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Password pwd = new Password(password);
         final Password encoded = pwd.encode(testContainer.passwordEncoder);
+        final Password invalidPassword = new Password("FAIL" + password);
 
         // when
         // then
-        assertThatThrownBy(() -> encoded.compare(testContainer.passwordEncoder, new Password("FAIL" + password)))
+        assertThatThrownBy(() -> encoded.compare(testContainer.passwordEncoder, invalidPassword))
                 .isInstanceOf(PasswordNotMatchedException.class)
                 .hasMessage("비밀번호가 일치하지 않습니다.");
     }

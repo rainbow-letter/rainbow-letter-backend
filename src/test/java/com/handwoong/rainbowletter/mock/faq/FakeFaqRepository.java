@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mock;
+package com.handwoong.rainbowletter.mock.faq;
 
 import com.handwoong.rainbowletter.faq.domain.FAQ;
 import com.handwoong.rainbowletter.faq.service.port.FAQRepository;

@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mock;
+package com.handwoong.rainbowletter.mock.member;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

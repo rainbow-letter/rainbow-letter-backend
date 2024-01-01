@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.favorite.exception.FavoriteIncreaseNotValidException;
-import com.handwoong.rainbowletter.mock.FakeFavoriteRepository;
-import com.handwoong.rainbowletter.mock.TestContainer;
+import com.handwoong.rainbowletter.mock.favorite.FakeFavoriteRepository;
+import com.handwoong.rainbowletter.mock.favorite.FavoriteTestContainer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
@@ -15,10 +15,10 @@ class FavoriteServiceTest {
     @Test
     void 좋아요를_생성한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final FavoriteTestContainer testContainer = new FavoriteTestContainer();
 
         // when
-        final Favorite favorite = testContainer.favoriteService.create();
+        final Favorite favorite = testContainer.service.create();
 
         // then
         assertThat(favorite.id()).isEqualTo(1);
@@ -31,11 +31,11 @@ class FavoriteServiceTest {
     @Test
     void 좋아요를_증가시킨다() {
         // given
-        final TestContainer testContainer = new TestContainer();
-        testContainer.favoriteService.create();
+        final FavoriteTestContainer testContainer = new FavoriteTestContainer();
+        testContainer.service.create();
 
         // when
-        final Favorite increasedFavorite = testContainer.favoriteService.increase(1L);
+        final Favorite increasedFavorite = testContainer.service.increase(1L);
 
         // then
         assertThat(increasedFavorite.id()).isEqualTo(1);

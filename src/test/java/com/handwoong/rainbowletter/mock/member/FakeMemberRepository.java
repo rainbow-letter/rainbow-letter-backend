@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mock;
+package com.handwoong.rainbowletter.mock.member;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;

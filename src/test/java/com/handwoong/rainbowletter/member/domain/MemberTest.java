@@ -9,7 +9,7 @@ import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;
 import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
 import com.handwoong.rainbowletter.member.exception.MemberStatusNotValidException;
 import com.handwoong.rainbowletter.member.exception.PasswordNotMatchedException;
-import com.handwoong.rainbowletter.mock.TestContainer;
+import com.handwoong.rainbowletter.mock.member.MemberTestContainer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -20,7 +20,7 @@ class MemberTest {
     @Test
     void 일반_회원을_생성한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final MemberRegister request = MemberRegister.builder()
                 .email(new Email("handwoong@gmail.com"))
                 .password(new Password("@password1"))
@@ -42,7 +42,7 @@ class MemberTest {
     @Test
     void 소셜_회원을_생성한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final MemberRegister request = MemberRegister.builder()
                 .email(new Email("handwoong@gmail.com"))
                 .password(new Password("@password1"))
@@ -206,7 +206,7 @@ class MemberTest {
     @Test
     void 회원의_비밀번호를_변경한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Member member = Member.builder()
                 .id(1L)
                 .email(new Email("handwoong@gmail.com"))
@@ -239,7 +239,7 @@ class MemberTest {
     @Test
     void 회원_비밀번호_변경_시_기존_비밀번호가_일치하지_않으면_예외가_발생한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Member member = Member.builder()
                 .id(1L)
                 .email(new Email("handwoong@gmail.com"))
@@ -265,7 +265,7 @@ class MemberTest {
     @Test
     void 회원_비밀번호를_새로_초기화한다() {
         // given
-        final TestContainer testContainer = new TestContainer();
+        final MemberTestContainer testContainer = new MemberTestContainer();
         final Member member = Member.builder()
                 .id(1L)
                 .email(new Email("handwoong@gmail.com"))

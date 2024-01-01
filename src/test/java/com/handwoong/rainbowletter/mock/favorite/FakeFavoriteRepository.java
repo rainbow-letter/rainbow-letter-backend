@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.mock;
+package com.handwoong.rainbowletter.mock.favorite;
 
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
