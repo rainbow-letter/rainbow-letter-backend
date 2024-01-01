@@ -35,6 +35,8 @@ public enum ErrorCode {
     MAIL_TEMPLATE_NOT_FOUND(BAD_REQUEST, "이메일 템플릿을 찾을 수 없습니다."),
     FAIL_UPLOAD_IMAGE(BAD_REQUEST, "이미지 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요."),
 
+    INVALID_FAVORITE_INCREASE(BAD_REQUEST, "하루 최대 좋아요 수를 달성하였습니다."),
+
     /**
      * 401 UNAUTHORIZED
      */

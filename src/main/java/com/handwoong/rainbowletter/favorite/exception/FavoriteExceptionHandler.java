@@ -18,4 +18,11 @@ public class FavoriteExceptionHandler extends BaseExceptionHandler {
         logWarn(errorCode, exception.getId().toString());
         return createErrorResponse(errorCode);
     }
+
+    @ExceptionHandler({FavoriteIncreaseNotValidException.class})
+    public ResponseEntity<ErrorResponse> favoriteIncreaseNotValid(final FavoriteIncreaseNotValidException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode);
+        return createErrorResponse(errorCode);
+    }
 }

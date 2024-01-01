@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
@@ -27,12 +28,16 @@ public class FavoriteEntity extends BaseEntity {
     @NotNull
     private boolean canIncrease;
 
+    @NotNull
+    private LocalDateTime lastIncreaseAt;
+
     public static FavoriteEntity from(final Favorite favorite) {
         final FavoriteEntity favoriteEntity = new FavoriteEntity();
         favoriteEntity.id = favorite.id();
         favoriteEntity.total = favorite.total();
         favoriteEntity.dayIncreaseCount = favorite.dayIncreaseCount();
         favoriteEntity.canIncrease = favorite.canIncrease();
+        favoriteEntity.lastIncreaseAt = favorite.lastIncreaseAt();
         return favoriteEntity;
     }
 
@@ -42,7 +47,7 @@ public class FavoriteEntity extends BaseEntity {
                 .total(total)
                 .dayIncreaseCount(dayIncreaseCount)
                 .canIncrease(canIncrease)
-                .updatedAt(getUpdatedAt())
+                .lastIncreaseAt(lastIncreaseAt)
                 .build();
     }
 }

@@ -25,9 +25,10 @@ public class FavoriteServiceImpl implements FavoriteService {
     public Favorite increase(final Long id) {
         final Favorite favorite = favoriteRepository.findById(id)
                 .orElseThrow(() -> new FavoriteResourceNotFoundException(id));
-        final Favorite initFavorite = favorite.initDayIncreaseCount();
-        final Favorite updateFavorite = initFavorite.increase();
-        favoriteRepository.save(updateFavorite);
-        return updateFavorite;
+
+        final Favorite resetFavorite = favorite.resetDayIncreaseCount();
+        final Favorite incrementedFavorite = resetFavorite.increase();
+        favoriteRepository.save(incrementedFavorite);
+        return incrementedFavorite;
     }
 }

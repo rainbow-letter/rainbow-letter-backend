@@ -10,7 +10,7 @@ import com.handwoong.rainbowletter.mock.TestContainer;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Test;
 
-class MailServiceImplTest {
+class MailServiceTest {
     @Test
     void 메일을_발송한다() throws MessagingException {
         // given

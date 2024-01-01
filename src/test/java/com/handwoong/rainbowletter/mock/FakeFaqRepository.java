@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class FakeFaqRepository implements FAQRepository {
@@ -15,27 +16,26 @@ public class FakeFaqRepository implements FAQRepository {
 
     @Override
     public FAQ save(final FAQ faq) {
-        if (faq.id() != null) {
-            final FAQ updateFaq = FAQ.builder()
-                    .id(faq.id())
-                    .summary(faq.summary())
-                    .detail(faq.detail())
-                    .visibility(faq.visibility())
-                    .sequence(faq.sequence())
-                    .build();
-            database.put(faq.id(), updateFaq);
-            return updateFaq;
+        final boolean idExists = Objects.nonNull(faq.id());
+        final Long id = idExists ? faq.id() : sequence;
+        final Long newSequence = idExists ? faq.sequence() : sequence;
+
+        final FAQ saveFaq = createFAQ(id, newSequence, faq);
+        database.put(id, saveFaq);
+        if (!idExists) {
+            sequence++;
         }
-        final FAQ saveFaq = FAQ.builder()
-                .id(sequence)
+        return saveFaq;
+    }
+
+    private FAQ createFAQ(final Long id, final Long sequence, final FAQ faq) {
+        return FAQ.builder()
+                .id(id)
                 .summary(faq.summary())
                 .detail(faq.detail())
                 .visibility(faq.visibility())
                 .sequence(sequence)
                 .build();
-        database.put(sequence, saveFaq);
-        sequence++;
-        return saveFaq;
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class FAQServiceImplTest {
+class FAQServiceTest {
     @Test
     void 사용자용_FAQ_목록을_조회한다() {
         // given
