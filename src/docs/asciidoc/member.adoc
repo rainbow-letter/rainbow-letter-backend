@@ -57,4 +57,4 @@ operation::member-write-controller-test/회원_휴대폰_번호_삭제[snippets=
 
 === 회원 탈퇴
 
-operation::member-write-controller-test/회원_탈퇴[snippets='http-request,request-headers']
+operation::member-write-controller-test/회원_탈퇴[snippets='http-request,request-headers,http-response']
