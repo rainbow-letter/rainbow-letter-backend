@@ -1,89 +1,25 @@
 == 반려 동물
 
-=== 반려 동물 생성
+=== 반려 동물 목록 조회
 
-operation::pet-controller-test/create_pet[snippets='http-request']
-
-[cols="1,1,1"]
-|===
-| 프로퍼티 | 설명 | 조건
-
-| name
-| 반려 동물의 이름
-| 20자 이내 문자열
-
-| species
-| 반려 동물의 종류
-| 10자 이내 문자열
-
-| owner
-| 주인을 부르는 호칭
-| 10자 이내 문자열
-
-| personality
-| 반려 동물의 성격
-| 10자 이내의 문자 배열
-
-| deathAnniversary
-| 반려 동물 기일
-| *yyyy-MM-dd 형식의 문자열 가능*
-
-| image
-| 반려 동물 사진
-| 이미지 등록 응답 ID
-|===
-
-예제
-
-[source,javascript]
-----
-const petInfo = {
-    name: "두부",
-    species: "고양이",
-    owner: "형님",
-    personality: ["귀여움"],
-    deathAnniversary: "2023-12-23",
-    image: 1
-}
-
-// ...fetch
-----
-
-operation::pet-controller-test/create_pet[snippets='http-response']
+operation::pet-controller-test/반려동물_목록_조회[snippets='http-request,request-headers,http-response,response-fields']
 
 === 반려 동물 단건 조회
 
-operation::pet-controller-test/info_pet[snippets='http-request,http-response']
+operation::pet-controller-test/반려동물_단건_조회[snippets='http-request,path-parameters,request-headers,http-response,response-fields']
 
-=== 반려 동물 목록 조회
+=== 반려 동물 생성
 
-operation::pet-controller-test/info_pets[snippets='http-request,http-response']
+operation::pet-controller-test/반려동물_생성[snippets='http-request,request-headers,request-fields,http-response']
 
-=== 반려 동물 정보 수정
+=== 반려 동물 수정
 
-반려 동물 생성과 동일합니다. +
-*이미지 변경 시 기존 이미지가 있는 경우 이미지 삭제를 먼저 진행해주세요.*
-
-operation::pet-controller-test/edit_pet[snippets='http-request,http-response']
+operation::pet-controller-test/반려동물_업데이트[snippets='http-request,path-parameters,request-headers,request-fields,http-response']
 
 === 반려 동물 이미지 삭제
 
-==== HTTP request
-
-[source,http,options="nowrap"]
-----
-DELETE /api/pets/1/image HTTP/1.1
-Authorization: Bearer TOKEN
-Content-Type: application/json
-----
-
-==== HTTP response
-
-[source,http,options="nowrap"]
-----
-HTTP/1.1 200 OK
-----
+operation::pet-controller-test/반려동물_이미지_삭제[snippets='http-request,path-parameters,request-headers,http-response']
 
 === 반려 동물 삭제
 
-operation::pet-controller-test/delete_pet[snippets='http-request,http-response']
+operation::pet-controller-test/반려동물_삭제[snippets='http-request,path-parameters,request-headers,http-response']

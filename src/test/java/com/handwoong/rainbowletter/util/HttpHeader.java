@@ -16,7 +16,9 @@ enum HttpHeader {
     KEEP_ALIVE("Keep-Alive"),
     CONNECTION("Connection"),
     HOST("Host"),
-    DATE("Date");
+    DATE("Date"),
+    CONTENT_LENGTH("Content-Length"),
+    ;
 
     private final String header;
 
