@@ -10,7 +10,7 @@ public record PetCreate(
         String name,
         String species,
         String owner,
-        Set<String> personality,
+        Set<String> personalities,
         @Nullable LocalDate deathAnniversary,
         @Nullable Long image
 ) {

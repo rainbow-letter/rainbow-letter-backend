@@ -39,7 +39,7 @@ public class PetController {
     @GetMapping("/{id}")
     public ResponseEntity<PetResponse> findByIdAndEmail(@PathVariable final Long id) {
         final Email email = SecurityUtils.getAuthenticationUsername();
-        final Pet pet = petService.findByEmailAndId(email, id);
+        final Pet pet = petService.findByEmailAndIdOrElseThrow(email, id);
         final PetResponse response = PetResponse.from(pet);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

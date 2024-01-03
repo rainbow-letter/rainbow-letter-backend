@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.member.controller.request;
 
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.EMPTY_MESSAGE;
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.PHONE_NUMBER_MESSAGE;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.EMPTY_MESSAGE;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PHONE_NUMBER_MESSAGE;
 
 import com.handwoong.rainbowletter.member.domain.PhoneNumber;
 import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;

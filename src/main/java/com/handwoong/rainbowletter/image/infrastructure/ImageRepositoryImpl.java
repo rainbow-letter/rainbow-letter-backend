@@ -20,4 +20,9 @@ public class ImageRepositoryImpl implements ImageRepository {
     public Image save(final Image image) {
         return imageJpaRepository.save(ImageEntity.from(image)).toModel();
     }
+
+    @Override
+    public void delete(final Image image) {
+        imageJpaRepository.delete(ImageEntity.from(image));
+    }
 }

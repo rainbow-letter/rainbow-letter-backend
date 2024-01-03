@@ -13,7 +13,7 @@ public record PetResponse(
         String name,
         String species,
         String owner,
-        Set<String> personality,
+        Set<String> personalities,
         LocalDate deathAnniversary,
         ImageResponse image,
         FavoriteResponse favorite
@@ -24,7 +24,7 @@ public record PetResponse(
                 .name(pet.name())
                 .species(pet.species())
                 .owner(pet.owner())
-                .personality(pet.personality())
+                .personalities(pet.personalities())
                 .deathAnniversary(pet.deathAnniversary())
                 .image(ImageResponse.from(pet.image()))
                 .favorite(FavoriteResponse.from(pet.favorite()))

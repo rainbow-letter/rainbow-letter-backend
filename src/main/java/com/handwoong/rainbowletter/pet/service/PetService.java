@@ -9,8 +9,6 @@ import java.util.List;
 public interface PetService {
     Pet findByEmailAndIdOrElseThrow(Email email, Long id);
 
-    Pet findByEmailAndId(Email email, Long id);
-
     List<Pet> findAllByEmail(Email email);
 
     Pet create(Email email, PetCreate request);

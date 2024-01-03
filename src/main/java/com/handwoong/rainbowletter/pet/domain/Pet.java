@@ -7,7 +7,6 @@ import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import jakarta.annotation.Nullable;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.Set;
 import lombok.Builder;
 
@@ -17,7 +16,7 @@ public record Pet(
         String name,
         String species,
         String owner,
-        Set<String> personality,
+        Set<String> personalities,
         @Nullable LocalDate deathAnniversary,
         @Nullable Image image,
         Member member,
@@ -28,7 +27,7 @@ public record Pet(
                 .name(request.name())
                 .species(request.species())
                 .owner(request.owner())
-                .personality(request.personality())
+                .personalities(request.personalities())
                 .deathAnniversary(request.deathAnniversary())
                 .image(image)
                 .member(member)
@@ -42,9 +41,9 @@ public record Pet(
                 .name(name)
                 .species(request.species())
                 .owner(request.owner())
-                .personality(request.personality())
+                .personalities(request.personalities())
                 .deathAnniversary(request.deathAnniversary())
-                .image(Objects.nonNull(image) ? image : this.image)
+                .image(image)
                 .member(member)
                 .favorite(favorite)
                 .build();
@@ -56,7 +55,7 @@ public record Pet(
                 .name(name)
                 .species(species)
                 .owner(owner)
-                .personality(personality)
+                .personalities(personalities)
                 .deathAnniversary(deathAnniversary)
                 .favorite(favorite)
                 .member(member)
@@ -64,13 +63,13 @@ public record Pet(
                 .build();
     }
 
-    public Pet clean() {
+    public Pet clear() {
         return Pet.builder()
                 .id(id)
                 .name(name)
                 .species(species)
                 .owner(owner)
-                .personality(personality)
+                .personalities(personalities)
                 .deathAnniversary(deathAnniversary)
                 .favorite(favorite)
                 .member(null)

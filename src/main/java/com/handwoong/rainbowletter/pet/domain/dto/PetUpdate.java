@@ -9,7 +9,7 @@ import lombok.Builder;
 public record PetUpdate(
         String species,
         String owner,
-        Set<String> personality,
+        Set<String> personalities,
         @Nullable LocalDate deathAnniversary,
         @Nullable Long image
 ) {

@@ -37,4 +37,9 @@ public class FakeImageRepository implements ImageRepository {
                 .objectKey(image.objectKey())
                 .build();
     }
+
+    @Override
+    public void delete(final Image image) {
+        database.remove(image.id());
+    }
 }

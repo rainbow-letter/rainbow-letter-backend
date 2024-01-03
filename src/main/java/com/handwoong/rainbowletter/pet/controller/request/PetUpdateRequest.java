@@ -1,11 +1,11 @@
 package com.handwoong.rainbowletter.pet.controller.request;
 
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.EMPTY_MESSAGE;
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.PET_DEATH_ANNIVERSARY;
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.PET_OWNER;
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.PET_PERSONALITY;
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.PET_PERSONALITY_SIZE;
-import static com.handwoong.rainbowletter.common.util.ValidateMessage.PET_SPECIES;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.EMPTY_MESSAGE;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_DEATH_ANNIVERSARY;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_OWNER;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_PERSONALITY;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_PERSONALITY_SIZE;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_SPECIES;
 
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import jakarta.annotation.Nullable;
@@ -25,7 +25,7 @@ public record PetUpdateRequest(
         String owner,
 
         @Size(max = 3, message = PET_PERSONALITY_SIZE)
-        Set<@NotBlank(message = EMPTY_MESSAGE) @Size(max = 10, message = PET_PERSONALITY) String> personality,
+        Set<@NotBlank(message = EMPTY_MESSAGE) @Size(max = 10, message = PET_PERSONALITY) String> personalities,
 
         @Nullable
         @Past(message = PET_DEATH_ANNIVERSARY)
@@ -38,7 +38,7 @@ public record PetUpdateRequest(
         return PetUpdate.builder()
                 .species(species)
                 .owner(owner)
-                .personality(personality)
+                .personalities(personalities)
                 .deathAnniversary(deathAnniversary)
                 .image(image)
                 .build();

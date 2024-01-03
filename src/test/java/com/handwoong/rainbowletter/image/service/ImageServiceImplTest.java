@@ -121,6 +121,7 @@ class ImageServiceImplTest {
     void 이미지를_삭제한다() {
         // given
         final Image image = Image.builder()
+                .id(1L)
                 .type(ImageType.PET)
                 .bucket("rainbowletter")
                 .objectKey("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")

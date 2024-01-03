@@ -9,7 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Getter;
+import org.hibernate.Hibernate;
 
 @Getter
 @Entity
@@ -49,5 +51,22 @@ public class FavoriteEntity extends BaseEntity {
                 .canIncrease(canIncrease)
                 .lastIncreaseAt(lastIncreaseAt)
                 .build();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (Objects.isNull(obj) || Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+        FavoriteEntity entity = (FavoriteEntity) obj;
+        return Objects.nonNull(id) && Objects.equals(id, entity.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.nonNull(id) ? id.intValue() : 0;
     }
 }

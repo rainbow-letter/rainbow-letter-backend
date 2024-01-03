@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.common.util;
+package com.handwoong.rainbowletter.common.util.validation;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,4 +17,5 @@ public class ValidateMessage {
     public static final String PET_DEATH_ANNIVERSARY = "날짜가 과거가 아니거나, 형식이 잘못되었습니다.";
     public static final String PET_PERSONALITY = "반려 동물의 성격은 10자 이하로 입력해 주세요.";
     public static final String PET_PERSONALITY_SIZE = "반려 동물의 성격은 최대 3개까지만 선택 가능합니다.";
+    public static final String IMAGE_EMPTY = "이미지를 등록해주세요.";
 }

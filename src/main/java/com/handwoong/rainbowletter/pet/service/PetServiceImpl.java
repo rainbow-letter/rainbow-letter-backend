@@ -33,11 +33,6 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Pet findByEmailAndId(final Email email, final Long id) {
-        return findByEmailAndIdOrElseThrow(email, id);
-    }
-
-    @Override
     public List<Pet> findAllByEmail(final Email email) {
         return petRepository.findAllByEmail(email);
     }
@@ -76,7 +71,7 @@ public class PetServiceImpl implements PetService {
     @Transactional
     public void delete(final Email email, final Long id) {
         final Pet pet = findByEmailAndIdOrElseThrow(email, id);
-        final Pet cleanPet = pet.clean();
-        petRepository.delete(cleanPet);
+        final Pet clearedPet = pet.clear();
+        petRepository.delete(clearedPet);
     }
 }

@@ -11,7 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.Objects;
 import lombok.Getter;
+import org.hibernate.Hibernate;
 
 @Getter
 @Entity
@@ -52,5 +54,22 @@ public class ImageEntity extends BaseEntity {
                 .bucket(bucket)
                 .url(url)
                 .build();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (Objects.isNull(obj) || Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+        ImageEntity entity = (ImageEntity) obj;
+        return Objects.nonNull(id) && Objects.equals(id, entity.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.nonNull(id) ? id.intValue() : 0;
     }
 }
