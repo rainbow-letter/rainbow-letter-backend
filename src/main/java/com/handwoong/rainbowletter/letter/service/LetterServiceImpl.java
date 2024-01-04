@@ -4,6 +4,7 @@ import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
+import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.dto.LetterCreate;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
@@ -35,5 +36,10 @@ public class LetterServiceImpl implements LetterService {
     @Override
     public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
         return letterRepository.findAllLetterBoxByEmail(email);
+    }
+
+    @Override
+    public LetterResponse findLetterById(final Long id) {
+        return letterRepository.findLetterByIdOrElseThrow(id);
     }
 }

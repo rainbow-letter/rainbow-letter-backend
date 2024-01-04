@@ -25,4 +25,11 @@ public class LetterExceptionHandler extends BaseExceptionHandler {
         logWarn(errorCode, exception.getContent());
         return createErrorResponse(errorCode);
     }
+
+    @ExceptionHandler({LetterResourceNotFoundException.class})
+    public ResponseEntity<ErrorResponse> letterResourceNotFound(final LetterResourceNotFoundException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getId().toString());
+        return createErrorResponse(errorCode);
+    }
 }

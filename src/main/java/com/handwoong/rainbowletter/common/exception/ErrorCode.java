@@ -63,6 +63,7 @@ public enum ErrorCode {
     NOT_FOUND_FAQ(NOT_FOUND, "해당 FAQ를 찾을 수 없습니다."),
     NOT_FOUND_IMAGE(NOT_FOUND, "해당 이미지를 찾을 수 없습니다."),
     NOT_FOUND_PET(NOT_FOUND, "해당 반려 동물을 찾을 수 없습니다."),
+    NOT_FOUND_LETTER(NOT_FOUND, "해당 편지를 찾을 수 없습니다."),
 
     /**
      * 405 METHOD NOT ALLOWED

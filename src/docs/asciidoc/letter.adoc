@@ -4,6 +4,10 @@
 
 operation::letter-controller-test/편지_목록_조회[snippets='http-request,request-headers,http-response,response-fields']
 
+=== 편지 단건 조회
+
+operation::letter-controller-test/편지_단건_조회[snippets='http-request,path-parameters,request-headers,http-response,response-fields']
+
 === 편지 생성
 
 operation::letter-controller-test/편지_생성[snippets='http-request,query-parameters,request-headers,request-fields,http-response']

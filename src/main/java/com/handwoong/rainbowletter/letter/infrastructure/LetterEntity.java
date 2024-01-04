@@ -52,7 +52,7 @@ public class LetterEntity extends BaseEntity {
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     private PetEntity petEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "reply_id", referencedColumnName = "id")
     private ReplyEntity replyEntity;
 
