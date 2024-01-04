@@ -19,6 +19,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Getter;
 import org.hibernate.Hibernate;
@@ -47,6 +48,8 @@ public class ReplyEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReplyReadStatus readStatus;
 
+    private LocalDateTime timestamp;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_gpt_token_id", referencedColumnName = "id")
     private ChatGptTokenEntity chatGptTokenEntity;
@@ -58,6 +61,7 @@ public class ReplyEntity extends BaseEntity {
         replyEntity.content = reply.content().toString();
         replyEntity.type = reply.type();
         replyEntity.readStatus = reply.readStatus();
+        replyEntity.timestamp = reply.timestamp();
         replyEntity.chatGptTokenEntity =
                 Objects.nonNull(reply.chatGptToken()) ? ChatGptTokenEntity.from(reply.chatGptToken()) : null;
         return replyEntity;
@@ -70,6 +74,7 @@ public class ReplyEntity extends BaseEntity {
                 .content(new Content(content))
                 .type(type)
                 .readStatus(readStatus)
+                .timestamp(timestamp)
                 .chatGptToken(Objects.nonNull(chatGptTokenEntity) ? chatGptTokenEntity.toModel() : null)
                 .build();
     }
