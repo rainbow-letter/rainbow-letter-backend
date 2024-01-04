@@ -15,6 +15,13 @@ public class PetRepositoryImpl implements PetRepository {
     private final PetJpaRepository petJpaRepository;
 
     @Override
+    public Pet findByIdOrElseThrow(final Long id) {
+        return petJpaRepository.findById(id)
+                .orElseThrow(() -> new PetResourceNotFoundException(id))
+                .toModel();
+    }
+
+    @Override
     public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
         return findByEmailAndId(email, id)
                 .orElseThrow(() -> new PetResourceNotFoundException(id));

@@ -16,6 +16,15 @@ public class FakePetRepository implements PetRepository {
     private Long sequence = 1L;
 
     @Override
+    public Pet findByIdOrElseThrow(final Long id) {
+        final Pet pet = database.get(id);
+        if (Objects.isNull(pet)) {
+            throw new PetResourceNotFoundException(id);
+        }
+        return pet;
+    }
+
+    @Override
     public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
         return findByEmailAndId(email, id)
                 .orElseThrow(() -> new PetResourceNotFoundException(id));

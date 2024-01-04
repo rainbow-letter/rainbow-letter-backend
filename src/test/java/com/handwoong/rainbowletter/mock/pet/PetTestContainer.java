@@ -28,6 +28,6 @@ public class PetTestContainer {
         this.repository = new FakePetRepository();
         this.favoriteRepository = new FavoriteTestContainer().repository;
         this.service = new PetServiceImpl(
-                memberRepository, imageRepository, amazonS3Service, favoriteRepository, repository);
+                repository, imageRepository, amazonS3Service, memberRepository, favoriteRepository);
     }
 }

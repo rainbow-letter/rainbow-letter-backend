@@ -1,10 +1,12 @@
 package com.handwoong.rainbowletter.letter.service;
 
+import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.dto.LetterCreate;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
+import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,11 @@ public class LetterServiceImpl implements LetterService {
     private final LetterRepository letterRepository;
 
     @Override
+    @Transactional
     public Letter create(final Long petId, final LetterCreate request) {
-        return null;
+        final Pet pet = petRepository.findByIdOrElseThrow(petId);
+        final Image image = imageRepository.findByNullableId(request.image());
+        final Letter letter = Letter.create(request, pet, image);
+        return letterRepository.save(letter);
     }
 }
