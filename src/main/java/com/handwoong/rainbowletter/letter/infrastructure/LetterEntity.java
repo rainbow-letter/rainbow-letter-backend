@@ -77,6 +77,7 @@ public class LetterEntity extends BaseEntity {
                 .image(Objects.nonNull(imageEntity) ? imageEntity.toModel() : null)
                 .pet(petEntity.toModel())
                 .reply(Objects.nonNull(replyEntity) ? replyEntity.toModel() : null)
+                .createdAt(getCreatedAt())
                 .build();
     }
 

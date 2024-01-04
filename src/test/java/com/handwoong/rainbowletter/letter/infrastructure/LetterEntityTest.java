@@ -120,5 +120,6 @@ class LetterEntityTest {
         assertThat(convertLetter.pet()).isEqualTo(pet);
         assertThat(convertLetter.image()).isEqualTo(image);
         assertThat(convertLetter.reply()).isNull();
+        assertThat(convertLetter.createdAt()).isNull();
     }
 }
