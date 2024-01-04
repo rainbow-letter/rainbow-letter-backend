@@ -9,8 +9,9 @@ import static com.handwoong.rainbowletter.util.RestDocsUtils.getFilter;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.handwoong.rainbowletter.favorite.controller.port.FavoriteService;
 import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
+import com.handwoong.rainbowletter.favorite.domain.Favorite;
+import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
 import com.handwoong.rainbowletter.util.ControllerTestSupporter;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -22,11 +23,11 @@ import org.springframework.http.MediaType;
 
 class FavoriteControllerTest extends ControllerTestSupporter {
     @Autowired
-    private FavoriteService favoriteService;
+    private FavoriteRepository favoriteRepository;
 
     @BeforeEach
     void initFavorite() {
-        favoriteService.create();
+        favoriteRepository.save(Favorite.create());
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.pet.service;
+package com.handwoong.rainbowletter.pet.controller.port;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.domain.Pet;

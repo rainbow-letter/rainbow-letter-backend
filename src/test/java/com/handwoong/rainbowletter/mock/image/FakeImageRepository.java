@@ -1,7 +1,9 @@
 package com.handwoong.rainbowletter.mock.image;
 
 import com.handwoong.rainbowletter.image.domain.Image;
+import com.handwoong.rainbowletter.image.exception.ImageResourceNotFoundException;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
+import jakarta.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -13,11 +15,25 @@ public class FakeImageRepository implements ImageRepository {
     private Long sequence = 1L;
 
     @Override
+    public Image findByIdOrElseThrow(final Long id) {
+        return findById(id)
+                .orElseThrow(() -> new ImageResourceNotFoundException(id));
+    }
+
+    @Override
     public Optional<Image> findById(final Long id) {
         return database.values()
                 .stream()
                 .filter(image -> image.id().equals(id))
                 .findAny();
+    }
+
+    @Override
+    public Image findByNullableId(@Nullable final Long id) {
+        if (Objects.isNull(id)) {
+            return null;
+        }
+        return findByIdOrElseThrow(id);
     }
 
     @Override

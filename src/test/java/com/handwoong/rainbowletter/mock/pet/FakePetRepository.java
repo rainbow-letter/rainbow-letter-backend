@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.mock.pet;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.domain.Pet;
+import com.handwoong.rainbowletter.pet.exception.PetResourceNotFoundException;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,12 @@ public class FakePetRepository implements PetRepository {
     private final Map<Long, Pet> database = new HashMap<>();
 
     private Long sequence = 1L;
+
+    @Override
+    public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
+        return findByEmailAndId(email, id)
+                .orElseThrow(() -> new PetResourceNotFoundException(id));
+    }
 
     @Override
     public Optional<Pet> findByEmailAndId(final Email email, final Long id) {

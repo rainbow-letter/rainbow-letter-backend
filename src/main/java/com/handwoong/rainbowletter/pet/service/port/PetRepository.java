@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PetRepository {
+    Pet findByEmailAndIdOrElseThrow(Email email, Long id);
+
     Optional<Pet> findByEmailAndId(Email email, Long id);
 
     List<Pet> findAllByEmail(Email email);

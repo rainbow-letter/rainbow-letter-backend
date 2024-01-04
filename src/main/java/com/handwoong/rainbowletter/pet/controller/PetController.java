@@ -2,12 +2,12 @@ package com.handwoong.rainbowletter.pet.controller;
 
 import com.handwoong.rainbowletter.common.util.SecurityUtils;
 import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.controller.port.PetService;
 import com.handwoong.rainbowletter.pet.controller.request.PetCreateRequest;
 import com.handwoong.rainbowletter.pet.controller.request.PetUpdateRequest;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponses;
 import com.handwoong.rainbowletter.pet.domain.Pet;
-import com.handwoong.rainbowletter.pet.service.PetService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,13 @@
 package com.handwoong.rainbowletter.util;
 
 import jakarta.persistence.EntityManager;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,23 +17,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class DatabaseCleaner implements InitializingBean {
     @Autowired
     private EntityManager entityManager;
-    private List<String> tables;
+    @Autowired
+    private DataSource dataSource;
+    private final List<String> tables = new ArrayList<>();
 
     @Override
     public void afterPropertiesSet() {
-        tables = entityManager.getMetamodel().getEntities().stream()
-                .map(entityType -> entityType.getName().toLowerCase(Locale.ROOT).replace("entity", ""))
-                .toList();
+        try (Connection connection = dataSource.getConnection()) {
+            final DatabaseMetaData databaseMetaData = connection.getMetaData();
+            final ResultSet rs = databaseMetaData.getTables(connection.getCatalog(), null, "%", new String[]{"TABLE"});
+            while (rs.next()) {
+                tables.add(rs.getString("TABLE_NAME"));
+            }
+        } catch (SQLException ignored) {
+        }
     }
 
     @Transactional
     public void execute() {
         entityManager.flush();
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
         for (final String table : tables) {
             entityManager.createNativeQuery("TRUNCATE TABLE " + table).executeUpdate();
-            entityManager.createNativeQuery("ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1").executeUpdate();
+            entityManager.createNativeQuery("ALTER TABLE " + table + " AUTO_INCREMENT = 1").executeUpdate();
         }
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
     }
 }

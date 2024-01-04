@@ -15,12 +15,6 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final FavoriteRepository favoriteRepository;
 
     @Override
-    public Favorite create() {
-        final Favorite favorite = Favorite.create();
-        return favoriteRepository.save(favorite);
-    }
-
-    @Override
     @Transactional
     public Favorite increase(final Long id) {
         final Favorite favorite = favoriteRepository.findById(id)

@@ -13,26 +13,10 @@ import org.junit.jupiter.api.Test;
 
 class FavoriteServiceTest {
     @Test
-    void 좋아요를_생성한다() {
-        // given
-        final FavoriteTestContainer testContainer = new FavoriteTestContainer();
-
-        // when
-        final Favorite favorite = testContainer.service.create();
-
-        // then
-        assertThat(favorite.id()).isEqualTo(1);
-        assertThat(favorite.total()).isZero();
-        assertThat(favorite.dayIncreaseCount()).isZero();
-        assertThat(favorite.canIncrease()).isTrue();
-        assertThat(favorite.lastIncreaseAt().toLocalDate()).isEqualTo(LocalDateTime.now().toLocalDate());
-    }
-
-    @Test
     void 좋아요를_증가시킨다() {
         // given
         final FavoriteTestContainer testContainer = new FavoriteTestContainer();
-        testContainer.service.create();
+        testContainer.repository.save(Favorite.create());
 
         // when
         final Favorite increasedFavorite = testContainer.service.increase(1L);

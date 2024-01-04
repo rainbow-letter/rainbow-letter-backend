@@ -12,8 +12,6 @@ import com.handwoong.rainbowletter.member.domain.dto.PhoneNumberUpdate;
 import com.handwoong.rainbowletter.member.domain.dto.ResetPassword;
 
 public interface MemberService {
-    Member findByEmailOrElseThrow(Email email);
-
     Member info(Email email);
 
     Member register(MemberRegister request);
