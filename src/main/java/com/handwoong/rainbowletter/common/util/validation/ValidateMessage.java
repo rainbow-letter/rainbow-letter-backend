@@ -18,4 +18,6 @@ public class ValidateMessage {
     public static final String PET_PERSONALITY = "반려 동물의 성격은 10자 이하로 입력해 주세요.";
     public static final String PET_PERSONALITY_SIZE = "반려 동물의 성격은 최대 3개까지만 선택 가능합니다.";
     public static final String IMAGE_EMPTY = "이미지를 등록해주세요.";
+    public static final String LETTER_SUMMARY = "편지의 제목은 20자 이하로 입력해 주세요.";
+    public static final String LETTER_CONTENT = "편지의 내용은 최대 1000자까지 입력할 수 있습니다.";
 }

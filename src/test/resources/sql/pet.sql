@@ -1,4 +1,4 @@
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO image (created_at, updated_at, bucket, object_key, type, url)
 VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 'rainbowletter', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'PET', 'http://rainbowletter/image');
@@ -21,4 +21,4 @@ VALUES (1, '활발한');
 INSERT INTO pet_personality (pet_id, personality)
 VALUES (1, '잘삐짐');
 
-SET REFERENTIAL_INTEGRITY TRUE;
+SET FOREIGN_KEY_CHECKS = 1;

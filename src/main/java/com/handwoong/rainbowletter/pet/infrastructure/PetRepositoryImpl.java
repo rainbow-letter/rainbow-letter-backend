@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.pet.infrastructure;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.domain.Pet;
+import com.handwoong.rainbowletter.pet.exception.PetResourceNotFoundException;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,19 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class PetRepositoryImpl implements PetRepository {
     private final PetJpaRepository petJpaRepository;
+
+    @Override
+    public Pet findByIdOrElseThrow(final Long id) {
+        return petJpaRepository.findById(id)
+                .orElseThrow(() -> new PetResourceNotFoundException(id))
+                .toModel();
+    }
+
+    @Override
+    public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
+        return findByEmailAndId(email, id)
+                .orElseThrow(() -> new PetResourceNotFoundException(id));
+    }
 
     @Override
     public Optional<Pet> findByEmailAndId(final Email email, final Long id) {

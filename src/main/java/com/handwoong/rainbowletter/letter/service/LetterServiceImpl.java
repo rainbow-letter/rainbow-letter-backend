@@ -1,68 +1,45 @@
 package com.handwoong.rainbowletter.letter.service;
 
-import com.handwoong.rainbowletter.common.config.PropertiesConfig;
+import com.handwoong.rainbowletter.image.domain.Image;
+import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
-import com.handwoong.rainbowletter.letter.dto.AirtableUpdateDto;
-import com.handwoong.rainbowletter.letter.dto.AirtableUpdateRequestDto;
-import com.handwoong.rainbowletter.letter.dto.ChatGptRequestDto;
-import com.handwoong.rainbowletter.letter.dto.ChatGptResponseDto;
-import com.handwoong.rainbowletter.letter.dto.ReplyRequestDto;
+import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
+import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
+import com.handwoong.rainbowletter.letter.domain.Letter;
+import com.handwoong.rainbowletter.letter.domain.dto.LetterCreate;
+import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
+import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.domain.Pet;
+import com.handwoong.rainbowletter.pet.service.port.PetRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class LetterServiceImpl implements LetterService {
-    private static final String OPEN_API_URL = "https://api.openai.com/v1/chat/completions";
-
-    private final RestTemplate restTemplate;
-    private final PropertiesConfig propertiesConfig;
+    private final PetRepository petRepository;
+    private final ImageRepository imageRepository;
+    private final LetterRepository letterRepository;
 
     @Override
-    @Async
-    public void reply(final ReplyRequestDto replyRequest) {
-        final ChatGptResponseDto chatGptResponse = requestChatGpt(replyRequest);
-        updateAirtable(replyRequest, chatGptResponse);
+    @Transactional
+    public Letter create(final Long petId, final LetterCreate request) {
+        final Pet pet = petRepository.findByIdOrElseThrow(petId);
+        final Image image = imageRepository.findByNullableId(request.image());
+        final Letter letter = Letter.create(request, pet, image);
+        return letterRepository.save(letter);
     }
 
-    private ChatGptResponseDto requestChatGpt(final ReplyRequestDto replyRequest) {
-        final HttpHeaders chatGptHeaders = new HttpHeaders();
-        chatGptHeaders.setContentType(MediaType.APPLICATION_JSON);
-        chatGptHeaders.add("Authorization", "Bearer " + propertiesConfig.getChatgptToken());
-        final HttpEntity<ChatGptRequestDto> chatGptRequest = new HttpEntity<>(replyRequest.body(), chatGptHeaders);
-        return restTemplate.exchange(OPEN_API_URL, HttpMethod.POST, chatGptRequest, ChatGptResponseDto.class).getBody();
+    @Override
+    public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
+        return letterRepository.findAllLetterBoxByEmail(email);
     }
 
-    private void updateAirtable(final ReplyRequestDto replyRequest, final ChatGptResponseDto chatGptResponse) {
-        assert chatGptResponse != null;
-        final String output = chatGptResponse.choices().get(0).message().content();
-        final int promptTokens = chatGptResponse.usage().prompt_tokens();
-        final int completionTokens = chatGptResponse.usage().completion_tokens();
-        final int totalTokens = chatGptResponse.usage().total_tokens();
-
-        final HttpHeaders airtableHeaders = new HttpHeaders();
-        airtableHeaders.setContentType(MediaType.APPLICATION_JSON);
-        airtableHeaders.add("Authorization", "Bearer " + propertiesConfig.getAirtableToken());
-
-        final String airtableUrl = "https://api.airtable.com/v0/"
-                + replyRequest.baseId()
-                + "/"
-                + replyRequest.tableName()
-                + "/"
-                + replyRequest.recordId();
-
-        final AirtableUpdateDto airtableUpdateDto =
-                new AirtableUpdateDto(output, promptTokens, completionTokens, totalTokens);
-        final HttpEntity<AirtableUpdateRequestDto> airtableRequest =
-                new HttpEntity<>(new AirtableUpdateRequestDto(airtableUpdateDto), airtableHeaders);
-        restTemplate.exchange(airtableUrl, HttpMethod.PATCH, airtableRequest, Object.class);
+    @Override
+    public LetterResponse findLetterById(final Long id) {
+        return letterRepository.findLetterByIdOrElseThrow(id);
     }
 }

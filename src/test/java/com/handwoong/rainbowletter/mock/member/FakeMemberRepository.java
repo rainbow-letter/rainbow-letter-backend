@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.mock.member;
 
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
+import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,12 @@ public class FakeMemberRepository implements MemberRepository {
                 .stream()
                 .filter(member -> member.email().toString().equals(email.toString()))
                 .findAny();
+    }
+
+    @Override
+    public Member findByEmailOrElseThrow(final Email email) {
+        return findByEmail(email)
+                .orElseThrow(() -> new MemberEmailNotFoundException(email.toString()));
     }
 
     @Override

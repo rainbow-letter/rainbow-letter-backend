@@ -1,12 +1,14 @@
 package com.handwoong.rainbowletter.pet.service;
 
-import com.handwoong.rainbowletter.favorite.controller.port.FavoriteService;
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
-import com.handwoong.rainbowletter.image.controller.port.ImageService;
+import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
 import com.handwoong.rainbowletter.image.domain.Image;
-import com.handwoong.rainbowletter.member.controller.port.MemberService;
+import com.handwoong.rainbowletter.image.service.port.AmazonS3Service;
+import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
+import com.handwoong.rainbowletter.member.service.port.MemberRepository;
+import com.handwoong.rainbowletter.pet.controller.port.PetService;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
@@ -21,15 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PetServiceImpl implements PetService {
-    private final MemberService memberService;
-    private final ImageService imageService;
-    private final FavoriteService favoriteService;
     private final PetRepository petRepository;
+    private final ImageRepository imageRepository;
+    private final AmazonS3Service amazonS3Service;
+    private final MemberRepository memberRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Override
     public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
-        return petRepository.findByEmailAndId(email, id)
-                .orElseThrow(() -> new PetResourceNotFoundException(id));
+        return petRepository.findByEmailAndIdOrElseThrow(email, id);
     }
 
     @Override
@@ -40,9 +42,9 @@ public class PetServiceImpl implements PetService {
     @Override
     @Transactional
     public Pet create(final Email email, final PetCreate request) {
-        final Member member = memberService.findByEmailOrElseThrow(email);
-        final Image image = imageService.findById(request.image());
-        final Favorite favorite = favoriteService.create();
+        final Member member = memberRepository.findByEmailOrElseThrow(email);
+        final Image image = imageRepository.findByNullableId(request.image());
+        final Favorite favorite = favoriteRepository.save(Favorite.create());
 
         Pet pet = Pet.create(member, image, favorite, request);
         return petRepository.save(pet);
@@ -51,8 +53,8 @@ public class PetServiceImpl implements PetService {
     @Override
     @Transactional
     public Pet update(final Email email, final Long id, final PetUpdate request) {
-        final Pet pet = findByEmailAndIdOrElseThrow(email, id);
-        final Image image = imageService.findById(request.image());
+        final Pet pet = petRepository.findByEmailAndIdOrElseThrow(email, id);
+        final Image image = imageRepository.findByNullableId(request.image());
         final Pet updatePet = pet.update(request, image);
         return petRepository.save(updatePet);
     }
@@ -62,7 +64,8 @@ public class PetServiceImpl implements PetService {
     public Pet deleteImage(final Email email, final Long id) {
         final Pet pet = petRepository.findByEmailAndIdWithImage(email, id)
                 .orElseThrow(() -> new PetResourceNotFoundException(id));
-        imageService.remove(pet.image());
+        assert pet.image() != null;
+        amazonS3Service.remove(pet.image().bucket(), pet.image().objectKey());
         final Pet updatePet = pet.removeImage();
         return petRepository.save(updatePet);
     }
@@ -70,7 +73,7 @@ public class PetServiceImpl implements PetService {
     @Override
     @Transactional
     public void delete(final Email email, final Long id) {
-        final Pet pet = findByEmailAndIdOrElseThrow(email, id);
+        final Pet pet = petRepository.findByEmailAndIdOrElseThrow(email, id);
         final Pet clearedPet = pet.clear();
         petRepository.delete(clearedPet);
     }

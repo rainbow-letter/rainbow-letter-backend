@@ -32,14 +32,8 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationService authenticationService;
 
     @Override
-    public Member findByEmailOrElseThrow(final Email email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberEmailNotFoundException(email.toString()));
-    }
-
-    @Override
     public Member info(final Email email) {
-        return findByEmailOrElseThrow(email);
+        return memberRepository.findByEmailOrElseThrow(email);
     }
 
     @Override
@@ -78,7 +72,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member changePassword(final Email email, final ChangePassword request) {
-        final Member member = findByEmailOrElseThrow(email);
+        final Member member = memberRepository.findByEmailOrElseThrow(email);
         final Member updateMember = member.changePassword(request, passwordEncoder);
         return memberRepository.save(updateMember);
     }
@@ -86,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member resetPassword(final Email email, final ResetPassword request) {
-        final Member member = findByEmailOrElseThrow(email);
+        final Member member = memberRepository.findByEmailOrElseThrow(email);
         final Member updateMember = member.resetPassword(request, passwordEncoder);
         return memberRepository.save(updateMember);
     }
@@ -94,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member updatePhoneNumber(final Email email, final PhoneNumberUpdate request) {
-        final Member member = findByEmailOrElseThrow(email);
+        final Member member = memberRepository.findByEmailOrElseThrow(email);
         final Member updateMember = member.update(request);
         return memberRepository.save(updateMember);
     }
@@ -102,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member deletePhoneNumber(final Email email) {
-        final Member member = findByEmailOrElseThrow(email);
+        final Member member = memberRepository.findByEmailOrElseThrow(email);
         final Member updateMember = member.deletePhoneNumber();
         return memberRepository.save(updateMember);
     }
@@ -110,7 +104,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Member delete(final Email email) {
-        final Member member = findByEmailOrElseThrow(email);
+        final Member member = memberRepository.findByEmailOrElseThrow(email);
         final Member updateMember = member.update(MemberStatus.LEAVE);
         return memberRepository.save(updateMember);
     }

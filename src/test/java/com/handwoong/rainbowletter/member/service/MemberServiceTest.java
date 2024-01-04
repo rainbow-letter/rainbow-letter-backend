@@ -28,51 +28,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 class MemberServiceTest {
     @Test
-    void 이메일로_회원을_찾는다() {
-        // given
-        final Email email = new Email("handwoong@gmail.com");
-        final Password password = new Password("@password1");
-        final Member member = Member.builder()
-                .email(email)
-                .password(password)
-                .phoneNumber(null)
-                .role(MemberRole.ROLE_USER)
-                .status(MemberStatus.ACTIVE)
-                .provider(OAuthProvider.NONE)
-                .providerId(OAuthProvider.NONE.name())
-                .build();
-
-        final MemberTestContainer testContainer = new MemberTestContainer();
-        testContainer.repository.save(member);
-
-        // when
-        final Member findMember = testContainer.service.findByEmailOrElseThrow(email);
-
-        // then
-        assertThat(findMember.id()).isEqualTo(1);
-        assertThat(findMember.email()).hasToString("handwoong@gmail.com");
-        assertThat(findMember.password()).hasToString("@password1");
-        assertThat(findMember.phoneNumber()).isNull();
-        assertThat(findMember.role()).isEqualTo(MemberRole.ROLE_USER);
-        assertThat(findMember.status()).isEqualTo(MemberStatus.ACTIVE);
-        assertThat(findMember.provider()).isEqualTo(OAuthProvider.NONE);
-        assertThat(findMember.providerId()).isEqualTo(OAuthProvider.NONE.name());
-    }
-
-    @Test
-    void 이메일로_회원을_찾지못하면_예외가_발생한다() {
-        // given
-        final MemberTestContainer testContainer = new MemberTestContainer();
-        final Email email = new Email("handwoong@gmail.com");
-
-        // when
-        // then
-        assertThatThrownBy(() -> testContainer.service.findByEmailOrElseThrow(email))
-                .isInstanceOf(MemberEmailNotFoundException.class)
-                .hasMessage("해당 회원을 찾을 수 없습니다.");
-    }
-
-    @Test
     void 이메일로_회원의_정보를_조회한다() {
         // given
         final Email email = new Email("handwoong@gmail.com");
