@@ -1,9 +1,12 @@
 package com.handwoong.rainbowletter.mock.letter;
 
+import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
+import com.handwoong.rainbowletter.member.domain.Email;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,6 +21,14 @@ public class FakeLetterRepository implements LetterRepository {
         final Letter saveLetter = createLetter(id, letter);
         database.put(id, saveLetter);
         return saveLetter;
+    }
+
+    @Override
+    public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
+        return database.values().stream()
+                .filter(letter -> letter.pet().member().email().equals(email))
+                .map(LetterBoxResponse::from)
+                .toList();
     }
 
     private Letter createLetter(final Long id, final Letter letter) {

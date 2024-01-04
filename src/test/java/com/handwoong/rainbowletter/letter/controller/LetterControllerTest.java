@@ -4,6 +4,7 @@ import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthent
 import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.CREATE_REQUEST;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_PET_ID;
+import static com.handwoong.rainbowletter.letter.controller.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.handwoong.rainbowletter.member.controller.snippet.MemberRequestSnippet.AUTHORIZATION_HEADER;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getFilter;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
@@ -43,6 +44,28 @@ class LetterControllerTest extends ControllerTestSupporter {
                 .queryParam("pet", 1)
                 .filter(getFilter().document(AUTHORIZATION_HEADER, PARAM_PET_ID, CREATE_REQUEST))
                 .when().post("/api/letters")
+                .then().log().all().extract();
+    }
+
+    @Test
+    void 편지_목록_조회() {
+        // given
+        final String token = userAccessToken;
+
+        // when
+        final ExtractableResponse<Response> response = findAllLetterBoxByEmail(token);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    private ExtractableResponse<Response> findAllLetterBoxByEmail(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .filter(getFilter().document(AUTHORIZATION_HEADER, LETTER_BOX_RESPONSE))
+                .when().get("/api/letters/list")
                 .then().log().all().extract();
     }
 }
