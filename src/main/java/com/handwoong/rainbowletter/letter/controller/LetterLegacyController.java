@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/letters")
+@RequestMapping("/api/legacy/letters")
 public class LetterLegacyController {
     private final LetterLegacyService letterLegacyService;
 
