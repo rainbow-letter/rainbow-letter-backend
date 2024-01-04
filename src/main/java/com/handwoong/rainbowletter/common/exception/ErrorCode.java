@@ -37,6 +37,9 @@ public enum ErrorCode {
 
     INVALID_FAVORITE_INCREASE(BAD_REQUEST, "하루 최대 좋아요 수를 달성하였습니다."),
 
+    INVALID_SUMMARY_FORMAT(BAD_REQUEST, "제목의 길이는 20자 이하로 입력해주세요."),
+    INVALID_CONTENT_FORMAT(BAD_REQUEST, "본문을 입력 해주세요."),
+
     /**
      * 401 UNAUTHORIZED
      */

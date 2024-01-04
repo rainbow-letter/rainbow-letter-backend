@@ -58,6 +58,8 @@ public class ReplyEntity extends BaseEntity {
         replyEntity.content = reply.content().toString();
         replyEntity.type = reply.type();
         replyEntity.readStatus = reply.readStatus();
+        replyEntity.chatGptTokenEntity =
+                Objects.nonNull(reply.chatGptToken()) ? ChatGptTokenEntity.from(reply.chatGptToken()) : null;
         return replyEntity;
     }
 
@@ -68,6 +70,7 @@ public class ReplyEntity extends BaseEntity {
                 .content(new Content(content))
                 .type(type)
                 .readStatus(readStatus)
+                .chatGptToken(Objects.nonNull(chatGptTokenEntity) ? chatGptTokenEntity.toModel() : null)
                 .build();
     }
 
