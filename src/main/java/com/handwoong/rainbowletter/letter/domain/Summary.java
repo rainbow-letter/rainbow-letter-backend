@@ -4,6 +4,8 @@ import com.handwoong.rainbowletter.letter.exception.SummaryFormatNotValidExcepti
 import org.springframework.util.StringUtils;
 
 public record Summary(String summary) {
+    public static final int MAX_SUMMARY_LENGTH = 20;
+
     public Summary {
         validateNull(summary);
         validateFormat(summary);
@@ -16,7 +18,7 @@ public record Summary(String summary) {
     }
 
     private void validateFormat(final String summary) {
-        if (summary.length() > 20) {
+        if (summary.length() > MAX_SUMMARY_LENGTH) {
             throw new SummaryFormatNotValidException(summary);
         }
     }

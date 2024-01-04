@@ -47,3 +47,5 @@ include::image.adoc[]
 include::pet.adoc[]
 
 include::favorite.adoc[]
+
+include::letter.adoc[]
