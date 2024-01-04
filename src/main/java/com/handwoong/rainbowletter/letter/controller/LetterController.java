@@ -1,8 +1,15 @@
 package com.handwoong.rainbowletter.letter.controller;
 
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
+import com.handwoong.rainbowletter.letter.controller.request.LetterCreateRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -10,4 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/letters")
 public class LetterController {
     private final LetterService letterService;
+
+    @PostMapping
+    public ResponseEntity<Void> create(@RequestParam("pet") Long petId,
+                                       @RequestBody @Valid LetterCreateRequest request) {
+        letterService.create(petId, request.toDto());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
