@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.letter.service;
 
-import com.handwoong.rainbowletter.letter.controller.port.LetterService;
-import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
+import com.handwoong.rainbowletter.letter.controller.port.ReplyService;
+import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class LetterServiceImpl implements LetterService {
-    private final LetterRepository letterRepository;
+public class ReplyServiceImpl implements ReplyService {
+    private final ReplyRepository replyRepository;
 }

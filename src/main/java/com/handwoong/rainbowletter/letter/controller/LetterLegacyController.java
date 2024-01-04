@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.letter.controller;
 
-import com.handwoong.rainbowletter.letter.controller.port.LetterService;
+import com.handwoong.rainbowletter.letter.controller.port.LetterLegacyService;
 import com.handwoong.rainbowletter.letter.dto.ReplyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/letters")
-public class LetterController {
-    private final LetterService letterService;
+public class LetterLegacyController {
+    private final LetterLegacyService letterLegacyService;
 
     @PostMapping
     public ResponseEntity<Void> reply(@RequestBody final ReplyRequestDto replyRequest) {
-        letterService.reply(replyRequest);
+        letterLegacyService.reply(replyRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
