@@ -12,7 +12,6 @@ import com.handwoong.rainbowletter.pet.controller.port.PetService;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
-import com.handwoong.rainbowletter.pet.exception.PetResourceNotFoundException;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -62,8 +61,7 @@ public class PetServiceImpl implements PetService {
     @Override
     @Transactional
     public Pet deleteImage(final Email email, final Long id) {
-        final Pet pet = petRepository.findByEmailAndIdWithImage(email, id)
-                .orElseThrow(() -> new PetResourceNotFoundException(id));
+        final Pet pet = petRepository.findByEmailAndIdWithImageOrElseThrow(email, id);
         assert pet.image() != null;
         amazonS3Service.remove(pet.image().bucket(), pet.image().objectKey());
         final Pet updatePet = pet.removeImage();

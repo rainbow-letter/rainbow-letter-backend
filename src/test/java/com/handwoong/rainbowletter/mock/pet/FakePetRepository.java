@@ -48,12 +48,13 @@ public class FakePetRepository implements PetRepository {
     }
 
     @Override
-    public Optional<Pet> findByEmailAndIdWithImage(final Email email, final Long id) {
+    public Pet findByEmailAndIdWithImageOrElseThrow(final Email email, final Long id) {
         return database.values()
                 .stream()
                 .filter(pet -> pet.member().email().equals(email))
                 .filter(pet -> Objects.nonNull(pet.image()) && pet.image().id().equals(id))
-                .findAny();
+                .findAny()
+                .orElseThrow(() -> new PetResourceNotFoundException(id));
     }
 
     @Override

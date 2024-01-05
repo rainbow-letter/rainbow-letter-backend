@@ -14,7 +14,7 @@ public interface PetRepository {
 
     List<Pet> findAllByEmail(Email email);
 
-    Optional<Pet> findByEmailAndIdWithImage(Email email, Long id);
+    Pet findByEmailAndIdWithImageOrElseThrow(Email email, Long id);
 
     Pet save(Pet pet);
 
