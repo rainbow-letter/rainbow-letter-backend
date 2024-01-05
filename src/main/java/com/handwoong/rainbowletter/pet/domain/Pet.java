@@ -7,7 +7,6 @@ import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import jakarta.annotation.Nullable;
 import java.time.LocalDate;
-import java.util.Set;
 import lombok.Builder;
 
 @Builder
@@ -16,7 +15,7 @@ public record Pet(
         String name,
         String species,
         String owner,
-        Set<String> personalities,
+        String personalities,
         @Nullable LocalDate deathAnniversary,
         @Nullable Image image,
         Member member,
@@ -27,7 +26,7 @@ public record Pet(
                 .name(request.name())
                 .species(request.species())
                 .owner(request.owner())
-                .personalities(request.personalities())
+                .personalities(request.personalities().toString())
                 .deathAnniversary(request.deathAnniversary())
                 .image(image)
                 .member(member)
@@ -41,7 +40,7 @@ public record Pet(
                 .name(name)
                 .species(request.species())
                 .owner(request.owner())
-                .personalities(request.personalities())
+                .personalities(request.personalities().toString())
                 .deathAnniversary(request.deathAnniversary())
                 .image(image)
                 .member(member)

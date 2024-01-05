@@ -17,8 +17,6 @@ import com.handwoong.rainbowletter.member.domain.PhoneNumber;
 import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,7 +61,7 @@ class PetEntityTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -78,7 +76,7 @@ class PetEntityTest {
         assertThat(petEntity.getName()).isEqualTo("두부");
         assertThat(petEntity.getSpecies()).isEqualTo("고양이");
         assertThat(petEntity.getOwner()).isEqualTo("형님");
-        assertThat(petEntity.getPersonalities()).containsExactly("질투쟁이", "새침함");
+        assertThat(petEntity.getPersonalities()).isEqualTo("질투쟁이,새침함");
         assertThat(petEntity.getDeathAnniversary()).isNull();
         assertThat(petEntity.getImageEntity()).isEqualTo(ImageEntity.from(image));
         assertThat(petEntity.getMemberEntity()).isEqualTo(MemberEntity.from(member));
@@ -93,7 +91,7 @@ class PetEntityTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -109,7 +107,7 @@ class PetEntityTest {
         assertThat(convertPet.name()).isEqualTo("두부");
         assertThat(convertPet.species()).isEqualTo("고양이");
         assertThat(convertPet.owner()).isEqualTo("형님");
-        assertThat(convertPet.personalities()).containsExactly("질투쟁이", "새침함");
+        assertThat(convertPet.personalities()).isEqualTo("질투쟁이,새침함");
         assertThat(convertPet.deathAnniversary()).isNull();
         assertThat(convertPet.image()).isEqualTo(image);
         assertThat(convertPet.member()).isEqualTo(member);

@@ -19,8 +19,6 @@ import com.handwoong.rainbowletter.mock.pet.PetTestContainer;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
 
 public class LetterTestContainer {
     public final Member member = Member.builder()
@@ -52,7 +50,7 @@ public class LetterTestContainer {
             .name("콩이")
             .species("고양이")
             .owner("엄마")
-            .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+            .personalities("질투쟁이,새침함")
             .deathAnniversary(null)
             .image(image)
             .favorite(favorite)
