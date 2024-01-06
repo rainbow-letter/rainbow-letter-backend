@@ -1,6 +1,8 @@
 package com.handwoong.rainbowletter.mock.pet;
 
 import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponseDto;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.exception.PetResourceNotFoundException;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
@@ -26,34 +28,29 @@ public class FakePetRepository implements PetRepository {
 
     @Override
     public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
-        return findByEmailAndId(email, id)
+        return Optional.ofNullable(database.get(id))
+                .filter(pet -> pet.member().email().equals(email))
                 .orElseThrow(() -> new PetResourceNotFoundException(id));
     }
 
     @Override
-    public Optional<Pet> findByEmailAndId(final Email email, final Long id) {
-        final Pet pet = database.get(id);
-        if (Objects.isNull(pet)) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(pet.member().email().equals(email) ? pet : null);
-    }
-
-    @Override
-    public List<Pet> findAllByEmail(final Email email) {
+    public List<PetResponse> findAllByEmail(final Email email) {
         return database.values()
                 .stream()
                 .filter(pet -> pet.member().email().equals(email))
+                .map(PetResponseDto::from)
+                .map(PetResponse::from)
                 .toList();
     }
 
     @Override
-    public Optional<Pet> findByEmailAndIdWithImage(final Email email, final Long id) {
+    public Pet findByEmailAndIdWithImageOrElseThrow(final Email email, final Long id) {
         return database.values()
                 .stream()
                 .filter(pet -> pet.member().email().equals(email))
                 .filter(pet -> Objects.nonNull(pet.image()) && pet.image().id().equals(id))
-                .findAny();
+                .findAny()
+                .orElseThrow(() -> new PetResourceNotFoundException(id));
     }
 
     @Override

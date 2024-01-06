@@ -9,16 +9,10 @@ VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 0, 0, true, 
 INSERT INTO favorite (created_at, updated_at, total, day_increase_count, can_increase, last_increase_at)
 VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 0, 0, true, '2023-01-01 12:00:00.000000');
 
-INSERT INTO pet (created_at, updated_at, favorite_id, image_id, member_id, name, species, owner, death_anniversary)
-VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 1, 1, 2, '콩이', '고양이', '형님', '2023-01-01');
+INSERT INTO pet (created_at, updated_at, favorite_id, image_id, member_id, name, species, owner, death_anniversary, personalities)
+VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 1, 1, 2, '콩이', '고양이', '형님', '2023-01-01', '활발한,잘삐짐');
 
-INSERT INTO pet (created_at, updated_at, favorite_id, image_id, member_id, name, species, owner, death_anniversary)
-VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 2, null, 2, '미키', '강아지', '엄마', null);
-
-INSERT INTO pet_personality (pet_id, personality)
-VALUES (1, '활발한');
-
-INSERT INTO pet_personality (pet_id, personality)
-VALUES (1, '잘삐짐');
+INSERT INTO pet (created_at, updated_at, favorite_id, image_id, member_id, name, species, owner, death_anniversary, personalities)
+VALUES ('2023-01-01 12:00:00.000000', '2023-01-01 12:00:00.000000', 2, null, 2, '미키', '강아지', '엄마', null, '');
 
 SET FOREIGN_KEY_CHECKS = 1;

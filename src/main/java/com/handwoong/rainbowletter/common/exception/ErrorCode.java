@@ -17,8 +17,10 @@ public enum ErrorCode {
     /**
      * 400 BAD REQUEST
      */
-    INVALID_PARAM_VALUE(BAD_REQUEST, "유효하지 않은 쿼리 파라미터 값입니다."),
+    INVALID_PATH_VALUE(BAD_REQUEST, "요청 주소에 유효하지 않은 값이 있습니다."),
     METHOD_ARGUMENT_NOT_VALID(BAD_REQUEST, "요청 인자가 잘못되었습니다."),
+    REQUIRED_FILE(BAD_REQUEST, "파일을 첨부해주세요."),
+    INVALID_FILE_CONTENT_TYPE(BAD_REQUEST, "Content-Type을 명시하였거나, 폼 데이터에 파일이 없습니다."),
 
     INVALID_EMAIL_FORMAT(BAD_REQUEST, "유효하지 않은 이메일 형식입니다."),
     INVALID_EMAIL(BAD_REQUEST, "존재하지 않는 이메일입니다."),
@@ -35,6 +37,7 @@ public enum ErrorCode {
     MAIL_TEMPLATE_NOT_FOUND(BAD_REQUEST, "이메일 템플릿을 찾을 수 없습니다."),
     FAIL_UPLOAD_IMAGE(BAD_REQUEST, "이미지 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요."),
 
+    INVALID_PERSONALITY_FORMAT(BAD_REQUEST, "유효하지 않은 반려동물 성격 형식입니다."),
     INVALID_FAVORITE_INCREASE(BAD_REQUEST, "하루 최대 좋아요 수를 달성하였습니다."),
 
     INVALID_SUMMARY_FORMAT(BAD_REQUEST, "제목의 길이는 20자 이하로 입력해주세요."),

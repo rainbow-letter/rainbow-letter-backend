@@ -3,7 +3,9 @@ package com.handwoong.rainbowletter.pet.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
+import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.domain.ImageType;
 import com.handwoong.rainbowletter.member.domain.Email;
@@ -15,6 +17,8 @@ import com.handwoong.rainbowletter.member.domain.Password;
 import com.handwoong.rainbowletter.member.domain.PhoneNumber;
 import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
 import com.handwoong.rainbowletter.mock.pet.PetTestContainer;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
+import com.handwoong.rainbowletter.pet.domain.Personalities;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
@@ -65,7 +69,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -75,7 +79,7 @@ class PetServiceTest {
                 .name("침이")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("애교쟁이")))
+                .personalities("애교쟁이")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -87,7 +91,7 @@ class PetServiceTest {
         testContainer.repository.save(pet2);
 
         // when
-        final List<Pet> pets = testContainer.service.findAllByEmail(new Email("handwoong@gmail.com"));
+        final List<PetResponse> pets = testContainer.service.findAllByEmail(new Email("handwoong@gmail.com"));
 
         // then
         assertThat(pets).hasSize(2);
@@ -95,21 +99,19 @@ class PetServiceTest {
         assertThat(pets.get(0).name()).isEqualTo("두부");
         assertThat(pets.get(0).species()).isEqualTo("고양이");
         assertThat(pets.get(0).owner()).isEqualTo("형님");
-        assertThat(pets.get(0).personalities()).containsExactly("질투쟁이", "새침함");
+        assertThat(pets.get(0).personalities()).contains("질투쟁이", "새침함");
         assertThat(pets.get(0).deathAnniversary()).isNull();
-        assertThat(pets.get(0).image()).isEqualTo(image);
-        assertThat(pets.get(0).member()).isEqualTo(member);
-        assertThat(pets.get(0).favorite()).isEqualTo(favorite);
+        assertThat(pets.get(0).image()).isEqualTo(ImageResponse.from(image));
+        assertThat(pets.get(0).favorite()).isEqualTo(FavoriteResponse.from(favorite));
 
         assertThat(pets.get(1).id()).isEqualTo(2);
         assertThat(pets.get(1).name()).isEqualTo("침이");
         assertThat(pets.get(1).species()).isEqualTo("고양이");
         assertThat(pets.get(1).owner()).isEqualTo("형님");
-        assertThat(pets.get(1).personalities()).containsExactly("애교쟁이");
+        assertThat(pets.get(1).personalities()).contains("애교쟁이");
         assertThat(pets.get(1).deathAnniversary()).isNull();
-        assertThat(pets.get(1).image()).isEqualTo(image);
-        assertThat(pets.get(1).member()).isEqualTo(member);
-        assertThat(pets.get(1).favorite()).isEqualTo(favorite);
+        assertThat(pets.get(1).image()).isEqualTo(ImageResponse.from(image));
+        assertThat(pets.get(1).favorite()).isEqualTo(FavoriteResponse.from(favorite));
     }
 
     @Test
@@ -120,7 +122,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities(Personalities.from(new HashSet<>(List.of("질투쟁이", "새침함"))))
                 .deathAnniversary(null)
                 .image(null)
                 .build();
@@ -136,7 +138,7 @@ class PetServiceTest {
         assertThat(pet.name()).isEqualTo("두부");
         assertThat(pet.species()).isEqualTo("고양이");
         assertThat(pet.owner()).isEqualTo("형님");
-        assertThat(pet.personalities()).containsExactly("질투쟁이", "새침함");
+        assertThat(pet.personalities().split(",")).contains("질투쟁이", "새침함");
         assertThat(pet.deathAnniversary()).isNull();
         assertThat(pet.image()).isNull();
         assertThat(pet.member()).isEqualTo(member);
@@ -151,7 +153,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities(Personalities.from(new HashSet<>(List.of("질투쟁이", "새침함"))))
                 .deathAnniversary(null)
                 .image(1L)
                 .build();
@@ -168,7 +170,7 @@ class PetServiceTest {
         assertThat(pet.name()).isEqualTo("두부");
         assertThat(pet.species()).isEqualTo("고양이");
         assertThat(pet.owner()).isEqualTo("형님");
-        assertThat(pet.personalities()).containsExactly("질투쟁이", "새침함");
+        assertThat(pet.personalities().split(",")).contains("질투쟁이", "새침함");
         assertThat(pet.deathAnniversary()).isNull();
         assertThat(pet.image()).isEqualTo(image);
         assertThat(pet.member()).isEqualTo(member);
@@ -183,7 +185,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities(Personalities.from(new HashSet<>(List.of("질투쟁이", "새침함"))))
                 .deathAnniversary(null)
                 .image(1L)
                 .build();
@@ -206,7 +208,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -216,7 +218,7 @@ class PetServiceTest {
         final PetUpdate request = PetUpdate.builder()
                 .species("호랑이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("잘삐짐")))
+                .personalities(Personalities.from(new HashSet<>(List.of("잘삐짐"))))
                 .deathAnniversary(null)
                 .image(null)
                 .build();
@@ -232,7 +234,7 @@ class PetServiceTest {
         assertThat(updatedPet.name()).isEqualTo("두부");
         assertThat(updatedPet.species()).isEqualTo("호랑이");
         assertThat(updatedPet.owner()).isEqualTo("형님");
-        assertThat(updatedPet.personalities()).containsExactly("잘삐짐");
+        assertThat(updatedPet.personalities()).isEqualTo("잘삐짐");
         assertThat(updatedPet.deathAnniversary()).isNull();
         assertThat(updatedPet.image()).isNull();
         assertThat(updatedPet.member()).isEqualTo(member);
@@ -248,7 +250,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(null)
                 .favorite(favorite)
@@ -258,7 +260,7 @@ class PetServiceTest {
         final PetUpdate request = PetUpdate.builder()
                 .species("호랑이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("잘삐짐")))
+                .personalities(Personalities.from(new HashSet<>(List.of("잘삐짐"))))
                 .deathAnniversary(null)
                 .image(1L)
                 .build();
@@ -275,7 +277,7 @@ class PetServiceTest {
         assertThat(updatedPet.name()).isEqualTo("두부");
         assertThat(updatedPet.species()).isEqualTo("호랑이");
         assertThat(updatedPet.owner()).isEqualTo("형님");
-        assertThat(updatedPet.personalities()).containsExactly("잘삐짐");
+        assertThat(updatedPet.personalities()).isEqualTo("잘삐짐");
         assertThat(updatedPet.deathAnniversary()).isNull();
         assertThat(updatedPet.image()).isEqualTo(image);
         assertThat(updatedPet.member()).isEqualTo(member);
@@ -290,7 +292,7 @@ class PetServiceTest {
         final PetUpdate request = PetUpdate.builder()
                 .species("호랑이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("잘삐짐")))
+                .personalities(Personalities.from(new HashSet<>(List.of("잘삐짐"))))
                 .deathAnniversary(null)
                 .image(null)
                 .build();
@@ -313,7 +315,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -331,7 +333,7 @@ class PetServiceTest {
         assertThat(deletedImagePet.name()).isEqualTo("두부");
         assertThat(deletedImagePet.species()).isEqualTo("고양이");
         assertThat(deletedImagePet.owner()).isEqualTo("형님");
-        assertThat(deletedImagePet.personalities()).containsExactly("질투쟁이", "새침함");
+        assertThat(deletedImagePet.personalities().split(",")).contains("질투쟁이", "새침함");
         assertThat(deletedImagePet.deathAnniversary()).isNull();
         assertThat(deletedImagePet.image()).isNull();
         assertThat(deletedImagePet.member()).isEqualTo(member);
@@ -361,7 +363,7 @@ class PetServiceTest {
                 .name("두부")
                 .species("고양이")
                 .owner("형님")
-                .personalities(new HashSet<>(List.of("질투쟁이", "새침함")))
+                .personalities("질투쟁이,새침함")
                 .deathAnniversary(null)
                 .image(image)
                 .favorite(favorite)
@@ -375,7 +377,8 @@ class PetServiceTest {
         testContainer.service.delete(email, 1L);
 
         // then
-        assertThat(testContainer.repository.findByEmailAndId(email, 1L)).isEmpty();
+        assertThatThrownBy(() -> testContainer.repository.findByIdOrElseThrow(1L))
+                .isInstanceOf(PetResourceNotFoundException.class);
     }
 
     @Test

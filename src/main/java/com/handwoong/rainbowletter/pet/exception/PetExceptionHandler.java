@@ -18,4 +18,11 @@ public class PetExceptionHandler extends BaseExceptionHandler {
         logWarn(errorCode, exception.getId().toString());
         return createErrorResponse(errorCode);
     }
+
+    @ExceptionHandler({PersonalityFormatNotValidException.class})
+    public ResponseEntity<ErrorResponse> personalityFormatNotValid(final PersonalityFormatNotValidException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getPersonality());
+        return createErrorResponse(errorCode);
+    }
 }

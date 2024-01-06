@@ -13,10 +13,14 @@ import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.handwoong.rainbowletter.letter.controller.request.LetterCreateRequest;
+import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponses;
+import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
+import com.handwoong.rainbowletter.letter.domain.LetterStatus;
 import com.handwoong.rainbowletter.util.ControllerTestSupporter;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -56,9 +60,22 @@ class LetterControllerTest extends ControllerTestSupporter {
 
         // when
         final ExtractableResponse<Response> response = findAllLetterBoxByEmail(token);
+        final LetterBoxResponses result = response.body().as(LetterBoxResponses.class);
 
         // then
         assertThat(response.statusCode()).isEqualTo(200);
+
+        assertThat(result.letters().get(0).id()).isEqualTo(2);
+        assertThat(result.letters().get(0).summary()).isEqualTo("콩아 형님이다.");
+        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.REQUEST);
+        assertThat(result.letters().get(0).petName()).isEqualTo("콩이");
+        assertThat(result.letters().get(0).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 2, 12, 0, 0));
+
+        assertThat(result.letters().get(1).id()).isEqualTo(1);
+        assertThat(result.letters().get(1).summary()).isEqualTo("미키야 엄마가 보고싶다.");
+        assertThat(result.letters().get(1).status()).isEqualTo(LetterStatus.REQUEST);
+        assertThat(result.letters().get(1).petName()).isEqualTo("미키");
+        assertThat(result.letters().get(1).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
     }
 
     private ExtractableResponse<Response> findAllLetterBoxByEmail(final String token) {
@@ -78,9 +95,22 @@ class LetterControllerTest extends ControllerTestSupporter {
 
         // when
         final ExtractableResponse<Response> response = findOne(token);
+        final LetterResponse result = response.body().as(LetterResponse.class);
 
         // then
         assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(result.id()).isEqualTo(1);
+        assertThat(result.summary()).isEqualTo("미키야 엄마가 보고싶다.");
+        assertThat(result.content()).isEqualTo("미키야 엄마가 보고싶다. 엄마는 오늘 미키 생각하면서 그림을 그렸어.");
+        assertThat(result.pet().id()).isEqualTo(2);
+        assertThat(result.pet().name()).isEqualTo("미키");
+        assertThat(result.pet().image().id()).isNull();
+        assertThat(result.pet().image().objectKey()).isNull();
+        assertThat(result.pet().image().url()).isNull();
+        assertThat(result.image().id()).isEqualTo(2);
+        assertThat(result.image().objectKey()).isEqualTo("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+        assertThat(result.image().url()).isEqualTo("http://rainbowletter/image");
+        assertThat(result.createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
     }
 
     private ExtractableResponse<Response> findOne(final String token) {

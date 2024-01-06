@@ -6,23 +6,18 @@ import com.handwoong.rainbowletter.image.infrastructure.ImageEntity;
 import com.handwoong.rainbowletter.member.infrastructure.MemberEntity;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import lombok.Getter;
 import org.hibernate.Hibernate;
 
@@ -45,10 +40,8 @@ public class PetEntity extends BaseEntity {
 
     private LocalDate deathAnniversary;
 
-    @ElementCollection
-    @JoinTable(name = "pet_personality", joinColumns = {@JoinColumn(name = "pet_id", referencedColumnName = "id")})
-    @Column(name = "personality")
-    private Set<String> personalities = new HashSet<>();
+    @NotNull
+    private String personalities;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "id")

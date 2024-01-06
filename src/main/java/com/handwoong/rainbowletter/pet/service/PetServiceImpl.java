@@ -9,10 +9,10 @@ import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import com.handwoong.rainbowletter.pet.controller.port.PetService;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
-import com.handwoong.rainbowletter.pet.exception.PetResourceNotFoundException;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Pet> findAllByEmail(final Email email) {
+    public List<PetResponse> findAllByEmail(final Email email) {
         return petRepository.findAllByEmail(email);
     }
 
@@ -62,8 +62,7 @@ public class PetServiceImpl implements PetService {
     @Override
     @Transactional
     public Pet deleteImage(final Email email, final Long id) {
-        final Pet pet = petRepository.findByEmailAndIdWithImage(email, id)
-                .orElseThrow(() -> new PetResourceNotFoundException(id));
+        final Pet pet = petRepository.findByEmailAndIdWithImageOrElseThrow(email, id);
         assert pet.image() != null;
         amazonS3Service.remove(pet.image().bucket(), pet.image().objectKey());
         final Pet updatePet = pet.removeImage();

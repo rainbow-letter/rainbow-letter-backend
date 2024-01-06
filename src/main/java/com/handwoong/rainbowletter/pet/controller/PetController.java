@@ -31,8 +31,8 @@ public class PetController {
     @GetMapping
     public ResponseEntity<PetResponses> findAll() {
         final Email email = SecurityUtils.getAuthenticationUsername();
-        final List<Pet> pets = petService.findAllByEmail(email);
-        final PetResponses response = PetResponses.from(pets);
+        final List<PetResponse> petResponses = petService.findAllByEmail(email);
+        final PetResponses response = PetResponses.from(petResponses);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
