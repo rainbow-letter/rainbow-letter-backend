@@ -8,7 +8,6 @@
 ----
 POST /api/images/upload?type=PET HTTP/1.1
 Authorization: Bearer 토큰
-Content-Type: multipart/form-data
 ----
 
 operation::image-controller-test/이미지_업로드[snippets='query-parameters,request-headers,request-parts,http-response,response-fields']

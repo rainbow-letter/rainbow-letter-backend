@@ -5,10 +5,15 @@ import static com.handwoong.rainbowletter.image.infrastructure.QImageEntity.imag
 import static com.handwoong.rainbowletter.member.infrastructure.QMemberEntity.memberEntity;
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
+import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
+import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponseDto;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.exception.PetResourceNotFoundException;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -23,35 +28,79 @@ public class PetRepositoryImpl implements PetRepository {
 
     @Override
     public Pet findByIdOrElseThrow(final Long id) {
-        return petJpaRepository.findById(id)
+        return Optional.ofNullable(
+                        queryFactory.selectFrom(petEntity)
+                                .distinct()
+                                .leftJoin(petEntity.imageEntity)
+                                .fetchJoin()
+                                .innerJoin(petEntity.memberEntity, memberEntity)
+                                .fetchJoin()
+                                .innerJoin(petEntity.favoriteEntity, favoriteEntity)
+                                .fetchJoin()
+                                .where(petEntity.id.eq(id))
+                                .fetchOne()
+                )
                 .orElseThrow(() -> new PetResourceNotFoundException(id))
                 .toModel();
     }
 
     @Override
     public Pet findByEmailAndIdOrElseThrow(final Email email, final Long id) {
-        return findByEmailAndId(email, id)
-                .orElseThrow(() -> new PetResourceNotFoundException(id));
+        return Optional.ofNullable(
+                        queryFactory.selectFrom(petEntity)
+                                .distinct()
+                                .leftJoin(petEntity.imageEntity)
+                                .fetchJoin()
+                                .innerJoin(petEntity.memberEntity, memberEntity)
+                                .fetchJoin()
+                                .innerJoin(petEntity.favoriteEntity, favoriteEntity)
+                                .fetchJoin()
+                                .where(petEntity.id.eq(id).and(petEntity.memberEntity.email.eq(email.toString())))
+                                .fetchOne()
+                )
+                .orElseThrow(() -> new PetResourceNotFoundException(id))
+                .toModel();
     }
 
     @Override
-    public Optional<Pet> findByEmailAndId(final Email email, final Long id) {
-        return petJpaRepository.findOneById(email.toString(), id).map(PetEntity::toModel);
-    }
-
-    @Override
-    public List<Pet> findAllByEmail(final Email email) {
-        return petJpaRepository.findAll(email.toString())
+    public List<PetResponse> findAllByEmail(final Email email) {
+        return queryFactory.select(Projections.constructor(
+                        PetResponseDto.class,
+                        petEntity.id,
+                        petEntity.name,
+                        petEntity.species,
+                        petEntity.owner,
+                        petEntity.personalities,
+                        petEntity.deathAnniversary,
+                        Projections.constructor(
+                                ImageResponse.class,
+                                petEntity.imageEntity.id,
+                                petEntity.imageEntity.objectKey,
+                                petEntity.imageEntity.url
+                        ),
+                        Projections.constructor(
+                                FavoriteResponse.class,
+                                petEntity.favoriteEntity.id,
+                                petEntity.favoriteEntity.total,
+                                petEntity.favoriteEntity.dayIncreaseCount,
+                                petEntity.favoriteEntity.canIncrease
+                        )
+                ))
+                .distinct()
+                .from(petEntity)
+                .innerJoin(petEntity.favoriteEntity, favoriteEntity)
+                .leftJoin(petEntity.imageEntity)
+                .where(petEntity.memberEntity.email.eq(email.toString()))
+                .fetch()
                 .stream()
-                .map(PetEntity::toModel)
+                .map(PetResponse::from)
                 .toList();
     }
 
     @Override
     public Pet findByEmailAndIdWithImageOrElseThrow(final Email email, final Long id) {
         return Optional.ofNullable(
-                        queryFactory.select(petEntity)
-                                .from(petEntity)
+                        queryFactory.selectFrom(petEntity)
                                 .innerJoin(petEntity.imageEntity, imageEntity)
                                 .fetchJoin()
                                 .innerJoin(petEntity.memberEntity, memberEntity)

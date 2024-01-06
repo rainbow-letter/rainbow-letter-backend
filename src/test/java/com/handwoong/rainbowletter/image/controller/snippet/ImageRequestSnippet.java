@@ -13,7 +13,7 @@ import org.springframework.restdocs.snippet.Snippet;
 public class ImageRequestSnippet {
     public static final Snippet IMAGE_HEADER = requestHeaders(
             headerWithName("Authorization").description("액세스 토큰"),
-            headerWithName("Content-Type").description("폼 데이터")
+            headerWithName("Content-Type").description("명시하면 안됨")
     );
     public static final Snippet IMAGE_TYPE = queryParameters(
             parameterWithName("type").description("이미지 타입").attributes(constraints("PET || LETTER 대문자"))

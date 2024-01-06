@@ -3,7 +3,9 @@ package com.handwoong.rainbowletter.pet.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
+import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.domain.ImageType;
 import com.handwoong.rainbowletter.member.domain.Email;
@@ -15,6 +17,7 @@ import com.handwoong.rainbowletter.member.domain.Password;
 import com.handwoong.rainbowletter.member.domain.PhoneNumber;
 import com.handwoong.rainbowletter.member.exception.MemberEmailNotFoundException;
 import com.handwoong.rainbowletter.mock.pet.PetTestContainer;
+import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.domain.Personalities;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
@@ -88,7 +91,7 @@ class PetServiceTest {
         testContainer.repository.save(pet2);
 
         // when
-        final List<Pet> pets = testContainer.service.findAllByEmail(new Email("handwoong@gmail.com"));
+        final List<PetResponse> pets = testContainer.service.findAllByEmail(new Email("handwoong@gmail.com"));
 
         // then
         assertThat(pets).hasSize(2);
@@ -96,21 +99,19 @@ class PetServiceTest {
         assertThat(pets.get(0).name()).isEqualTo("두부");
         assertThat(pets.get(0).species()).isEqualTo("고양이");
         assertThat(pets.get(0).owner()).isEqualTo("형님");
-        assertThat(pets.get(0).personalities()).isEqualTo("질투쟁이,새침함");
+        assertThat(pets.get(0).personalities()).contains("질투쟁이", "새침함");
         assertThat(pets.get(0).deathAnniversary()).isNull();
-        assertThat(pets.get(0).image()).isEqualTo(image);
-        assertThat(pets.get(0).member()).isEqualTo(member);
-        assertThat(pets.get(0).favorite()).isEqualTo(favorite);
+        assertThat(pets.get(0).image()).isEqualTo(ImageResponse.from(image));
+        assertThat(pets.get(0).favorite()).isEqualTo(FavoriteResponse.from(favorite));
 
         assertThat(pets.get(1).id()).isEqualTo(2);
         assertThat(pets.get(1).name()).isEqualTo("침이");
         assertThat(pets.get(1).species()).isEqualTo("고양이");
         assertThat(pets.get(1).owner()).isEqualTo("형님");
-        assertThat(pets.get(1).personalities()).isEqualTo("애교쟁이");
+        assertThat(pets.get(1).personalities()).contains("애교쟁이");
         assertThat(pets.get(1).deathAnniversary()).isNull();
-        assertThat(pets.get(1).image()).isEqualTo(image);
-        assertThat(pets.get(1).member()).isEqualTo(member);
-        assertThat(pets.get(1).favorite()).isEqualTo(favorite);
+        assertThat(pets.get(1).image()).isEqualTo(ImageResponse.from(image));
+        assertThat(pets.get(1).favorite()).isEqualTo(FavoriteResponse.from(favorite));
     }
 
     @Test
@@ -376,7 +377,8 @@ class PetServiceTest {
         testContainer.service.delete(email, 1L);
 
         // then
-        assertThat(testContainer.repository.findByEmailAndId(email, 1L)).isEmpty();
+        assertThatThrownBy(() -> testContainer.repository.findByIdOrElseThrow(1L))
+                .isInstanceOf(PetResourceNotFoundException.class);
     }
 
     @Test

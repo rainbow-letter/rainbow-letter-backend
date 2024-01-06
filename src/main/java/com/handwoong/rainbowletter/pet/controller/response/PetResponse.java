@@ -31,4 +31,17 @@ public record PetResponse(
                 .favorite(FavoriteResponse.from(pet.favorite()))
                 .build();
     }
+
+    public static PetResponse from(final PetResponseDto petResponseDto) {
+        return PetResponse.builder()
+                .id(petResponseDto.id())
+                .name(petResponseDto.name())
+                .species(petResponseDto.species())
+                .owner(petResponseDto.owner())
+                .personalities(Personalities.from(petResponseDto.personalities()).personalities())
+                .deathAnniversary(petResponseDto.deathAnniversary())
+                .image(petResponseDto.image())
+                .favorite(petResponseDto.favorite())
+                .build();
+    }
 }
