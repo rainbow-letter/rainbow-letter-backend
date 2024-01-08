@@ -73,7 +73,7 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public LetterResponse findLetterResponseByIdOrElseThrow(final Long id) {
+    public LetterResponse findLetterResponseByIdOrElseThrow(final Email email, final Long id) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
         final QReplyEntity reply = replyEntity;
@@ -115,7 +115,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .leftJoin(pet.imageEntity)
                 .leftJoin(letter.imageEntity)
                 .leftJoin(letter.replyEntity, reply).on(reply.type.eq(ReplyType.REPLY))
-                .where(letter.id.eq(id))
+                .where(letter.id.eq(id).and(letter.petEntity.memberEntity.email.eq(email.toString())))
                 .fetchOne();
         return Optional.ofNullable(result)
                 .orElseThrow(() -> new LetterResourceNotFoundException(id));

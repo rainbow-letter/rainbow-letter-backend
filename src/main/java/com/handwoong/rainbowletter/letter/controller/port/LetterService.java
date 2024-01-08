@@ -12,5 +12,5 @@ public interface LetterService {
 
     List<LetterBoxResponse> findAllLetterBoxByEmail(Email email);
 
-    LetterResponse findLetterById(Long id);
+    LetterResponse findLetterById(Email email, Long id);
 }

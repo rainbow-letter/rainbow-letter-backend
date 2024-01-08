@@ -54,12 +54,11 @@ public class FakeLetterRepository implements LetterRepository {
     }
 
     @Override
-    public LetterResponse findLetterResponseByIdOrElseThrow(final Long id) {
-        final Letter letter = database.get(id);
-        if (Objects.isNull(letter)) {
-            throw new LetterResourceNotFoundException(id);
-        }
-        return LetterResponse.from(letter);
+    public LetterResponse findLetterResponseByIdOrElseThrow(final Email email, final Long id) {
+        final Letter findLetter = Optional.ofNullable(database.get(id))
+                .filter(letter -> letter.pet().member().email().equals(email))
+                .orElseThrow(() -> new LetterResourceNotFoundException(id));
+        return LetterResponse.from(findLetter);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
-    public LetterResponse findLetterById(final Long id) {
-        return letterRepository.findLetterResponseByIdOrElseThrow(id);
+    public LetterResponse findLetterById(final Email email, final Long id) {
+        return letterRepository.findLetterResponseByIdOrElseThrow(email, id);
     }
 }

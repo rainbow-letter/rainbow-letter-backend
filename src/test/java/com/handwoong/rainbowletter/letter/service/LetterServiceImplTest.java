@@ -75,6 +75,7 @@ class LetterServiceImplTest {
     @Test
     void ID로_편지를_조회한다() {
         // given
+        final Email email = new Email("handwoong@gmail.com");
         final LetterTestContainer testContainer = new LetterTestContainer();
         final Letter letter = Letter.builder()
                 .id(1L)
@@ -88,7 +89,7 @@ class LetterServiceImplTest {
         testContainer.repository.save(letter);
 
         // when
-        final LetterResponse result = testContainer.service.findLetterById(1L);
+        final LetterResponse result = testContainer.service.findLetterById(email, 1L);
 
         // then
         assertThat(result.id()).isEqualTo(1);
@@ -102,11 +103,12 @@ class LetterServiceImplTest {
     @Test
     void ID로_편지_조회시_편지를_찾지_못하면_예외가_발생한다() {
         // given
+        final Email email = new Email("handwoong@gmail.com");
         final LetterTestContainer testContainer = new LetterTestContainer();
 
         // when
         // then
-        assertThatThrownBy(() -> testContainer.service.findLetterById(1L))
+        assertThatThrownBy(() -> testContainer.service.findLetterById(email, 1L))
                 .isInstanceOf(LetterResourceNotFoundException.class)
                 .hasMessage("해당 편지를 찾을 수 없습니다.");
     }

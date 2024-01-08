@@ -13,7 +13,7 @@ public interface LetterRepository {
 
     List<LetterBoxResponse> findAllLetterBoxByEmail(Email email);
 
-    LetterResponse findLetterResponseByIdOrElseThrow(Long id);
+    LetterResponse findLetterResponseByIdOrElseThrow(Email email, Long id);
 
     boolean existsByPet(Long petId);
 }

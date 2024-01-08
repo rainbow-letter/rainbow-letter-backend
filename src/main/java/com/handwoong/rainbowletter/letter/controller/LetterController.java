@@ -35,7 +35,8 @@ public class LetterController {
 
     @GetMapping("/{id}")
     public ResponseEntity<LetterResponse> findOne(@PathVariable Long id) {
-        final LetterResponse response = letterService.findLetterById(id);
+        final Email email = SecurityUtils.getAuthenticationUsername();
+        final LetterResponse response = letterService.findLetterById(email, id);
         return ResponseEntity.ok(response);
     }
 
