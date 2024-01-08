@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class FakeLetterRepository implements LetterRepository {
     private final Map<Long, Letter> database = new HashMap<>();
@@ -23,6 +24,12 @@ public class FakeLetterRepository implements LetterRepository {
         final Letter saveLetter = createLetter(id, letter);
         database.put(id, saveLetter);
         return saveLetter;
+    }
+
+    @Override
+    public Letter findByIdOrElseThrow(final Long id) {
+        return Optional.ofNullable(database.get(id))
+                .orElseThrow(() -> new LetterResourceNotFoundException(id));
     }
 
     private Letter createLetter(final Long id, final Letter letter) {

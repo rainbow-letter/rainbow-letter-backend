@@ -51,7 +51,7 @@ public class ReplyEntity extends BaseEntity {
 
     private LocalDateTime timestamp;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "chat_gpt_id", referencedColumnName = "id")
     private ChatGptEntity chatGptEntity;
 

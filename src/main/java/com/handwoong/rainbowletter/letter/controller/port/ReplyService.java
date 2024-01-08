@@ -8,4 +8,6 @@ public interface ReplyService {
     Letter generate(Long letterId);
 
     Reply submit(ReplySubmit request, Long id);
+
+    Reply read(Long id);
 }

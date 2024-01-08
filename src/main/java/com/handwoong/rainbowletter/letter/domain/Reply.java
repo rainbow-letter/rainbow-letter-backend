@@ -28,11 +28,24 @@ public record Reply(
 
     public Reply submit(final ReplySubmit submit) {
         return Reply.builder()
+                .id(id)
                 .summary(submit.summary())
                 .content(submit.content())
                 .type(ReplyType.REPLY)
                 .readStatus(readStatus)
                 .timestamp(LocalDateTime.now())
+                .chatGpt(chatGpt)
+                .build();
+    }
+
+    public Reply read() {
+        return Reply.builder()
+                .id(id)
+                .summary(summary)
+                .content(content)
+                .type(type)
+                .readStatus(ReplyReadStatus.READ)
+                .timestamp(timestamp)
                 .chatGpt(chatGpt)
                 .build();
     }

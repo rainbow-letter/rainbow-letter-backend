@@ -32,4 +32,12 @@ public class ReplyServiceImpl implements ReplyService {
         final Reply submittedReply = reply.submit(request);
         return replyRepository.save(submittedReply);
     }
+
+    @Override
+    @Transactional
+    public Reply read(final Long id) {
+        final Reply reply = replyRepository.findByIdOrElseThrow(id);
+        final Reply readReply = reply.read();
+        return replyRepository.save(readReply);
+    }
 }

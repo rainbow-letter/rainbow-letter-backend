@@ -12,6 +12,7 @@ public record LetterResponse(
         String content,
         LetterPetResponse pet,
         ImageResponse image,
+        ReplyResponse reply,
         LocalDateTime createdAt
 ) {
     public static LetterResponse from(final Letter letter) {

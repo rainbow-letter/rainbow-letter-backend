@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReplyController {
     private final ReplyService replyService;
 
+    @PostMapping("/read/{id}")
+    public ResponseEntity<Void> read(@PathVariable Long id) {
+        replyService.read(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/admin/generate/{letterId}")
     public ResponseEntity<Void> generate(@PathVariable Long letterId) {
         replyService.generate(letterId);

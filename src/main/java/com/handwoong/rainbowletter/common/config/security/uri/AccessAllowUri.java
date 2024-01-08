@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 public enum AccessAllowUri implements AllowUri {
     ROOT("/"),
     INDEX("/index.html"),
-    REPLY_LETTER("/api/legacy/letters"),
     FAQ("/api/faqs/list"),
     ;
 

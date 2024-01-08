@@ -1,13 +1,16 @@
 package com.handwoong.rainbowletter.letter.infrastructure;
 
 import static com.handwoong.rainbowletter.letter.infrastructure.QLetterEntity.letterEntity;
+import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.replyEntity;
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterPetResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
+import com.handwoong.rainbowletter.letter.controller.response.ReplyResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
+import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.letter.exception.LetterResourceNotFoundException;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
@@ -73,6 +76,7 @@ public class LetterRepositoryImpl implements LetterRepository {
     public LetterResponse findLetterResponseByIdOrElseThrow(final Long id) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
+        final QReplyEntity reply = replyEntity;
         final LetterResponse result = queryFactory.select(Projections.constructor(
                         LetterResponse.class,
                         letter.id,
@@ -95,6 +99,14 @@ public class LetterRepositoryImpl implements LetterRepository {
                                 letter.imageEntity.objectKey,
                                 letter.imageEntity.url
                         ),
+                        Projections.constructor(
+                                ReplyResponse.class,
+                                reply.id,
+                                reply.summary,
+                                reply.content,
+                                reply.readStatus,
+                                reply.type
+                        ),
                         letter.createdAt
                 ))
                 .distinct()
@@ -102,6 +114,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .innerJoin(letter.petEntity, pet)
                 .leftJoin(pet.imageEntity)
                 .leftJoin(letter.imageEntity)
+                .leftJoin(letter.replyEntity, reply).on(reply.type.eq(ReplyType.REPLY))
                 .where(letter.id.eq(id))
                 .fetchOne();
         return Optional.ofNullable(result)

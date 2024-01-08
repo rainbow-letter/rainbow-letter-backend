@@ -54,6 +54,21 @@ public class LetterResponseSnippet {
             fieldWithPath("image.url").type(JsonFieldType.STRING)
                     .description("편지 이미지의 URL")
                     .optional(),
+            fieldWithPath("reply.id").type(JsonFieldType.NUMBER)
+                    .description("답장 ID")
+                    .optional(),
+            fieldWithPath("reply.summary").type(JsonFieldType.STRING)
+                    .description("답장 제목")
+                    .optional(),
+            fieldWithPath("reply.content").type(JsonFieldType.STRING)
+                    .description("답장 본문")
+                    .optional(),
+            fieldWithPath("reply.readStatus").type(JsonFieldType.STRING)
+                    .description("답장 읽음 여부")
+                    .optional(),
+            fieldWithPath("reply.type").type(JsonFieldType.STRING)
+                    .description("답장 타입 CHAT_GPT || REPLY")
+                    .optional(),
             fieldWithPath("createdAt").type(JsonFieldType.STRING)
                     .description("편지 작성일")
     );
