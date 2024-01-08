@@ -69,14 +69,14 @@ class LetterControllerTest extends ControllerTestSupporter {
 
         assertThat(result.letters().get(0).id()).isEqualTo(2);
         assertThat(result.letters().get(0).summary()).isEqualTo("콩아 형님이다.");
-        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.REQUEST);
+        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.RESPONSE);
         assertThat(result.letters().get(0).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(result.letters().get(0).petName()).isEqualTo("콩이");
         assertThat(result.letters().get(0).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 2, 12, 0, 0));
 
         assertThat(result.letters().get(1).id()).isEqualTo(1);
         assertThat(result.letters().get(1).summary()).isEqualTo("미키야 엄마가 보고싶다.");
-        assertThat(result.letters().get(1).status()).isEqualTo(LetterStatus.REQUEST);
+        assertThat(result.letters().get(1).status()).isEqualTo(LetterStatus.RESPONSE);
         assertThat(result.letters().get(1).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(result.letters().get(1).petName()).isEqualTo("미키");
         assertThat(result.letters().get(1).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));

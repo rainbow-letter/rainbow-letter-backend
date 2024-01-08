@@ -43,4 +43,17 @@ public record Letter(
                 .createdAt(createdAt)
                 .build();
     }
+
+    public Letter updateStatus() {
+        return Letter.builder()
+                .id(id)
+                .summary(summary)
+                .content(content)
+                .status(LetterStatus.RESPONSE)
+                .pet(pet)
+                .image(image)
+                .reply(reply)
+                .createdAt(createdAt)
+                .build();
+    }
 }

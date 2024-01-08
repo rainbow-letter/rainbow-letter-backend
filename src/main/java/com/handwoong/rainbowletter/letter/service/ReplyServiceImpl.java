@@ -30,7 +30,12 @@ public class ReplyServiceImpl implements ReplyService {
     public Reply submit(final ReplySubmit request, final Long id) {
         final Reply reply = replyRepository.findByIdOrElseThrow(id);
         final Reply submittedReply = reply.submit(request);
-        return replyRepository.save(submittedReply);
+        final Reply savedReply = replyRepository.save(submittedReply);
+
+        final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
+        final Letter updatedLetter = letter.updateStatus();
+        letterRepository.save(updatedLetter);
+        return savedReply;
     }
 
     @Override

@@ -13,6 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record ReplySubmitRequest(
+        Long letterId,
+
         @NotBlank(message = EMPTY_MESSAGE)
         @Size(max = MAX_SUMMARY_LENGTH, message = LETTER_SUMMARY)
         String summary,
@@ -23,6 +25,7 @@ public record ReplySubmitRequest(
 ) {
     public ReplySubmit toDto() {
         return ReplySubmit.builder()
+                .letterId(letterId)
                 .summary(new Summary(summary))
                 .content(new Content(content))
                 .build();

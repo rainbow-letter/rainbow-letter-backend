@@ -5,5 +5,5 @@ import com.handwoong.rainbowletter.letter.domain.Summary;
 import lombok.Builder;
 
 @Builder
-public record ReplySubmit(Summary summary, Content content) {
+public record ReplySubmit(Long letterId, Summary summary, Content content) {
 }

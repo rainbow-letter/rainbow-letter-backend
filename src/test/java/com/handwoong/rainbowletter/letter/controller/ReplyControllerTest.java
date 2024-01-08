@@ -48,7 +48,7 @@ class ReplyControllerTest extends ControllerTestSupporter {
     void 답장_보내기() {
         // given
         final String token = adminAccessToken;
-        final ReplySubmitRequest request = new ReplySubmitRequest("답장 최종 제목", "답장 최종 본문");
+        final ReplySubmitRequest request = new ReplySubmitRequest(1L, "답장 최종 제목", "답장 최종 본문");
 
         // when
         final ExtractableResponse<Response> response = submit(request, token);
