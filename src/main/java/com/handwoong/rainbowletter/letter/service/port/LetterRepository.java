@@ -9,7 +9,11 @@ import java.util.List;
 public interface LetterRepository {
     Letter save(Letter letter);
 
+    Letter findByIdOrElseThrow(Long id);
+
     List<LetterBoxResponse> findAllLetterBoxByEmail(Email email);
 
-    LetterResponse findLetterByIdOrElseThrow(Long id);
+    LetterResponse findLetterResponseByIdOrElseThrow(Email email, Long id);
+
+    boolean existsByPet(Long petId);
 }

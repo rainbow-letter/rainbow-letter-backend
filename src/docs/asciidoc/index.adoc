@@ -49,3 +49,5 @@ include::pet.adoc[]
 include::favorite.adoc[]
 
 include::letter.adoc[]
+
+include::reply.adoc[]

@@ -5,6 +5,7 @@ import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
+import com.handwoong.rainbowletter.letter.domain.CreateReply;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.dto.LetterCreate;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
@@ -25,6 +26,7 @@ public class LetterServiceImpl implements LetterService {
     private final LetterRepository letterRepository;
 
     @Override
+    @CreateReply
     @Transactional
     public Letter create(final Long petId, final LetterCreate request) {
         final Pet pet = petRepository.findByIdOrElseThrow(petId);
@@ -39,7 +41,7 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
-    public LetterResponse findLetterById(final Long id) {
-        return letterRepository.findLetterByIdOrElseThrow(id);
+    public LetterResponse findLetterById(final Email email, final Long id) {
+        return letterRepository.findLetterResponseByIdOrElseThrow(email, id);
     }
 }

@@ -5,8 +5,11 @@ import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.domain.ImageType;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
+import com.handwoong.rainbowletter.letter.controller.port.ReplyService;
 import com.handwoong.rainbowletter.letter.service.LetterServiceImpl;
+import com.handwoong.rainbowletter.letter.service.ReplyServiceImpl;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
+import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberRole;
@@ -61,6 +64,8 @@ public class LetterTestContainer {
     public final LetterService service;
     public final PetRepository petRepository;
     public final ImageRepository imageRepository;
+    public final ReplyRepository replyRepository;
+    public final ReplyService replyService;
 
     public LetterTestContainer() {
         final PetTestContainer petTestContainer = new PetTestContainer();
@@ -73,5 +78,8 @@ public class LetterTestContainer {
 
         this.repository = new FakeLetterRepository();
         this.service = new LetterServiceImpl(petRepository, imageRepository, repository);
+
+        this.replyRepository = new FakeReplyRepository();
+        this.replyService = new ReplyServiceImpl(replyRepository, repository);
     }
 }

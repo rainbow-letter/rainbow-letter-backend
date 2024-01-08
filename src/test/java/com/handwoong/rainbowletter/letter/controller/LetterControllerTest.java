@@ -16,6 +16,8 @@ import com.handwoong.rainbowletter.letter.controller.request.LetterCreateRequest
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponses;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
 import com.handwoong.rainbowletter.letter.domain.LetterStatus;
+import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
+import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.util.ControllerTestSupporter;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -67,13 +69,15 @@ class LetterControllerTest extends ControllerTestSupporter {
 
         assertThat(result.letters().get(0).id()).isEqualTo(2);
         assertThat(result.letters().get(0).summary()).isEqualTo("콩아 형님이다.");
-        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.REQUEST);
+        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.RESPONSE);
+        assertThat(result.letters().get(0).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(result.letters().get(0).petName()).isEqualTo("콩이");
         assertThat(result.letters().get(0).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 2, 12, 0, 0));
 
         assertThat(result.letters().get(1).id()).isEqualTo(1);
         assertThat(result.letters().get(1).summary()).isEqualTo("미키야 엄마가 보고싶다.");
-        assertThat(result.letters().get(1).status()).isEqualTo(LetterStatus.REQUEST);
+        assertThat(result.letters().get(1).status()).isEqualTo(LetterStatus.RESPONSE);
+        assertThat(result.letters().get(1).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(result.letters().get(1).petName()).isEqualTo("미키");
         assertThat(result.letters().get(1).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
     }
@@ -110,6 +114,11 @@ class LetterControllerTest extends ControllerTestSupporter {
         assertThat(result.image().id()).isEqualTo(2);
         assertThat(result.image().objectKey()).isEqualTo("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
         assertThat(result.image().url()).isEqualTo("http://rainbowletter/image");
+        assertThat(result.reply().id()).isEqualTo(1);
+        assertThat(result.reply().summary()).isEqualTo("엄마 미키 여기서 잘 지내!");
+        assertThat(result.reply().content()).isEqualTo("엄마 미키 여기서 잘 지내! 여기 무지개마을은 매일 햇살이 따뜻해. 미키 언제나 엄마 곁에 있을게. 사랑해!");
+        assertThat(result.reply().readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
+        assertThat(result.reply().type()).isEqualTo(ReplyType.REPLY);
         assertThat(result.createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
     }
 

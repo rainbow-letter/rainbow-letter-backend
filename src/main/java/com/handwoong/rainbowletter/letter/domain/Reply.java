@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.letter.domain;
 
-import com.handwoong.rainbowletter.gpt.domain.ChatGptToken;
+import com.handwoong.rainbowletter.letter.domain.dto.ReplySubmit;
 import jakarta.annotation.Nullable;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -14,7 +14,39 @@ public record Reply(
         ReplyReadStatus readStatus,
         @Nullable
         LocalDateTime timestamp,
-        @Nullable
-        ChatGptToken chatGptToken
+        ChatGpt chatGpt
 ) {
+    public static Reply create(final ChatGpt chatGpt) {
+        return Reply.builder()
+                .summary(new Summary(chatGpt.content().substring(0, 20)))
+                .content(new Content(chatGpt.content()))
+                .type(ReplyType.CHAT_GPT)
+                .readStatus(ReplyReadStatus.UNREAD)
+                .chatGpt(chatGpt)
+                .build();
+    }
+
+    public Reply submit(final ReplySubmit submit) {
+        return Reply.builder()
+                .id(id)
+                .summary(submit.summary())
+                .content(submit.content())
+                .type(ReplyType.REPLY)
+                .readStatus(readStatus)
+                .timestamp(LocalDateTime.now())
+                .chatGpt(chatGpt)
+                .build();
+    }
+
+    public Reply read() {
+        return Reply.builder()
+                .id(id)
+                .summary(summary)
+                .content(content)
+                .type(type)
+                .readStatus(ReplyReadStatus.READ)
+                .timestamp(timestamp)
+                .chatGpt(chatGpt)
+                .build();
+    }
 }

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class FakeLetterRepository implements LetterRepository {
     private final Map<Long, Letter> database = new HashMap<>();
@@ -26,20 +27,9 @@ public class FakeLetterRepository implements LetterRepository {
     }
 
     @Override
-    public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
-        return database.values().stream()
-                .filter(letter -> letter.pet().member().email().equals(email))
-                .map(LetterBoxResponse::from)
-                .toList();
-    }
-
-    @Override
-    public LetterResponse findLetterByIdOrElseThrow(final Long id) {
-        final Letter letter = database.get(id);
-        if (Objects.isNull(letter)) {
-            throw new LetterResourceNotFoundException(id);
-        }
-        return LetterResponse.from(letter);
+    public Letter findByIdOrElseThrow(final Long id) {
+        return Optional.ofNullable(database.get(id))
+                .orElseThrow(() -> new LetterResourceNotFoundException(id));
     }
 
     private Letter createLetter(final Long id, final Letter letter) {
@@ -53,5 +43,29 @@ public class FakeLetterRepository implements LetterRepository {
                 .reply(letter.reply())
                 .createdAt(LocalDate.now().atStartOfDay())
                 .build();
+    }
+
+    @Override
+    public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
+        return database.values().stream()
+                .filter(letter -> letter.pet().member().email().equals(email))
+                .map(LetterBoxResponse::from)
+                .toList();
+    }
+
+    @Override
+    public LetterResponse findLetterResponseByIdOrElseThrow(final Email email, final Long id) {
+        final Letter findLetter = Optional.ofNullable(database.get(id))
+                .filter(letter -> letter.pet().member().email().equals(email))
+                .orElseThrow(() -> new LetterResourceNotFoundException(id));
+        return LetterResponse.from(findLetter);
+    }
+
+    @Override
+    public boolean existsByPet(final Long petId) {
+        final List<Letter> result = database.values().stream()
+                .filter(letter -> letter.pet().id().equals(petId))
+                .toList();
+        return result.size() > 1;
     }
 }

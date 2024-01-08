@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.letter.controller.response;
 
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.LetterStatus;
+import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
 import java.time.LocalDateTime;
 import lombok.Builder;
 
@@ -11,6 +12,7 @@ public record LetterBoxResponse(
         String summary,
         LetterStatus status,
         String petName,
+        ReplyReadStatus readStatus,
         LocalDateTime createdAt
 ) {
     public static LetterBoxResponse from(final Letter letter) {

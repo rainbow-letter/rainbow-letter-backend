@@ -2,11 +2,13 @@ package com.handwoong.rainbowletter.letter.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.handwoong.rainbowletter.letter.domain.ChatGpt;
 import com.handwoong.rainbowletter.letter.domain.Content;
 import com.handwoong.rainbowletter.letter.domain.Reply;
 import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
 import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.letter.domain.Summary;
+import com.handwoong.rainbowletter.letter.infrastructure.chatgpt.ChatGptEntity;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +16,13 @@ class ReplyEntityTest {
     @Test
     void 답장_도메인으로_엔티티를_생성한다() {
         // given
+        final ChatGpt chatGpt = ChatGpt.builder()
+                .id(1L)
+                .content("이 내용은 ChatGPT가 생성한 내용입니다.")
+                .promptTokens(1004)
+                .completionTokens(463)
+                .totalTokens(1467)
+                .build();
         final Reply reply = Reply.builder()
                 .id(1L)
                 .summary(new Summary("엄마 콩이 여기서 잘 지내!"))
@@ -21,7 +30,7 @@ class ReplyEntityTest {
                 .readStatus(ReplyReadStatus.UNREAD)
                 .type(ReplyType.REPLY)
                 .timestamp(LocalDate.now().atStartOfDay())
-                .chatGptToken(null)
+                .chatGpt(chatGpt)
                 .build();
 
         // when
@@ -35,11 +44,18 @@ class ReplyEntityTest {
         assertThat(replyEntity.getReadStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(replyEntity.getType()).isEqualTo(ReplyType.REPLY);
         assertThat(replyEntity.getTimestamp()).isEqualTo(LocalDate.now().atStartOfDay());
-        assertThat(replyEntity.getChatGptTokenEntity()).isNull();
+        assertThat(replyEntity.getChatGptEntity()).isEqualTo(ChatGptEntity.from(chatGpt));
     }
 
     @Test
     void 엔티티로_답장_도메인을_생성한다() {
+        final ChatGpt chatGpt = ChatGpt.builder()
+                .id(1L)
+                .content("이 내용은 ChatGPT가 생성한 내용입니다.")
+                .promptTokens(1004)
+                .completionTokens(463)
+                .totalTokens(1467)
+                .build();
         final Reply reply = Reply.builder()
                 .id(1L)
                 .summary(new Summary("엄마 콩이 여기서 잘 지내!"))
@@ -47,7 +63,7 @@ class ReplyEntityTest {
                 .readStatus(ReplyReadStatus.UNREAD)
                 .type(ReplyType.REPLY)
                 .timestamp(LocalDate.now().atStartOfDay())
-                .chatGptToken(null)
+                .chatGpt(chatGpt)
                 .build();
 
         final ReplyEntity replyEntity = ReplyEntity.from(reply);
@@ -63,6 +79,6 @@ class ReplyEntityTest {
         assertThat(convertReply.readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(convertReply.type()).isEqualTo(ReplyType.REPLY);
         assertThat(convertReply.timestamp()).isEqualTo(LocalDate.now().atStartOfDay());
-        assertThat(convertReply.chatGptToken()).isNull();
+        assertThat(convertReply.chatGpt()).isEqualTo(chatGpt);
     }
 }
