@@ -21,7 +21,7 @@ class ReplyEntityTest {
                 .readStatus(ReplyReadStatus.UNREAD)
                 .type(ReplyType.REPLY)
                 .timestamp(LocalDate.now().atStartOfDay())
-                .chatGptToken(null)
+                .chatGpt(null)
                 .build();
 
         // when
@@ -35,7 +35,7 @@ class ReplyEntityTest {
         assertThat(replyEntity.getReadStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(replyEntity.getType()).isEqualTo(ReplyType.REPLY);
         assertThat(replyEntity.getTimestamp()).isEqualTo(LocalDate.now().atStartOfDay());
-        assertThat(replyEntity.getChatGptTokenEntity()).isNull();
+        assertThat(replyEntity.getChatGptEntity()).isNull();
     }
 
     @Test
@@ -47,7 +47,7 @@ class ReplyEntityTest {
                 .readStatus(ReplyReadStatus.UNREAD)
                 .type(ReplyType.REPLY)
                 .timestamp(LocalDate.now().atStartOfDay())
-                .chatGptToken(null)
+                .chatGpt(null)
                 .build();
 
         final ReplyEntity replyEntity = ReplyEntity.from(reply);
@@ -63,6 +63,6 @@ class ReplyEntityTest {
         assertThat(convertReply.readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(convertReply.type()).isEqualTo(ReplyType.REPLY);
         assertThat(convertReply.timestamp()).isEqualTo(LocalDate.now().atStartOfDay());
-        assertThat(convertReply.chatGptToken()).isNull();
+        assertThat(convertReply.chatGpt()).isNull();
     }
 }

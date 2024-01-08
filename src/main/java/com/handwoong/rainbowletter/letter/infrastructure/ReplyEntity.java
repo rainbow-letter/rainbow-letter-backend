@@ -1,7 +1,7 @@
 package com.handwoong.rainbowletter.letter.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
-import com.handwoong.rainbowletter.gpt.infrastructure.ChatGptTokenEntity;
+import com.handwoong.rainbowletter.gpt.infrastructure.ChatGptEntity;
 import com.handwoong.rainbowletter.letter.domain.Content;
 import com.handwoong.rainbowletter.letter.domain.Reply;
 import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
@@ -52,7 +52,7 @@ public class ReplyEntity extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_gpt_token_id", referencedColumnName = "id")
-    private ChatGptTokenEntity chatGptTokenEntity;
+    private ChatGptEntity chatGptEntity;
 
     public static ReplyEntity from(final Reply reply) {
         final ReplyEntity replyEntity = new ReplyEntity();
@@ -62,8 +62,8 @@ public class ReplyEntity extends BaseEntity {
         replyEntity.type = reply.type();
         replyEntity.readStatus = reply.readStatus();
         replyEntity.timestamp = reply.timestamp();
-        replyEntity.chatGptTokenEntity =
-                Objects.nonNull(reply.chatGptToken()) ? ChatGptTokenEntity.from(reply.chatGptToken()) : null;
+        replyEntity.chatGptEntity =
+                Objects.nonNull(reply.chatGpt()) ? ChatGptEntity.from(reply.chatGpt()) : null;
         return replyEntity;
     }
 
@@ -75,7 +75,7 @@ public class ReplyEntity extends BaseEntity {
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)
-                .chatGptToken(Objects.nonNull(chatGptTokenEntity) ? chatGptTokenEntity.toModel() : null)
+                .chatGpt(Objects.nonNull(chatGptEntity) ? chatGptEntity.toModel() : null)
                 .build();
     }
 
