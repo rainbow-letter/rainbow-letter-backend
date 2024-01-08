@@ -31,6 +31,24 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
+    public Letter findByIdOrElseThrow(final Long id) {
+        return Optional.ofNullable(
+                        queryFactory.selectFrom(letterEntity)
+                                .distinct()
+                                .leftJoin(letterEntity.imageEntity)
+                                .fetchJoin()
+                                .leftJoin(letterEntity.replyEntity)
+                                .fetchJoin()
+                                .innerJoin(letterEntity.petEntity, petEntity)
+                                .fetchJoin()
+                                .where(letterEntity.id.eq(id))
+                                .fetchOne()
+                )
+                .orElseThrow(() -> new LetterResourceNotFoundException(id))
+                .toModel();
+    }
+
+    @Override
     public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
         final QLetterEntity letter = letterEntity;
         return queryFactory.select(Projections.constructor(
@@ -39,9 +57,12 @@ public class LetterRepositoryImpl implements LetterRepository {
                         letter.summary,
                         letter.status,
                         letter.petEntity.name.as("petName"),
+                        letter.replyEntity.readStatus,
                         letter.createdAt
                 ))
+                .distinct()
                 .from(letter)
+                .leftJoin(letter.replyEntity)
                 .innerJoin(letter.petEntity, petEntity)
                 .where(letter.petEntity.memberEntity.email.eq(email.toString()))
                 .orderBy(letter.createdAt.desc())
@@ -49,7 +70,7 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public LetterResponse findLetterByIdOrElseThrow(final Long id) {
+    public LetterResponse findLetterResponseByIdOrElseThrow(final Long id) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
         final LetterResponse result = queryFactory.select(Projections.constructor(

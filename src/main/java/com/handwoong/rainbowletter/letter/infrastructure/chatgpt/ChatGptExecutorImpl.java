@@ -3,7 +3,6 @@ package com.handwoong.rainbowletter.letter.infrastructure.chatgpt;
 import com.handwoong.rainbowletter.common.config.chatgpt.ChatGptConfig;
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptRequest;
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptResponse;
-import com.handwoong.rainbowletter.letter.service.port.ChatGptExecutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

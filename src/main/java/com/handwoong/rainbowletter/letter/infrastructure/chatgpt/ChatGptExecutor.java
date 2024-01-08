@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.letter.service.port;
+package com.handwoong.rainbowletter.letter.infrastructure.chatgpt;
 
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptRequest;
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptResponse;

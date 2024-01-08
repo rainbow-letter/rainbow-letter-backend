@@ -47,7 +47,7 @@ public class FakeLetterRepository implements LetterRepository {
     }
 
     @Override
-    public LetterResponse findLetterByIdOrElseThrow(final Long id) {
+    public LetterResponse findLetterResponseByIdOrElseThrow(final Long id) {
         final Letter letter = database.get(id);
         if (Objects.isNull(letter)) {
             throw new LetterResourceNotFoundException(id);
