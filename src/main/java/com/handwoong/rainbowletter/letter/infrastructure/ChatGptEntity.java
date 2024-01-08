@@ -1,7 +1,7 @@
-package com.handwoong.rainbowletter.gpt.infrastructure;
+package com.handwoong.rainbowletter.letter.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
-import com.handwoong.rainbowletter.gpt.domain.ChatGpt;
+import com.handwoong.rainbowletter.letter.domain.ChatGpt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

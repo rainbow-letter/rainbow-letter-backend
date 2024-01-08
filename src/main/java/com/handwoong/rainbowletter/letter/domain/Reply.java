@@ -1,6 +1,5 @@
 package com.handwoong.rainbowletter.letter.domain;
 
-import com.handwoong.rainbowletter.gpt.domain.ChatGpt;
 import jakarta.annotation.Nullable;
 import java.time.LocalDateTime;
 import lombok.Builder;

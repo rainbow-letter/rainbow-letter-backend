@@ -1,8 +1,8 @@
-package com.handwoong.rainbowletter.gpt.infrastructure;
+package com.handwoong.rainbowletter.letter.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.handwoong.rainbowletter.gpt.domain.ChatGpt;
+import com.handwoong.rainbowletter.letter.domain.ChatGpt;
 import org.junit.jupiter.api.Test;
 
 class ChatGptEntityTest {

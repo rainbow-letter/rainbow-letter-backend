@@ -1,7 +1,6 @@
 package com.handwoong.rainbowletter.letter.infrastructure;
 
 import com.handwoong.rainbowletter.common.infrastructure.BaseEntity;
-import com.handwoong.rainbowletter.gpt.infrastructure.ChatGptEntity;
 import com.handwoong.rainbowletter.letter.domain.Content;
 import com.handwoong.rainbowletter.letter.domain.Reply;
 import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
@@ -51,7 +50,7 @@ public class ReplyEntity extends BaseEntity {
     private LocalDateTime timestamp;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_gpt_token_id", referencedColumnName = "id")
+    @JoinColumn(name = "chat_gpt_id", referencedColumnName = "id")
     private ChatGptEntity chatGptEntity;
 
     public static ReplyEntity from(final Reply reply) {

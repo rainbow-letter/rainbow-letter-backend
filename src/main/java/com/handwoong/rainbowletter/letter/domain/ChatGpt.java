@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.gpt.domain;
+package com.handwoong.rainbowletter.letter.domain;
 
 import lombok.Builder;
 
