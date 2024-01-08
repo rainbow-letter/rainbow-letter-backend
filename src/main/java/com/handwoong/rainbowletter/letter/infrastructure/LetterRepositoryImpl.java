@@ -86,4 +86,13 @@ public class LetterRepositoryImpl implements LetterRepository {
         return Optional.ofNullable(result)
                 .orElseThrow(() -> new LetterResourceNotFoundException(id));
     }
+
+    @Override
+    public boolean existsByPet(final Long petId) {
+        final List<LetterEntity> result = queryFactory.selectFrom(letterEntity)
+                .innerJoin(letterEntity.petEntity, petEntity)
+                .where(letterEntity.petEntity.id.eq(petId))
+                .fetch();
+        return result.size() > 1;
+    }
 }

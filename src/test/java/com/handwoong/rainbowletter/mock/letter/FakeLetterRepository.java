@@ -25,6 +25,19 @@ public class FakeLetterRepository implements LetterRepository {
         return saveLetter;
     }
 
+    private Letter createLetter(final Long id, final Letter letter) {
+        return Letter.builder()
+                .id(id)
+                .summary(letter.summary())
+                .content(letter.content())
+                .status(letter.status())
+                .pet(letter.pet())
+                .image(letter.image())
+                .reply(letter.reply())
+                .createdAt(LocalDate.now().atStartOfDay())
+                .build();
+    }
+
     @Override
     public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
         return database.values().stream()
@@ -42,16 +55,11 @@ public class FakeLetterRepository implements LetterRepository {
         return LetterResponse.from(letter);
     }
 
-    private Letter createLetter(final Long id, final Letter letter) {
-        return Letter.builder()
-                .id(id)
-                .summary(letter.summary())
-                .content(letter.content())
-                .status(letter.status())
-                .pet(letter.pet())
-                .image(letter.image())
-                .reply(letter.reply())
-                .createdAt(LocalDate.now().atStartOfDay())
-                .build();
+    @Override
+    public boolean existsByPet(final Long petId) {
+        final List<Letter> result = database.values().stream()
+                .filter(letter -> letter.pet().id().equals(petId))
+                .toList();
+        return result.size() > 1;
     }
 }

@@ -12,4 +12,6 @@ public interface LetterRepository {
     List<LetterBoxResponse> findAllLetterBoxByEmail(Email email);
 
     LetterResponse findLetterByIdOrElseThrow(Long id);
+
+    boolean existsByPet(Long petId);
 }

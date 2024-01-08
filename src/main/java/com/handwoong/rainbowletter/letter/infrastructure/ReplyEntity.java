@@ -7,6 +7,7 @@ import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
 import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.letter.domain.Summary;
 import com.handwoong.rainbowletter.letter.infrastructure.chatgpt.ChatGptEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -50,7 +51,7 @@ public class ReplyEntity extends BaseEntity {
 
     private LocalDateTime timestamp;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "chat_gpt_id", referencedColumnName = "id")
     private ChatGptEntity chatGptEntity;
 
@@ -62,8 +63,7 @@ public class ReplyEntity extends BaseEntity {
         replyEntity.type = reply.type();
         replyEntity.readStatus = reply.readStatus();
         replyEntity.timestamp = reply.timestamp();
-        replyEntity.chatGptEntity =
-                Objects.nonNull(reply.chatGpt()) ? ChatGptEntity.from(reply.chatGpt()) : null;
+        replyEntity.chatGptEntity = ChatGptEntity.from(reply.chatGpt());
         return replyEntity;
     }
 
@@ -75,7 +75,7 @@ public class ReplyEntity extends BaseEntity {
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)
-                .chatGpt(Objects.nonNull(chatGptEntity) ? chatGptEntity.toModel() : null)
+                .chatGpt(chatGptEntity.toModel())
                 .build();
     }
 

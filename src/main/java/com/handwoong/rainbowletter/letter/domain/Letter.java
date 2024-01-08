@@ -30,4 +30,17 @@ public record Letter(
                 .image(image)
                 .build();
     }
+
+    public Letter update(final Reply reply) {
+        return Letter.builder()
+                .id(id)
+                .summary(summary)
+                .content(content)
+                .status(status)
+                .pet(pet)
+                .image(image)
+                .reply(reply)
+                .createdAt(createdAt)
+                .build();
+    }
 }
