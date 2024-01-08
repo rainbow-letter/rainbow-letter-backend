@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.letter.infrastructure;
+package com.handwoong.rainbowletter.letter.infrastructure.chatgpt;
 
 import com.handwoong.rainbowletter.letter.service.port.ChatGptRepository;
 import lombok.RequiredArgsConstructor;

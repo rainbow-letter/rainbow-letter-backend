@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.letter.infrastructure;
+package com.handwoong.rainbowletter.letter.infrastructure.chatgpt;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

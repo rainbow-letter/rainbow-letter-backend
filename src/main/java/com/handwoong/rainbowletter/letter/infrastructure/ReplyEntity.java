@@ -6,6 +6,7 @@ import com.handwoong.rainbowletter.letter.domain.Reply;
 import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
 import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.letter.domain.Summary;
+import com.handwoong.rainbowletter.letter.infrastructure.chatgpt.ChatGptEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

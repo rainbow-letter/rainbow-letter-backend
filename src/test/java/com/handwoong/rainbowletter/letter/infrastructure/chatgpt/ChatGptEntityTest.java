@@ -1,4 +1,4 @@
-package com.handwoong.rainbowletter.letter.infrastructure;
+package com.handwoong.rainbowletter.letter.infrastructure.chatgpt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
