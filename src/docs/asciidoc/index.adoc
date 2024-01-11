@@ -38,6 +38,12 @@
 
 |===
 
+== 홈
+
+=== 대시보드
+
+operation::pet-controller-test/대시보드_조회[snippets='http-request,request-headers,http-response,response-fields']
+
 include::member.adoc[]
 
 include::faq.adoc[]

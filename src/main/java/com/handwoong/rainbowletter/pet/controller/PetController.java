@@ -5,6 +5,8 @@ import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.controller.port.PetService;
 import com.handwoong.rainbowletter.pet.controller.request.PetCreateRequest;
 import com.handwoong.rainbowletter.pet.controller.request.PetUpdateRequest;
+import com.handwoong.rainbowletter.pet.controller.response.DashboardResponse;
+import com.handwoong.rainbowletter.pet.controller.response.DashboardResponses;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponses;
 import com.handwoong.rainbowletter.pet.domain.Pet;
@@ -41,6 +43,14 @@ public class PetController {
         final Email email = SecurityUtils.getAuthenticationUsername();
         final Pet pet = petService.findByEmailAndIdOrElseThrow(email, id);
         final PetResponse response = PetResponse.from(pet);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardResponses> dashboard() {
+        final Email email = SecurityUtils.getAuthenticationUsername();
+        final List<DashboardResponse> dashboardItems = petService.findDashboardItems(email);
+        final DashboardResponses response = DashboardResponses.from(dashboardItems);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

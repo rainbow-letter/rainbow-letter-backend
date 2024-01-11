@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.pet.service.port;
 
 import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.controller.response.DashboardResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import java.util.List;
@@ -11,6 +12,8 @@ public interface PetRepository {
     Pet findByEmailAndIdOrElseThrow(Email email, Long id);
 
     List<PetResponse> findAllByEmail(Email email);
+
+    List<DashboardResponse> findDashboardItems(Email email);
 
     Pet findByEmailAndIdWithImageOrElseThrow(Email email, Long id);
 

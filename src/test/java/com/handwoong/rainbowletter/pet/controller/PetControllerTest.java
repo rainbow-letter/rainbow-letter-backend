@@ -6,6 +6,7 @@ import static com.handwoong.rainbowletter.member.controller.snippet.MemberReques
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetRequestSnippet.PATH_PARAM_ID;
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetRequestSnippet.PET_CREATE_REQUEST;
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetRequestSnippet.PET_UPDATE_REQUEST;
+import static com.handwoong.rainbowletter.pet.controller.snippet.PetResponseSnippet.DASHBOARD_RESPONSE;
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetResponseSnippet.PET_RESPONSE;
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetResponseSnippet.PET_RESPONSES;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getFilter;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.handwoong.rainbowletter.pet.controller.request.PetCreateRequest;
 import com.handwoong.rainbowletter.pet.controller.request.PetUpdateRequest;
+import com.handwoong.rainbowletter.pet.controller.response.DashboardResponses;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponses;
 import com.handwoong.rainbowletter.util.ControllerTestSupporter;
@@ -33,6 +35,29 @@ import org.springframework.test.context.jdbc.Sql;
 
 @Sql({"classpath:sql/member.sql", "classpath:sql/pet.sql"})
 class PetControllerTest extends ControllerTestSupporter {
+    @Test
+    void 대시보드_조회() {
+        // given
+        final String token = userAccessToken;
+
+        // when
+        final ExtractableResponse<Response> response = dashboard(token);
+        final DashboardResponses result = response.body().as(DashboardResponses.class);
+
+        // then
+        assertThat(result.pets()).hasSize(2);
+    }
+
+    private ExtractableResponse<Response> dashboard(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .filter(getFilter().document(AUTHORIZATION_HEADER, DASHBOARD_RESPONSE))
+                .when().get("/api/pets/dashboard")
+                .then().log().all().extract();
+    }
+
     @Test
     void 반려동물_목록_조회() {
         // given
