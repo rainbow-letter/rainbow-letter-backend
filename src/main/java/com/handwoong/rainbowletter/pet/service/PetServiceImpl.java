@@ -9,6 +9,7 @@ import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import com.handwoong.rainbowletter.pet.controller.port.PetService;
+import com.handwoong.rainbowletter.pet.controller.response.DashboardResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
@@ -37,6 +38,11 @@ public class PetServiceImpl implements PetService {
     @Override
     public List<PetResponse> findAllByEmail(final Email email) {
         return petRepository.findAllByEmail(email);
+    }
+
+    @Override
+    public List<DashboardResponse> findDashboardItems(final Email email) {
+        return petRepository.findDashboardItems(email);
     }
 
     @Override

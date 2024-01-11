@@ -2,12 +2,14 @@ package com.handwoong.rainbowletter.pet.infrastructure;
 
 import static com.handwoong.rainbowletter.favorite.infrastructure.QFavoriteEntity.favoriteEntity;
 import static com.handwoong.rainbowletter.image.infrastructure.QImageEntity.imageEntity;
+import static com.handwoong.rainbowletter.letter.infrastructure.QLetterEntity.letterEntity;
 import static com.handwoong.rainbowletter.member.infrastructure.QMemberEntity.memberEntity;
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
 import com.handwoong.rainbowletter.favorite.controller.response.FavoriteResponse;
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.pet.controller.response.DashboardResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponseDto;
 import com.handwoong.rainbowletter.pet.domain.Pet;
@@ -95,6 +97,23 @@ public class PetRepositoryImpl implements PetRepository {
                 .stream()
                 .map(PetResponse::from)
                 .toList();
+    }
+
+    @Override
+    public List<DashboardResponse> findDashboardItems(final Email email) {
+        return queryFactory.select(Projections.constructor(
+                        DashboardResponse.class,
+                        petEntity.id,
+                        petEntity.name,
+                        letterEntity.count().as("letterCount"),
+                        petEntity.favoriteEntity.total.as("favoriteCount"),
+                        petEntity.deathAnniversary
+                ))
+                .from(petEntity)
+                .leftJoin(letterEntity).on(petEntity.id.eq(letterEntity.petEntity.id))
+                .where(petEntity.memberEntity.email.eq(email.toString()))
+                .groupBy(petEntity.id)
+                .fetch();
     }
 
     @Override

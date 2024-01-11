@@ -7,6 +7,13 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.snippet.Snippet;
 
 public class PetResponseSnippet {
+    public static final Snippet DASHBOARD_RESPONSE = responseFields(
+            fieldWithPath("pets[].id").type(JsonFieldType.NUMBER).description("반려동물 ID"),
+            fieldWithPath("pets[].name").type(JsonFieldType.STRING).description("아이의 이름"),
+            fieldWithPath("pets[].letterCount").type(JsonFieldType.NUMBER).description("보낸 편지 수"),
+            fieldWithPath("pets[].favoriteCount").type(JsonFieldType.NUMBER).description("보낸 하트 수"),
+            fieldWithPath("pets[].deathAnniversary").type(JsonFieldType.STRING).description("아이가 떠난 날").optional()
+    );
     public static final Snippet PET_RESPONSES = responseFields(
             fieldWithPath("pets[].id").type(JsonFieldType.NUMBER).description("반려동물 ID"),
             fieldWithPath("pets[].name").type(JsonFieldType.STRING).description("아이의 이름"),
