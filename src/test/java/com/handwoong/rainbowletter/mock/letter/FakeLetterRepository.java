@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public class FakeLetterRepository implements LetterRepository {
     private final Map<Long, Letter> database = new HashMap<>();
@@ -69,6 +71,13 @@ public class FakeLetterRepository implements LetterRepository {
                 .findAny()
                 .orElseThrow(() -> new LetterShareLinkNotFoundException(shareLink));
         return LetterResponse.from(findLetter);
+    }
+
+    @Override
+    public Page<LetterResponse> findAdminAllLetterResponses(final LocalDate startDate,
+                                                            final LocalDate endDate,
+                                                            final Pageable pageable) {
+        return null;
     }
 
     @Override

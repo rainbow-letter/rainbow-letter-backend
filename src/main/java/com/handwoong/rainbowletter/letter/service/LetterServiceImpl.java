@@ -13,8 +13,11 @@ import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +48,13 @@ public class LetterServiceImpl implements LetterService {
     @Override
     public LetterResponse findLetterById(final Email email, final Long id) {
         return letterRepository.findLetterResponseByIdOrElseThrow(email, id);
+    }
+
+    @Override
+    public Page<LetterResponse> findAllAdminLetters(final LocalDate startDate,
+                                                    final LocalDate endDate,
+                                                    final Pageable pageable) {
+        return letterRepository.findAdminAllLetterResponses(startDate, endDate, pageable);
     }
 
     @Override
