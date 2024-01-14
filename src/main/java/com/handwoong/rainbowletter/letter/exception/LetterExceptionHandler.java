@@ -33,6 +33,13 @@ public class LetterExceptionHandler extends BaseExceptionHandler {
         return createErrorResponse(errorCode);
     }
 
+    @ExceptionHandler({LetterShareLinkNotFoundException.class})
+    public ResponseEntity<ErrorResponse> letterShareLinkNotFound(final LetterShareLinkNotFoundException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getShareLink());
+        return createErrorResponse(errorCode);
+    }
+
     @ExceptionHandler({ReplyResourceNotFoundException.class})
     public ResponseEntity<ErrorResponse> replyResourceNotFound(final ReplyResourceNotFoundException exception) {
         final ErrorCode errorCode = exception.getErrorCode();

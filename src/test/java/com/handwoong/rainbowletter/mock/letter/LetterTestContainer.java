@@ -17,6 +17,7 @@ import com.handwoong.rainbowletter.member.domain.MemberStatus;
 import com.handwoong.rainbowletter.member.domain.OAuthProvider;
 import com.handwoong.rainbowletter.member.domain.Password;
 import com.handwoong.rainbowletter.member.domain.PhoneNumber;
+import com.handwoong.rainbowletter.mock.common.FakeUuidGenerator;
 import com.handwoong.rainbowletter.mock.image.ImageTestContainer;
 import com.handwoong.rainbowletter.mock.pet.PetTestContainer;
 import com.handwoong.rainbowletter.pet.domain.Pet;
@@ -77,7 +78,7 @@ public class LetterTestContainer {
         petRepository.save(pet);
 
         this.repository = new FakeLetterRepository();
-        this.service = new LetterServiceImpl(petRepository, imageRepository, repository);
+        this.service = new LetterServiceImpl(new FakeUuidGenerator(), petRepository, imageRepository, repository);
 
         this.replyRepository = new FakeReplyRepository();
         this.replyService = new ReplyServiceImpl(replyRepository, repository);

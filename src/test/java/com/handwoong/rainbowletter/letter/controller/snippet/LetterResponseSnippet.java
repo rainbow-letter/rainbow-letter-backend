@@ -28,6 +28,8 @@ public class LetterResponseSnippet {
                     .description("편지 제목"),
             fieldWithPath("content").type(JsonFieldType.STRING)
                     .description("편지 본문"),
+            fieldWithPath("shareLink").type(JsonFieldType.STRING)
+                    .description("편지 공유 링크 UUID"),
             fieldWithPath("pet.id").type(JsonFieldType.NUMBER)
                     .description("반려 동물 ID"),
             fieldWithPath("pet.name").type(JsonFieldType.STRING)

@@ -12,10 +12,12 @@ import com.handwoong.rainbowletter.letter.controller.response.ReplyResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.letter.exception.LetterResourceNotFoundException;
+import com.handwoong.rainbowletter.letter.exception.LetterShareLinkNotFoundException;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.infrastructure.QPetEntity;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -77,38 +79,7 @@ public class LetterRepositoryImpl implements LetterRepository {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
         final QReplyEntity reply = replyEntity;
-        final LetterResponse result = queryFactory.select(Projections.constructor(
-                        LetterResponse.class,
-                        letter.id,
-                        letter.summary,
-                        letter.content,
-                        Projections.constructor(
-                                LetterPetResponse.class,
-                                pet.id,
-                                pet.name,
-                                Projections.constructor(
-                                        ImageResponse.class,
-                                        pet.imageEntity.id,
-                                        pet.imageEntity.objectKey,
-                                        pet.imageEntity.url
-                                )
-                        ),
-                        Projections.constructor(
-                                ImageResponse.class,
-                                letter.imageEntity.id,
-                                letter.imageEntity.objectKey,
-                                letter.imageEntity.url
-                        ),
-                        Projections.constructor(
-                                ReplyResponse.class,
-                                reply.id,
-                                reply.summary,
-                                reply.content,
-                                reply.readStatus,
-                                reply.type
-                        ),
-                        letter.createdAt
-                ))
+        final LetterResponse result = selectLetterResponse()
                 .distinct()
                 .from(letter)
                 .innerJoin(letter.petEntity, pet)
@@ -119,6 +90,63 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .fetchOne();
         return Optional.ofNullable(result)
                 .orElseThrow(() -> new LetterResourceNotFoundException(id));
+    }
+
+    @Override
+    public LetterResponse findLetterResponseByShareLinkOrElseThrow(final String shareLink) {
+        final QLetterEntity letter = letterEntity;
+        final QPetEntity pet = petEntity;
+        final QReplyEntity reply = replyEntity;
+        final LetterResponse result = selectLetterResponse()
+                .distinct()
+                .from(letter)
+                .innerJoin(letter.petEntity, pet)
+                .leftJoin(pet.imageEntity)
+                .leftJoin(letter.imageEntity)
+                .leftJoin(letter.replyEntity, reply).on(reply.type.eq(ReplyType.REPLY))
+                .where(letter.shareLink.eq(shareLink))
+                .fetchOne();
+        return Optional.ofNullable(result)
+                .orElseThrow(() -> new LetterShareLinkNotFoundException(shareLink));
+    }
+
+    private JPAQuery<LetterResponse> selectLetterResponse() {
+        final QLetterEntity letter = letterEntity;
+        final QPetEntity pet = petEntity;
+        final QReplyEntity reply = replyEntity;
+        return queryFactory.select(Projections.constructor(
+                LetterResponse.class,
+                letter.id,
+                letter.summary,
+                letter.content,
+                letter.shareLink,
+                Projections.constructor(
+                        LetterPetResponse.class,
+                        pet.id,
+                        pet.name,
+                        Projections.constructor(
+                                ImageResponse.class,
+                                pet.imageEntity.id,
+                                pet.imageEntity.objectKey,
+                                pet.imageEntity.url
+                        )
+                ),
+                Projections.constructor(
+                        ImageResponse.class,
+                        letter.imageEntity.id,
+                        letter.imageEntity.objectKey,
+                        letter.imageEntity.url
+                ),
+                Projections.constructor(
+                        ReplyResponse.class,
+                        reply.id,
+                        reply.summary,
+                        reply.content,
+                        reply.readStatus,
+                        reply.type
+                ),
+                letter.createdAt
+        ));
     }
 
     @Override

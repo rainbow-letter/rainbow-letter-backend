@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.letter.service;
 
+import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class LetterServiceImpl implements LetterService {
+    private final UuidGenerator uuidGenerator;
     private final PetRepository petRepository;
     private final ImageRepository imageRepository;
     private final LetterRepository letterRepository;
@@ -31,7 +33,7 @@ public class LetterServiceImpl implements LetterService {
     public Letter create(final Long petId, final LetterCreate request) {
         final Pet pet = petRepository.findByIdOrElseThrow(petId);
         final Image image = imageRepository.findByNullableId(request.image());
-        final Letter letter = Letter.create(request, pet, image);
+        final Letter letter = Letter.create(request, pet, image, uuidGenerator);
         return letterRepository.save(letter);
     }
 
@@ -43,5 +45,10 @@ public class LetterServiceImpl implements LetterService {
     @Override
     public LetterResponse findLetterById(final Email email, final Long id) {
         return letterRepository.findLetterResponseByIdOrElseThrow(email, id);
+    }
+
+    @Override
+    public LetterResponse findLetterByShareLink(final String shareLink) {
+        return letterRepository.findLetterResponseByShareLinkOrElseThrow(shareLink);
     }
 }

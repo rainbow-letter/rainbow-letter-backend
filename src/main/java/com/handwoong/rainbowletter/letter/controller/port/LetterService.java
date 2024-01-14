@@ -13,4 +13,6 @@ public interface LetterService {
     List<LetterBoxResponse> findAllLetterBoxByEmail(Email email);
 
     LetterResponse findLetterById(Email email, Long id);
+
+    LetterResponse findLetterByShareLink(String shareLink);
 }

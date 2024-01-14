@@ -13,6 +13,8 @@ import org.springframework.restdocs.snippet.Snippet;
 public class LetterRequestSnippet {
     public static final Snippet PARAM_PET_ID = queryParameters(parameterWithName("pet").description("반려 동물 ID"));
     public static final Snippet PARAM_LETTER_ID = pathParameters(parameterWithName("id").description("편지 ID"));
+    public static final Snippet PARAM_SHARE_LINK = pathParameters(
+            parameterWithName("shareLink").description("편지 공유 UUID"));
     public static final Snippet CREATE_REQUEST = requestFields(
             fieldWithPath("summary").type(JsonFieldType.STRING)
                     .description("편지 제목")

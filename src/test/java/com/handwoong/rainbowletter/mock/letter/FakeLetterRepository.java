@@ -4,6 +4,7 @@ import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.exception.LetterResourceNotFoundException;
+import com.handwoong.rainbowletter.letter.exception.LetterShareLinkNotFoundException;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import java.time.LocalDate;
@@ -58,6 +59,15 @@ public class FakeLetterRepository implements LetterRepository {
         final Letter findLetter = Optional.ofNullable(database.get(id))
                 .filter(letter -> letter.pet().member().email().equals(email))
                 .orElseThrow(() -> new LetterResourceNotFoundException(id));
+        return LetterResponse.from(findLetter);
+    }
+
+    @Override
+    public LetterResponse findLetterResponseByShareLinkOrElseThrow(final String shareLink) {
+        final Letter findLetter = database.values().stream()
+                .filter(letter -> letter.shareLink().equals(shareLink))
+                .findAny()
+                .orElseThrow(() -> new LetterShareLinkNotFoundException(shareLink));
         return LetterResponse.from(findLetter);
     }
 

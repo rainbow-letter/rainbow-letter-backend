@@ -40,6 +40,12 @@ public class LetterController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/share/{shareLink}")
+    public ResponseEntity<LetterResponse> findShare(@PathVariable String shareLink) {
+        final LetterResponse response = letterService.findLetterByShareLink(shareLink);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestParam("pet") Long petId,
                                        @RequestBody @Valid LetterCreateRequest request) {
