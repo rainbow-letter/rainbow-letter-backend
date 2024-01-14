@@ -1,7 +1,6 @@
 package com.handwoong.rainbowletter.favorite.domain;
 
 import com.handwoong.rainbowletter.favorite.exception.FavoriteIncreaseNotValidException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
 
@@ -14,13 +13,6 @@ public record Favorite(Long id, int total, int dayIncreaseCount, boolean canIncr
                 .canIncrease(true)
                 .lastIncreaseAt(LocalDateTime.now())
                 .build();
-    }
-
-    public Favorite resetDayIncreaseCount() {
-        if (lastIncreaseAt.isBefore(LocalDate.now().atStartOfDay())) {
-            return resetCount(total, 0);
-        }
-        return this;
     }
 
     public Favorite increase() {

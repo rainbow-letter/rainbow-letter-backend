@@ -23,51 +23,6 @@ class FavoriteTest {
     }
 
     @Test
-    void 일일_좋아요_카운트를_초기화한다() {
-        // given
-        final Favorite favorite = Favorite.builder()
-                .id(1L)
-                .total(10)
-                .dayIncreaseCount(3)
-                .canIncrease(false)
-                .lastIncreaseAt(LocalDateTime.of(1900, 1, 1, 0, 0))
-                .build();
-
-        // when
-        final Favorite initFavorite = favorite.resetDayIncreaseCount();
-
-        // then
-        assertThat(initFavorite.id()).isEqualTo(1);
-        assertThat(initFavorite.total()).isEqualTo(10);
-        assertThat(initFavorite.dayIncreaseCount()).isZero();
-        assertThat(initFavorite.canIncrease()).isTrue();
-        assertThat(initFavorite.lastIncreaseAt().toLocalDate()).isEqualTo(LocalDateTime.now().toLocalDate());
-    }
-
-    @Test
-    void 오늘_날짜와_업데이트_날짜가_같다면_일일_좋아요_카운트를_초기화하지_않는다() {
-        // given
-        final LocalDateTime today = LocalDateTime.now();
-        final Favorite favorite = Favorite.builder()
-                .id(1L)
-                .total(10)
-                .dayIncreaseCount(3)
-                .canIncrease(false)
-                .lastIncreaseAt(today)
-                .build();
-
-        // when
-        final Favorite initFavorite = favorite.resetDayIncreaseCount();
-
-        // then
-        assertThat(initFavorite.id()).isEqualTo(1);
-        assertThat(initFavorite.total()).isEqualTo(10);
-        assertThat(initFavorite.dayIncreaseCount()).isEqualTo(3);
-        assertThat(initFavorite.canIncrease()).isFalse();
-        assertThat(initFavorite.lastIncreaseAt()).isEqualTo(today);
-    }
-
-    @Test
     void 좋아요를_증가시킨다() {
         // given
         final Favorite favorite = Favorite.builder()

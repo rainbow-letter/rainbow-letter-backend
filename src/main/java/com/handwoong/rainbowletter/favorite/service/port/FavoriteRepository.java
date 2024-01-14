@@ -7,4 +7,8 @@ public interface FavoriteRepository {
     Favorite save(Favorite favorite);
 
     Optional<Favorite> findById(Long id);
+
+    void resetIncreaseCount();
+
+    void resetCanIncrease();
 }

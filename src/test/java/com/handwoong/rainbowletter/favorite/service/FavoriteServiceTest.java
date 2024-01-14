@@ -7,7 +7,6 @@ import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.favorite.exception.FavoriteIncreaseNotValidException;
 import com.handwoong.rainbowletter.mock.favorite.FakeFavoriteRepository;
 import com.handwoong.rainbowletter.mock.favorite.FavoriteTestContainer;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
@@ -24,32 +23,6 @@ class FavoriteServiceTest {
         // then
         assertThat(increasedFavorite.id()).isEqualTo(1);
         assertThat(increasedFavorite.total()).isEqualTo(1);
-        assertThat(increasedFavorite.dayIncreaseCount()).isEqualTo(1);
-        assertThat(increasedFavorite.canIncrease()).isTrue();
-        assertThat(increasedFavorite.lastIncreaseAt().toLocalDate()).isEqualTo(LocalDateTime.now().toLocalDate());
-    }
-
-    @Test
-    void 좋아요_증가전_업데이트_날짜가_과거라면_일일_좋아요_가능_횟수를_초기화한다() {
-        // given
-        final Favorite favorite = Favorite.builder()
-                .total(10)
-                .dayIncreaseCount(3)
-                .canIncrease(false)
-                .build();
-
-        final FakeFavoriteRepository favoriteRepository =
-                new FakeFavoriteRepository(LocalDate.of(1900, 1, 1).atStartOfDay());
-        favoriteRepository.save(favorite);
-
-        final FavoriteServiceImpl favoriteService = new FavoriteServiceImpl(favoriteRepository);
-
-        // when
-        final Favorite increasedFavorite = favoriteService.increase(1L);
-
-        // then
-        assertThat(increasedFavorite.id()).isEqualTo(1);
-        assertThat(increasedFavorite.total()).isEqualTo(11);
         assertThat(increasedFavorite.dayIncreaseCount()).isEqualTo(1);
         assertThat(increasedFavorite.canIncrease()).isTrue();
         assertThat(increasedFavorite.lastIncreaseAt().toLocalDate()).isEqualTo(LocalDateTime.now().toLocalDate());
