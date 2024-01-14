@@ -119,6 +119,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 letter.id,
                 letter.summary,
                 letter.content,
+                letter.shareLink,
                 Projections.constructor(
                         LetterPetResponse.class,
                         pet.id,

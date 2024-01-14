@@ -107,6 +107,7 @@ class LetterControllerTest extends ControllerTestSupporter {
         assertThat(result.id()).isEqualTo(1);
         assertThat(result.summary()).isEqualTo("미키야 엄마가 보고싶다.");
         assertThat(result.content()).isEqualTo("미키야 엄마가 보고싶다. 엄마는 오늘 미키 생각하면서 그림을 그렸어.");
+        assertThat(result.shareLink()).isEqualTo("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
         assertThat(result.pet().id()).isEqualTo(2);
         assertThat(result.pet().name()).isEqualTo("미키");
         assertThat(result.pet().image().id()).isNull();
@@ -145,6 +146,7 @@ class LetterControllerTest extends ControllerTestSupporter {
         assertThat(result.id()).isEqualTo(1);
         assertThat(result.summary()).isEqualTo("미키야 엄마가 보고싶다.");
         assertThat(result.content()).isEqualTo("미키야 엄마가 보고싶다. 엄마는 오늘 미키 생각하면서 그림을 그렸어.");
+        assertThat(result.shareLink()).isEqualTo("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
         assertThat(result.pet().id()).isEqualTo(2);
         assertThat(result.pet().name()).isEqualTo("미키");
         assertThat(result.pet().image().id()).isNull();
