@@ -124,14 +124,13 @@ public class LetterRepositoryImpl implements LetterRepository {
                                                             final Pageable pageable) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
-        final QReplyEntity reply = replyEntity;
         final List<LetterResponse> result = selectLetterResponse()
                 .distinct()
                 .from(letter)
                 .innerJoin(letter.petEntity, pet)
                 .leftJoin(pet.imageEntity)
                 .leftJoin(letter.imageEntity)
-                .leftJoin(letter.replyEntity, reply).on(reply.type.eq(ReplyType.REPLY))
+                .leftJoin(letter.replyEntity)
                 .where(dateFilter(startDate, endDate))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
