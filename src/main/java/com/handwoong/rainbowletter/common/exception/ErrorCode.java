@@ -43,6 +43,8 @@ public enum ErrorCode {
     INVALID_SUMMARY_FORMAT(BAD_REQUEST, "제목의 길이는 20자 이하로 입력해주세요."),
     INVALID_CONTENT_FORMAT(BAD_REQUEST, "본문을 입력 해주세요."),
 
+    INVALID_INSPECT_STATUS(BAD_REQUEST, "편지 검수가 먼저 선행되어야 합니다."),
+
     /**
      * 401 UNAUTHORIZED
      */

@@ -4,7 +4,13 @@
 
 operation::reply-controller-test/답장_재생성[snippets='http-request,path-parameters,request-headers,http-response']
 
+=== 답장 검수
+
+operation::reply-controller-test/답장_검수[snippets='http-request,path-parameters,request-headers,http-response']
+
 === 답장 보내기
+
+**답장 검수가 먼저 선행되어야 합니다.**
 
 operation::reply-controller-test/답장_보내기[snippets='http-request,path-parameters,request-headers,request-fields,http-response']
 

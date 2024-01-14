@@ -2,12 +2,15 @@ package com.handwoong.rainbowletter.letter.controller;
 
 import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
 import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.ADMIN_LETTERS_QUERY_PARAMETERS;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.CREATE_REQUEST;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_LETTER_ID;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_PET_ID;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_SHARE_LINK;
+import static com.handwoong.rainbowletter.letter.controller.snippet.LetterResponseSnippet.ADMIN_LETTERS;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterResponseSnippet.LETTER_RESPONSE;
+import static com.handwoong.rainbowletter.member.controller.snippet.MemberRequestSnippet.ADMIN_AUTHORIZATION_HEADER;
 import static com.handwoong.rainbowletter.member.controller.snippet.MemberRequestSnippet.AUTHORIZATION_HEADER;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getFilter;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
@@ -68,19 +71,26 @@ class LetterControllerTest extends ControllerTestSupporter {
         // then
         assertThat(response.statusCode()).isEqualTo(200);
 
-        assertThat(result.letters().get(0).id()).isEqualTo(2);
+        assertThat(result.letters().get(0).id()).isEqualTo(3);
         assertThat(result.letters().get(0).summary()).isEqualTo("콩아 형님이다.");
-        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.RESPONSE);
+        assertThat(result.letters().get(0).status()).isEqualTo(LetterStatus.REQUEST);
         assertThat(result.letters().get(0).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assertThat(result.letters().get(0).petName()).isEqualTo("콩이");
-        assertThat(result.letters().get(0).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 2, 12, 0, 0));
+        assertThat(result.letters().get(0).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 3, 12, 0, 0));
 
-        assertThat(result.letters().get(1).id()).isEqualTo(1);
-        assertThat(result.letters().get(1).summary()).isEqualTo("미키야 엄마가 보고싶다.");
+        assertThat(result.letters().get(1).id()).isEqualTo(2);
+        assertThat(result.letters().get(1).summary()).isEqualTo("콩아 형님이다.");
         assertThat(result.letters().get(1).status()).isEqualTo(LetterStatus.RESPONSE);
         assertThat(result.letters().get(1).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
-        assertThat(result.letters().get(1).petName()).isEqualTo("미키");
-        assertThat(result.letters().get(1).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
+        assertThat(result.letters().get(1).petName()).isEqualTo("콩이");
+        assertThat(result.letters().get(1).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 2, 12, 0, 0));
+
+        assertThat(result.letters().get(2).id()).isEqualTo(1);
+        assertThat(result.letters().get(2).summary()).isEqualTo("미키야 엄마가 보고싶다.");
+        assertThat(result.letters().get(2).status()).isEqualTo(LetterStatus.RESPONSE);
+        assertThat(result.letters().get(2).readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
+        assertThat(result.letters().get(2).petName()).isEqualTo("미키");
+        assertThat(result.letters().get(2).createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
     }
 
     private ExtractableResponse<Response> findAllLetterBoxByEmail(final String token) {
@@ -169,6 +179,34 @@ class LetterControllerTest extends ControllerTestSupporter {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .filter(getFilter().document(LETTER_RESPONSE, PARAM_SHARE_LINK))
                 .when().get("/api/letters/share/{shareLink}", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
+                .then().log().all().extract();
+    }
+
+    @Test
+    void 편지_관리자_조회() {
+        // given
+        final String token = adminAccessToken;
+
+        // when
+        final ExtractableResponse<Response> response = adminList(token);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    private ExtractableResponse<Response> adminList(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .queryParams(
+                        "startDate", "2023-01-02",
+                        "endDate", "2023-01-02",
+                        "page", 0,
+                        "size", 2
+                )
+                .filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, ADMIN_LETTERS_QUERY_PARAMETERS, ADMIN_LETTERS))
+                .when().get("/api/letters/admin/list")
                 .then().log().all().extract();
     }
 }

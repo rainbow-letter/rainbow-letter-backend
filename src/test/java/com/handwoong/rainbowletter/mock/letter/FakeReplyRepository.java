@@ -27,6 +27,7 @@ public class FakeReplyRepository implements ReplyRepository {
                 .id(id)
                 .summary(reply.summary())
                 .content(reply.content())
+                .inspection(reply.inspection())
                 .type(reply.type())
                 .readStatus(reply.readStatus())
                 .timestamp(LocalDate.now().atStartOfDay())

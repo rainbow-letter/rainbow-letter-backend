@@ -45,4 +45,12 @@ public class ReplyServiceImpl implements ReplyService {
         final Reply readReply = reply.read();
         return replyRepository.save(readReply);
     }
+
+    @Override
+    @Transactional
+    public Reply inspect(final Long id) {
+        final Reply reply = replyRepository.findByIdOrElseThrow(id);
+        final Reply inspectedReply = reply.inspect();
+        return replyRepository.save(inspectedReply);
+    }
 }

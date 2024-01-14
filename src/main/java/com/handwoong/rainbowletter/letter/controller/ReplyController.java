@@ -34,6 +34,11 @@ public class ReplyController {
     public ResponseEntity<Void> submit(@PathVariable Long id,
                                        @RequestBody @Valid ReplySubmitRequest request) {
         replyService.submit(request.toDto(), id);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/inspect/{id}")
+    public ResponseEntity<Void> inspect(@PathVariable Long id) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

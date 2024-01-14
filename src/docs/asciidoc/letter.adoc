@@ -11,3 +11,11 @@ operation::letter-controller-test/편지_단건_조회[snippets='http-request,pa
 === 편지 생성
 
 operation::letter-controller-test/편지_생성[snippets='http-request,query-parameters,request-headers,request-fields,http-response']
+
+=== 공유 편지 조회
+
+operation::letter-controller-test/편지_공유_조회[snippets='http-request,path-parameters,http-response,response-fields']
+
+=== 관리자 페이지 조회
+
+operation::letter-controller-test/편지_관리자_조회[snippets='http-request,query-parameters,request-headers,http-response,response-fields']

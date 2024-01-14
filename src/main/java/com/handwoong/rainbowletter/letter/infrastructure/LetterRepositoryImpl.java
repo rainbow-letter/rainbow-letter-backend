@@ -17,11 +17,19 @@ import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.infrastructure.QPetEntity;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -110,6 +118,43 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .orElseThrow(() -> new LetterShareLinkNotFoundException(shareLink));
     }
 
+    @Override
+    public Page<LetterResponse> findAdminAllLetterResponses(final LocalDate startDate,
+                                                            final LocalDate endDate,
+                                                            final Pageable pageable) {
+        final QLetterEntity letter = letterEntity;
+        final QPetEntity pet = petEntity;
+        final QReplyEntity reply = replyEntity;
+        final List<LetterResponse> result = selectLetterResponse()
+                .distinct()
+                .from(letter)
+                .innerJoin(letter.petEntity, pet)
+                .leftJoin(pet.imageEntity)
+                .leftJoin(letter.imageEntity)
+                .leftJoin(letter.replyEntity, reply).on(reply.type.eq(ReplyType.REPLY))
+                .where(dateFilter(startDate, endDate))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        final JPAQuery<Long> countLetters = queryFactory
+                .select(letterEntity.count())
+                .from(letterEntity)
+                .innerJoin(letterEntity.petEntity, petEntity)
+                .leftJoin(letterEntity.imageEntity)
+                .leftJoin(letterEntity.replyEntity)
+                .where(dateFilter(startDate, endDate));
+        return PageableExecutionUtils.getPage(result, pageable, countLetters::fetchOne);
+    }
+
+    private BooleanExpression dateFilter(LocalDate startDate, LocalDate endDate) {
+        BooleanExpression isGoeStartDate = letterEntity.createdAt
+                .goe(LocalDateTime.of(startDate, LocalTime.MIN));
+        BooleanExpression isLoeEndDate = letterEntity.createdAt
+                .loe(LocalDateTime.of(endDate, LocalTime.MAX).withNano(0));
+        return Expressions.allOf(isGoeStartDate, isLoeEndDate);
+    }
+
     private JPAQuery<LetterResponse> selectLetterResponse() {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
@@ -142,8 +187,10 @@ public class LetterRepositoryImpl implements LetterRepository {
                         reply.id,
                         reply.summary,
                         reply.content,
+                        reply.inspection,
                         reply.readStatus,
-                        reply.type
+                        reply.type,
+                        reply.timestamp
                 ),
                 letter.createdAt
         ));

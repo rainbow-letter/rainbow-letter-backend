@@ -26,6 +26,12 @@ public class LetterRequestSnippet {
                     .description("편지에 들어간 이미지 ID")
                     .optional()
     );
+    public static final Snippet ADMIN_LETTERS_QUERY_PARAMETERS = queryParameters(
+            parameterWithName("startDate").description("검색 시작 날짜").attributes(constraints("yyyy-MM-dd")),
+            parameterWithName("endDate").description("검색 종료 날짜").attributes(constraints("yyyy-MM-dd")),
+            parameterWithName("page").description("페이지 번호").attributes(constraints("0부터 시작")),
+            parameterWithName("size").description("페이지 데이터 조회 개수")
+    );
 
     private LetterRequestSnippet() {
     }
