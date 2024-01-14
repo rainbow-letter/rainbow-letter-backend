@@ -48,4 +48,12 @@ public class FakeFavoriteRepository implements FavoriteRepository {
                 .filter(favorite -> favorite.id().equals(id))
                 .findAny();
     }
+
+    @Override
+    public void resetIncreaseCount() {
+    }
+
+    @Override
+    public void resetCanIncrease() {
+    }
 }

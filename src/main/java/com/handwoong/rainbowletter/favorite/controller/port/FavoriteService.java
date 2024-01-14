@@ -4,4 +4,6 @@ import com.handwoong.rainbowletter.favorite.domain.Favorite;
 
 public interface FavoriteService {
     Favorite increase(Long id);
+
+    void resetDayIncreaseCount();
 }
