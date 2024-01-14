@@ -5,6 +5,7 @@ import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthent
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.CREATE_REQUEST;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_LETTER_ID;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_PET_ID;
+import static com.handwoong.rainbowletter.letter.controller.snippet.LetterRequestSnippet.PARAM_SHARE_LINK;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterResponseSnippet.LETTER_BOX_RESPONSE;
 import static com.handwoong.rainbowletter.letter.controller.snippet.LetterResponseSnippet.LETTER_RESPONSE;
 import static com.handwoong.rainbowletter.member.controller.snippet.MemberRequestSnippet.AUTHORIZATION_HEADER;
@@ -129,6 +130,43 @@ class LetterControllerTest extends ControllerTestSupporter {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .filter(getFilter().document(AUTHORIZATION_HEADER, PARAM_LETTER_ID, LETTER_RESPONSE))
                 .when().get("/api/letters/{id}", 1)
+                .then().log().all().extract();
+    }
+
+    @Test
+    void 편지_공유_조회() {
+        // given
+        // when
+        final ExtractableResponse<Response> response = share();
+        final LetterResponse result = response.body().as(LetterResponse.class);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(result.id()).isEqualTo(1);
+        assertThat(result.summary()).isEqualTo("미키야 엄마가 보고싶다.");
+        assertThat(result.content()).isEqualTo("미키야 엄마가 보고싶다. 엄마는 오늘 미키 생각하면서 그림을 그렸어.");
+        assertThat(result.pet().id()).isEqualTo(2);
+        assertThat(result.pet().name()).isEqualTo("미키");
+        assertThat(result.pet().image().id()).isNull();
+        assertThat(result.pet().image().objectKey()).isNull();
+        assertThat(result.pet().image().url()).isNull();
+        assertThat(result.image().id()).isEqualTo(2);
+        assertThat(result.image().objectKey()).isEqualTo("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+        assertThat(result.image().url()).isEqualTo("http://rainbowletter/image");
+        assertThat(result.reply().id()).isEqualTo(1);
+        assertThat(result.reply().summary()).isEqualTo("엄마 미키 여기서 잘 지내!");
+        assertThat(result.reply().content()).isEqualTo("엄마 미키 여기서 잘 지내! 여기 무지개마을은 매일 햇살이 따뜻해. 미키 언제나 엄마 곁에 있을게. 사랑해!");
+        assertThat(result.reply().readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
+        assertThat(result.reply().type()).isEqualTo(ReplyType.REPLY);
+        assertThat(result.createdAt()).isEqualTo(LocalDateTime.of(2023, 1, 1, 12, 0, 0));
+    }
+
+    private ExtractableResponse<Response> share() {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .filter(getFilter().document(LETTER_RESPONSE, PARAM_SHARE_LINK))
+                .when().get("/api/letters/share/{shareLink}", "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
                 .then().log().all().extract();
     }
 }

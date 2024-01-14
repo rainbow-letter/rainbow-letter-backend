@@ -15,5 +15,7 @@ public interface LetterRepository {
 
     LetterResponse findLetterResponseByIdOrElseThrow(Email email, Long id);
 
+    LetterResponse findLetterResponseByShareLinkOrElseThrow(String shareLink);
+
     boolean existsByPet(Long petId);
 }

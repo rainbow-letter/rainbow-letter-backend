@@ -41,6 +41,9 @@ public class LetterEntity extends BaseEntity {
     private String content;
 
     @NotNull
+    private String shareLink;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private LetterStatus status;
 
@@ -61,6 +64,7 @@ public class LetterEntity extends BaseEntity {
         letterEntity.id = letter.id();
         letterEntity.summary = letter.summary().toString();
         letterEntity.content = letter.content().toString();
+        letterEntity.shareLink = letter.shareLink();
         letterEntity.status = letter.status();
         letterEntity.imageEntity = Objects.nonNull(letter.image()) ? ImageEntity.from(letter.image()) : null;
         letterEntity.petEntity = PetEntity.from(letter.pet());
@@ -73,6 +77,7 @@ public class LetterEntity extends BaseEntity {
                 .id(id)
                 .summary(new Summary(summary))
                 .content(new Content(content))
+                .shareLink(shareLink)
                 .status(status)
                 .image(Objects.nonNull(imageEntity) ? imageEntity.toModel() : null)
                 .pet(petEntity.toModel())

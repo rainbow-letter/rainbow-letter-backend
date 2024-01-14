@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.letter.domain;
 
+import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.letter.domain.dto.LetterCreate;
 import com.handwoong.rainbowletter.pet.domain.Pet;
@@ -12,6 +13,7 @@ public record Letter(
         Long id,
         Summary summary,
         Content content,
+        String shareLink,
         LetterStatus status,
         Pet pet,
         @Nullable
@@ -21,10 +23,15 @@ public record Letter(
         @Nullable
         LocalDateTime createdAt
 ) {
-    public static Letter create(final LetterCreate request, final Pet pet, final Image image) {
+    public static Letter create(final LetterCreate request,
+                                final Pet pet,
+                                final Image image,
+                                final UuidGenerator uuidGenerator
+    ) {
         return Letter.builder()
                 .summary(request.summary())
                 .content(request.content())
+                .shareLink(uuidGenerator.generate())
                 .status(LetterStatus.REQUEST)
                 .pet(pet)
                 .image(image)
@@ -36,6 +43,7 @@ public record Letter(
                 .id(id)
                 .summary(summary)
                 .content(content)
+                .shareLink(shareLink)
                 .status(status)
                 .pet(pet)
                 .image(image)
@@ -49,6 +57,7 @@ public record Letter(
                 .id(id)
                 .summary(summary)
                 .content(content)
+                .shareLink(shareLink)
                 .status(LetterStatus.RESPONSE)
                 .pet(pet)
                 .image(image)

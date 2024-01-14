@@ -22,12 +22,12 @@ INSERT INTO reply (chat_gpt_id, created_at, timestamp, updated_at, summary, cont
 VALUES (2, '2023-01-02 12:00:00.000000', '2023-01-02 12:00:00.000000', '2023-01-02 12:00:00.000000', '엄마 콩이야!',
         '엄마 콩이야! 콩이는 무지개마을에서 따듯한 햇살을 느끼고있어. 사랑해!', 'UNREAD', 'CHAT_GPT');
 
-INSERT INTO letter (created_at, image_id, pet_id, reply_id, updated_at, summary, content, status)
+INSERT INTO letter (created_at, image_id, pet_id, reply_id, updated_at, summary, content, status, share_link)
 VALUES ('2023-01-01 12:00:00.000000', 2, 2, 1, '2023-01-01 12:00:00.000000', '미키야 엄마가 보고싶다.',
-        '미키야 엄마가 보고싶다. 엄마는 오늘 미키 생각하면서 그림을 그렸어.', 'RESPONSE');
+        '미키야 엄마가 보고싶다. 엄마는 오늘 미키 생각하면서 그림을 그렸어.', 'RESPONSE', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa');
 
-INSERT INTO letter (created_at, image_id, pet_id, reply_id, updated_at, summary, content, status)
+INSERT INTO letter (created_at, image_id, pet_id, reply_id, updated_at, summary, content, status, share_link)
 VALUES ('2023-01-02 12:00:00.000000', null, 1, 2, '2023-01-02 12:00:00.000000', '콩아 형님이다.', '콩아 형님이다. 형님이 오늘 한잔했다.',
-        'RESPONSE');
+        'RESPONSE', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb');
 
 SET FOREIGN_KEY_CHECKS = 1;
