@@ -34,7 +34,8 @@ class ReplyServiceImplTest {
                 .type(ReplyType.REPLY)
                 .timestamp(LocalDate.now().atStartOfDay())
                 .chatGpt(chatGpt)
-                .build();
+                .build()
+                .inspect();
         final Letter letter = Letter.builder()
                 .id(1L)
                 .summary(new Summary("콩아 잘 지내고 있니?"))

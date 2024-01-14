@@ -41,7 +41,7 @@ class ReplyTest {
                 .completionTokens(463)
                 .totalTokens(1467)
                 .build();
-        final Reply reply = Reply.create(chatGpt);
+        final Reply reply = Reply.create(chatGpt).inspect();
 
         final ReplySubmit request = ReplySubmit.builder()
                 .summary(new Summary("답장 최종 제목입니다."))

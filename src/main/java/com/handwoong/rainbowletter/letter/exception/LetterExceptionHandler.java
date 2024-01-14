@@ -46,4 +46,12 @@ public class LetterExceptionHandler extends BaseExceptionHandler {
         logWarn(errorCode, exception.getId().toString());
         return createErrorResponse(errorCode);
     }
+
+    @ExceptionHandler({ReplyInspectionStatusNotValidException.class})
+    public ResponseEntity<ErrorResponse> replyInspectionStatusNotValid(
+            final ReplyInspectionStatusNotValidException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode);
+        return createErrorResponse(errorCode);
+    }
 }

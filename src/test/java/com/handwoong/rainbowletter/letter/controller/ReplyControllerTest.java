@@ -54,7 +54,7 @@ class ReplyControllerTest extends ControllerTestSupporter {
         final ExtractableResponse<Response> response = submit(request, token);
 
         // then
-        assertThat(response.statusCode()).isEqualTo(201);
+        assertThat(response.statusCode()).isEqualTo(200);
     }
 
     private ExtractableResponse<Response> submit(final ReplySubmitRequest request, final String token) {
@@ -64,7 +64,7 @@ class ReplyControllerTest extends ControllerTestSupporter {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
                 .filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, PARAM_REPLY_ID, SUBMIT_REQUEST))
-                .when().post("/api/replies/admin/submit/{id}", 2)
+                .when().post("/api/replies/admin/submit/{id}", 3)
                 .then().log().all().extract();
     }
 
@@ -87,6 +87,28 @@ class ReplyControllerTest extends ControllerTestSupporter {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .filter(getFilter().document(AUTHORIZATION_HEADER, PARAM_REPLY_ID))
                 .when().post("/api/replies/read/{id}", 2)
+                .then().log().all().extract();
+    }
+
+    @Test
+    void 답장_검수() {
+        // given
+        final String token = adminAccessToken;
+
+        // when
+        final ExtractableResponse<Response> response = inspect(token);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(200);
+    }
+
+    private ExtractableResponse<Response> inspect(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, PARAM_REPLY_ID))
+                .when().post("/api/replies/admin/inspect/{id}", 2)
                 .then().log().all().extract();
     }
 }

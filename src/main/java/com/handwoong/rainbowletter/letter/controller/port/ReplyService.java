@@ -10,4 +10,6 @@ public interface ReplyService {
     Reply submit(ReplySubmit request, Long id);
 
     Reply read(Long id);
+
+    Reply inspect(Long id);
 }
