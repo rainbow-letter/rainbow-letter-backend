@@ -1,7 +1,6 @@
 package com.handwoong.rainbowletter.member.controller.port;
 
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
-import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.dto.ChangePassword;
@@ -20,7 +19,7 @@ public interface MemberService {
 
     TokenResponse login(MemberLogin request);
 
-    MailDto findPassword(FindPassword request);
+    void findPassword(FindPassword request);
 
     Member changePassword(Email email, ChangePassword request);
 

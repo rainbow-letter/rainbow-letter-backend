@@ -3,7 +3,6 @@ package com.handwoong.rainbowletter.mail.exception;
 import com.handwoong.rainbowletter.common.exception.BaseExceptionHandler;
 import com.handwoong.rainbowletter.common.exception.ErrorCode;
 import com.handwoong.rainbowletter.common.exception.ErrorResponse;
-import jakarta.mail.MessagingException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,9 @@ public class MailExceptionHandler extends BaseExceptionHandler {
         logWarn(errorCode, exception.getTemplateName());
         return createErrorResponse(errorCode);
     }
-    
-    @ExceptionHandler({MessagingException.class})
-    public ResponseEntity<ErrorResponse> messaging(final MessagingException exception) {
+
+    @ExceptionHandler({MailSendFailException.class})
+    public ResponseEntity<ErrorResponse> mailSendFail(final MailSendFailException exception) {
         final ErrorCode errorCode = ErrorCode.FAIL_SEND_MAIL;
         logError(errorCode, exception);
         return createErrorResponse(errorCode);

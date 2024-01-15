@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.handwoong.rainbowletter.common.util.jwt.GrantType;
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
-import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberRole;
@@ -252,35 +251,6 @@ class MemberServiceTest {
         assertThatThrownBy(() -> testContainer.service.login(request))
                 .isInstanceOf(BadCredentialsException.class)
                 .hasMessage("자격 증명에 실패하였습니다.");
-    }
-
-    @Test
-    void 비밀번호_찾기는_이메일을_반환한다() {
-        // given
-        final Email email = new Email("handwoong@gmail.com");
-        final Password password = new Password("@password1");
-        final Member member = Member.builder()
-                .email(email)
-                .password(password)
-                .phoneNumber(null)
-                .role(MemberRole.ROLE_USER)
-                .status(MemberStatus.ACTIVE)
-                .provider(OAuthProvider.NONE)
-                .providerId(OAuthProvider.NONE.name())
-                .build();
-
-        final MemberTestContainer testContainer = new MemberTestContainer();
-        testContainer.repository.save(member);
-
-        final FindPassword request = FindPassword.builder()
-                .email(email)
-                .build();
-
-        // when
-        final MailDto result = testContainer.service.findPassword(request);
-
-        // then
-        assertThat(result.email()).hasToString("handwoong@gmail.com");
     }
 
     @Test

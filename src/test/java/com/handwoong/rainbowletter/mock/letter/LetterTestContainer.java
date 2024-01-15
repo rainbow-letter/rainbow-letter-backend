@@ -10,6 +10,7 @@ import com.handwoong.rainbowletter.letter.service.LetterServiceImpl;
 import com.handwoong.rainbowletter.letter.service.ReplyServiceImpl;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
+import com.handwoong.rainbowletter.mail.service.MailServiceImpl;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.domain.MemberRole;
@@ -19,6 +20,9 @@ import com.handwoong.rainbowletter.member.domain.Password;
 import com.handwoong.rainbowletter.member.domain.PhoneNumber;
 import com.handwoong.rainbowletter.mock.common.FakeUuidGenerator;
 import com.handwoong.rainbowletter.mock.image.ImageTestContainer;
+import com.handwoong.rainbowletter.mock.mail.FakeMailRepository;
+import com.handwoong.rainbowletter.mock.mail.FakeMailSender;
+import com.handwoong.rainbowletter.mock.mail.FakeMailTemplateManager;
 import com.handwoong.rainbowletter.mock.pet.PetTestContainer;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
@@ -81,6 +85,8 @@ public class LetterTestContainer {
         this.service = new LetterServiceImpl(new FakeUuidGenerator(), petRepository, imageRepository, repository);
 
         this.replyRepository = new FakeReplyRepository();
-        this.replyService = new ReplyServiceImpl(replyRepository, repository);
+        final MailServiceImpl mailService = new MailServiceImpl(
+                new FakeMailSender(), new FakeMailTemplateManager("제목", "본문"), new FakeMailRepository());
+        this.replyService = new ReplyServiceImpl(mailService, replyRepository, repository);
     }
 }
