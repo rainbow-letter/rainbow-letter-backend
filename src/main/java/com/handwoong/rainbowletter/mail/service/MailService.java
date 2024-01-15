@@ -6,5 +6,5 @@ import com.handwoong.rainbowletter.member.domain.Email;
 import jakarta.mail.MessagingException;
 
 public interface MailService {
-    Mail send(final Email email, final MailTemplateType type) throws MessagingException;
+    Mail send(Email email, MailTemplateType type, String url) throws MessagingException;
 }

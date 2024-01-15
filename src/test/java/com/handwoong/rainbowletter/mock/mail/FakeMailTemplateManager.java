@@ -15,7 +15,7 @@ public class FakeMailTemplateManager implements EmailTemplateManager {
     }
 
     @Override
-    public MailTemplate template(final Email email, final MailTemplateType type) {
+    public MailTemplate template(final Email email, final MailTemplateType type, final String url) {
         return new MailTemplate(subject, body);
     }
 }

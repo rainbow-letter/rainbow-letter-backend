@@ -15,6 +15,6 @@ public class MailEventListener {
     @Async
     @TransactionalEventListener
     public void handle(final MailEvent event) throws MessagingException {
-        mailService.send(event.email(), event.type());
+        mailService.send(event.email(), event.type(), event.url());
     }
 }

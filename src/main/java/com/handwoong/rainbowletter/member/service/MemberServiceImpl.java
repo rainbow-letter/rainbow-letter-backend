@@ -66,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
         if (!existsByEmail(request.email())) {
             throw new MemberEmailNotFoundException(request.email().toString());
         }
-        return request;
+        return new MailDto(request.email(), "/members/password/reset");
     }
 
     @Override

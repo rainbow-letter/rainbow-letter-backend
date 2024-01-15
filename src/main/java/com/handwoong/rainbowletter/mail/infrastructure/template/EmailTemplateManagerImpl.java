@@ -22,8 +22,8 @@ public class EmailTemplateManagerImpl implements EmailTemplateManager {
         }
     }
 
-    public MailTemplate template(final Email email, final MailTemplateType type) {
+    public MailTemplate template(final Email email, final MailTemplateType type, final String url) {
         final EmailTemplate emailTemplate = templates.get(type);
-        return emailTemplate.getTemplate(email);
+        return emailTemplate.getTemplate(email, url);
     }
 }

@@ -7,6 +7,9 @@ import com.handwoong.rainbowletter.letter.domain.Reply;
 import com.handwoong.rainbowletter.letter.domain.dto.ReplySubmit;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
+import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
+import com.handwoong.rainbowletter.mail.domain.SendMail;
+import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,15 +30,16 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     @Transactional
-    public Reply submit(final ReplySubmit request, final Long id) {
+    @SendMail(type = MailTemplateType.REPLY)
+    public MailDto submit(final ReplySubmit request, final Long id) {
         final Reply reply = replyRepository.findByIdOrElseThrow(id);
         final Reply submittedReply = reply.submit(request);
-        final Reply savedReply = replyRepository.save(submittedReply);
+        replyRepository.save(submittedReply);
 
         final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
         final Letter updatedLetter = letter.updateStatus();
         letterRepository.save(updatedLetter);
-        return savedReply;
+        return new MailDto(letter.pet().member().email(), "/letter-box/" + letter.id());
     }
 
     @Override

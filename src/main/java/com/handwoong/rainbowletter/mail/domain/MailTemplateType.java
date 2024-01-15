@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MailTemplateType {
     VERIFY("emailVerifyTemplate"),
-    FIND_PASSWORD("findPasswordTemplate");
+    FIND_PASSWORD("findPasswordTemplate"),
+    REPLY("replyLetterTemplate"),
+    ;
 
     private final String templateName;
 
