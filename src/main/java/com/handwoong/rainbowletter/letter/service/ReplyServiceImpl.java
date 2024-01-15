@@ -10,8 +10,11 @@ import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.SendMail;
 import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -29,7 +32,7 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @SendMail(type = MailTemplateType.REPLY)
     public MailDto submit(final ReplySubmit request, final Long id) {
         final Reply reply = replyRepository.findByIdOrElseThrow(id);
@@ -60,5 +63,21 @@ public class ReplyServiceImpl implements ReplyService {
         final Reply reply = replyRepository.findByIdOrElseThrow(id);
         final Reply inspectedReply = reply.inspect();
         return replyRepository.save(inspectedReply);
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 10 * * *")
+    public void reservationSubmit() {
+        final List<Reply> replies = replyRepository.findAllByReservation();
+        replies.forEach(this::processReply);
+    }
+
+    private void processReply(Reply reply) {
+        final ReplySubmit request = ReplySubmit.builder()
+                .letterId(reply.letter().id())
+                .summary(reply.summary())
+                .content(reply.content())
+                .build();
+        submit(request, reply.id());
     }
 }

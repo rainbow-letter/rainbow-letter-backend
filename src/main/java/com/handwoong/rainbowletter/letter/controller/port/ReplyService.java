@@ -13,4 +13,6 @@ public interface ReplyService {
     Reply read(Long id);
 
     Reply inspect(Long id);
+
+    void reservationSubmit();
 }

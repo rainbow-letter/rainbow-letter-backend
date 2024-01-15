@@ -16,6 +16,7 @@ public record Reply(
         ReplyReadStatus readStatus,
         @Nullable
         LocalDateTime timestamp,
+        Letter letter,
         ChatGpt chatGpt
 ) {
     public static Reply create(final ChatGpt chatGpt) {
@@ -25,6 +26,18 @@ public record Reply(
                 .inspection(false)
                 .type(ReplyType.CHAT_GPT)
                 .readStatus(ReplyReadStatus.UNREAD)
+                .chatGpt(chatGpt)
+                .build();
+    }
+
+    public static Reply create(final ChatGpt chatGpt, final Letter letter) {
+        return Reply.builder()
+                .summary(new Summary(chatGpt.content().substring(0, 20)))
+                .content(new Content(chatGpt.content()))
+                .inspection(false)
+                .type(ReplyType.CHAT_GPT)
+                .readStatus(ReplyReadStatus.UNREAD)
+                .letter(letter)
                 .chatGpt(chatGpt)
                 .build();
     }
