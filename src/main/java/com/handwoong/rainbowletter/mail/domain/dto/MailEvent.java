@@ -2,6 +2,8 @@ package com.handwoong.rainbowletter.mail.domain.dto;
 
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.member.domain.Email;
+import lombok.Builder;
 
-public record MailEvent(MailTemplateType type, Email email, String url) {
+@Builder
+public record MailEvent(MailTemplateType type, Email email, String subject, String url) {
 }

@@ -25,7 +25,8 @@ class MailServiceTest {
                 );
 
         // when
-        final Mail mail = mailService.send(email, MailTemplateType.FIND_PASSWORD, "/members/password/reset");
+        final Mail mail = mailService.send(email, MailTemplateType.FIND_PASSWORD, "비밀번호 찾기 안내입니다.",
+                "/members/password/reset");
 
         // then
         assertThat(mail.id()).isEqualTo(1);

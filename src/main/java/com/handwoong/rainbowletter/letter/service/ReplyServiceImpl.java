@@ -39,7 +39,11 @@ public class ReplyServiceImpl implements ReplyService {
         final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
         final Letter updatedLetter = letter.updateStatus();
         letterRepository.save(updatedLetter);
-        return new MailDto(letter.pet().member().email(), "/letter-box/" + letter.id());
+        return MailDto.builder()
+                .email(letter.pet().member().email())
+                .subject(letter.pet().name() + "에게 편지가 도착했어요!")
+                .url("/letter-box/" + letter.id())
+                .build();
     }
 
     @Override

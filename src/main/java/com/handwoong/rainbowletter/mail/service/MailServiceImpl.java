@@ -19,8 +19,11 @@ public class MailServiceImpl implements MailService {
     private final MailRepository mailRepository;
 
     @Override
-    public Mail send(final Email email, final MailTemplateType type, final String url) throws MessagingException {
-        final MailTemplate template = templateManager.template(email, type, url);
+    public Mail send(final Email email,
+                     final MailTemplateType type,
+                     final String subject,
+                     final String url) throws MessagingException {
+        final MailTemplate template = templateManager.template(email, type, subject, url);
         final Mail mail = Mail.create(email, template, type);
         mailSender.send(mail);
         return mailRepository.save(mail);

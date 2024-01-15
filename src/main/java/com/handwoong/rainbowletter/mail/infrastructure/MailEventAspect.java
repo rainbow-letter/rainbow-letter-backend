@@ -24,6 +24,12 @@ public class MailEventAspect {
 
     @AfterReturning(value = "pointcut(sendMail)", returning = "returnValue", argNames = "sendMail,returnValue")
     public void afterReturning(final SendMail sendMail, final MailDto returnValue) {
-        eventPublisher.publishEvent(new MailEvent(sendMail.type(), returnValue.email(), returnValue.url()));
+        final MailEvent mailEvent = MailEvent.builder()
+                .type(sendMail.type())
+                .email(returnValue.email())
+                .subject(returnValue.subject())
+                .url(returnValue.url())
+                .build();
+        eventPublisher.publishEvent(mailEvent);
     }
 }

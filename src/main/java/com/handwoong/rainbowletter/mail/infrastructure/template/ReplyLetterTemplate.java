@@ -15,14 +15,10 @@ public class ReplyLetterTemplate implements EmailTemplate {
     private final TemplateEngine templateEngine;
 
     @Override
-    public MailTemplate getTemplate(final Email email, final String url) {
-        final String subject = createSubject();
+    public MailTemplate getTemplate(final Email email, String subject, final String url) {
+        final String subjectFormatted = String.format(SUBJECT_FORMAT, subject);
         final String body = createBody(url);
-        return new MailTemplate(subject, body);
-    }
-
-    private String createSubject() {
-        return String.format(SUBJECT_FORMAT, "답장이 도착했어요!");
+        return new MailTemplate(subjectFormatted, body);
     }
 
     private String createBody(final String url) {

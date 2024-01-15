@@ -20,14 +20,10 @@ public class FindPasswordTemplate implements EmailTemplate {
     private final TemplateEngine templateEngine;
 
     @Override
-    public MailTemplate getTemplate(final Email email, final String url) {
-        final String subject = createSubject();
+    public MailTemplate getTemplate(final Email email, final String subject, final String url) {
+        final String subjectFormatted = String.format(SUBJECT_FORMAT, subject);
         final String body = createBody(email, url);
-        return new MailTemplate(subject, body);
-    }
-
-    private String createSubject() {
-        return String.format(SUBJECT_FORMAT, "비밀번호 변경 안내드립니다.");
+        return new MailTemplate(subjectFormatted, body);
     }
 
     private String createBody(final Email email, final String url) {
