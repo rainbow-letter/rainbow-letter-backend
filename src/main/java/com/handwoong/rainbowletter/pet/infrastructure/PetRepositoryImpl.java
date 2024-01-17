@@ -107,10 +107,17 @@ public class PetRepositoryImpl implements PetRepository {
                         petEntity.name,
                         letterEntity.count().as("letterCount"),
                         petEntity.favoriteEntity.total.as("favoriteCount"),
+                        Projections.constructor(
+                                ImageResponse.class,
+                                petEntity.imageEntity.id,
+                                petEntity.imageEntity.objectKey,
+                                petEntity.imageEntity.url
+                        ),
                         petEntity.deathAnniversary
                 ))
                 .from(petEntity)
                 .leftJoin(letterEntity).on(petEntity.id.eq(letterEntity.petEntity.id))
+                .leftJoin(petEntity.imageEntity)
                 .where(petEntity.memberEntity.email.eq(email.toString()))
                 .groupBy(petEntity.id)
                 .fetch();

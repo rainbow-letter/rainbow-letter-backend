@@ -12,6 +12,9 @@ public class PetResponseSnippet {
             fieldWithPath("pets[].name").type(JsonFieldType.STRING).description("아이의 이름"),
             fieldWithPath("pets[].letterCount").type(JsonFieldType.NUMBER).description("보낸 편지 수"),
             fieldWithPath("pets[].favoriteCount").type(JsonFieldType.NUMBER).description("보낸 하트 수"),
+            fieldWithPath("pets[].image.id").type(JsonFieldType.NUMBER).description("이미지 ID").optional(),
+            fieldWithPath("pets[].image.objectKey").type(JsonFieldType.STRING).description("이미지의 ObjectKey").optional(),
+            fieldWithPath("pets[].image.url").type(JsonFieldType.STRING).description("이미지의 URL").optional(),
             fieldWithPath("pets[].deathAnniversary").type(JsonFieldType.STRING).description("아이가 떠난 날").optional()
     );
     public static final Snippet PET_RESPONSES = responseFields(
