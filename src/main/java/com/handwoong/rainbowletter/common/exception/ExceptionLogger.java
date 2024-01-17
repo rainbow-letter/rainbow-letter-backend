@@ -26,4 +26,10 @@ public class ExceptionLogger {
                 MESSAGE_FORMAT, errorCode.name(), errorCode.getStatus(), errorCode.getMessage());
         log.error(logMessage, exception);
     }
+
+    public void logError(final ErrorCode errorCode, final Exception exception, final String field) {
+        final String logMessage = String.format(
+                MESSAGE_FORMAT, errorCode.name(), errorCode.getStatus(), errorCode.getMessage() + "-" + field);
+        log.error(logMessage, exception);
+    }
 }

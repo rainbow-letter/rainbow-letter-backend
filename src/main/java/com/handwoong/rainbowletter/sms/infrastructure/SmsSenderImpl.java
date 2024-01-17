@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.handwoong.rainbowletter.common.config.sms.SmsConfig;
 import com.handwoong.rainbowletter.common.util.ProfileManager;
 import com.handwoong.rainbowletter.sms.domain.dto.AligoResponse;
+import com.handwoong.rainbowletter.sms.domain.dto.SmsCreate;
 import com.handwoong.rainbowletter.sms.domain.dto.SmsSend;
 import com.handwoong.rainbowletter.sms.service.port.SmsSender;
 import java.io.IOException;
@@ -29,13 +30,20 @@ public class SmsSenderImpl implements SmsSender {
     private final ObjectMapper mapper;
 
     @Override
-    public AligoResponse send(final SmsSend request) throws IOException {
+    public SmsCreate send(final SmsSend request) throws IOException {
         final MultiValueMap<String, String> smsRequestBody = createSmsRequestBody(request);
         final HttpHeaders smsHeaders = new HttpHeaders();
         smsHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         final HttpEntity<MultiValueMap<String, String>> smsEntity = new HttpEntity<>(smsRequestBody, smsHeaders);
         final String body = restTemplate.exchange(ALIGO_URL, HttpMethod.POST, smsEntity, String.class).getBody();
-        return mapper.readValue(body, AligoResponse.class);
+        final AligoResponse response = mapper.readValue(body, AligoResponse.class);
+        return SmsCreate.builder()
+                .code(response.result_code())
+                .statusMessage(response.message())
+                .sender(smsConfig.getAligoSender())
+                .receiver(request.receiver().phoneNumber())
+                .content(request.content())
+                .build();
     }
 
     private MultiValueMap<String, String> createSmsRequestBody(final SmsSend request) {
