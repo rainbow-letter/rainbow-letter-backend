@@ -26,7 +26,7 @@ public class MailEntity extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(length = 50, unique = true)
+    @Column(length = 50)
     private String email;
 
     @NotNull
