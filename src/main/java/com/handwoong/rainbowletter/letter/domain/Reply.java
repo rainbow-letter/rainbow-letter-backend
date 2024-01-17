@@ -1,6 +1,6 @@
 package com.handwoong.rainbowletter.letter.domain;
 
-import com.handwoong.rainbowletter.letter.domain.dto.ReplySubmit;
+import com.handwoong.rainbowletter.letter.domain.dto.ReplyUpdate;
 import com.handwoong.rainbowletter.letter.exception.ReplyInspectionStatusNotValidException;
 import jakarta.annotation.Nullable;
 import java.time.LocalDateTime;
@@ -42,14 +42,14 @@ public record Reply(
                 .build();
     }
 
-    public Reply submit(final ReplySubmit submit) {
+    public Reply submit() {
         if (!inspection) {
             throw new ReplyInspectionStatusNotValidException();
         }
         return Reply.builder()
                 .id(id)
-                .summary(submit.summary())
-                .content(submit.content())
+                .summary(summary)
+                .content(content)
                 .inspection(true)
                 .type(ReplyType.REPLY)
                 .readStatus(readStatus)
@@ -77,6 +77,19 @@ public record Reply(
                 .summary(summary)
                 .content(content)
                 .inspection(!inspection)
+                .type(type)
+                .readStatus(readStatus)
+                .timestamp(timestamp)
+                .chatGpt(chatGpt)
+                .build();
+    }
+
+    public Reply update(final ReplyUpdate request) {
+        return Reply.builder()
+                .id(id)
+                .summary(request.summary())
+                .content(request.content())
+                .inspection(inspection)
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)

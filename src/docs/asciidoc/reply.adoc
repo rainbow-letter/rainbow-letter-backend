@@ -19,3 +19,7 @@ operation::reply-controller-test/답장_보내기[snippets='http-request,path-pa
 답장의 type이 "REPLY"인 경우에만 읽기 요청을 보내주세요.
 
 operation::reply-controller-test/답장_읽기[snippets='http-request,path-parameters,request-headers,http-response']
+
+=== 답장 수정
+
+operation::reply-controller-test/답장_수정[snippets='http-request,path-parameters,request-headers,request-fields,http-response']

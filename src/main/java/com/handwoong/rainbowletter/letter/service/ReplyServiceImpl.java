@@ -5,6 +5,7 @@ import com.handwoong.rainbowletter.letter.domain.CreateReply;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.Reply;
 import com.handwoong.rainbowletter.letter.domain.dto.ReplySubmit;
+import com.handwoong.rainbowletter.letter.domain.dto.ReplyUpdate;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
@@ -35,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional
     public void submit(final ReplySubmit request, final Long id) {
         final Reply reply = replyRepository.findByIdOrElseThrow(id);
-        final Reply submittedReply = reply.submit(request);
+        final Reply submittedReply = reply.submit();
         replyRepository.save(submittedReply);
 
         final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
@@ -61,6 +62,14 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    @Transactional
+    public Reply update(final ReplyUpdate request, final Long id) {
+        final Reply reply = replyRepository.findByIdOrElseThrow(id);
+        final Reply updatedReply = reply.update(request);
+        return replyRepository.save(updatedReply);
+    }
+
+    @Override
     @Scheduled(cron = "0 0 10 * * *")
     @Transactional
     public void reservationSubmit() {
@@ -71,10 +80,8 @@ public class ReplyServiceImpl implements ReplyService {
     private void processReply(Reply reply) {
         final ReplySubmit request = ReplySubmit.builder()
                 .letterId(reply.letter().id())
-                .summary(reply.summary())
-                .content(reply.content())
                 .build();
-        final Reply submittedReply = reply.submit(request);
+        final Reply submittedReply = reply.submit();
         replyRepository.save(submittedReply);
 
         final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
