@@ -23,6 +23,12 @@ public class SmsEntity extends BaseEntity {
     private Long id;
 
     @NotNull
+    private int code;
+
+    @NotNull
+    private String statusMessage;
+
+    @NotNull
     @Column(length = 20)
     private String sender;
 
@@ -36,6 +42,8 @@ public class SmsEntity extends BaseEntity {
     public static SmsEntity from(final Sms sms) {
         final SmsEntity smsEntity = new SmsEntity();
         smsEntity.id = sms.id();
+        smsEntity.code = sms.code();
+        smsEntity.statusMessage = sms.statusMessage();
         smsEntity.sender = sms.sender().phoneNumber();
         smsEntity.receiver = sms.receiver().phoneNumber();
         smsEntity.content = sms.content();
@@ -45,6 +53,8 @@ public class SmsEntity extends BaseEntity {
     public Sms toModel() {
         return Sms.builder()
                 .id(id)
+                .code(code)
+                .statusMessage(statusMessage)
                 .sender(new PhoneNumber(sender))
                 .receiver(new PhoneNumber(receiver))
                 .content(content)
