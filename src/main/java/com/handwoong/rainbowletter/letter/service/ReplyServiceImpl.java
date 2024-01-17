@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.letter.service;
 
+import com.handwoong.rainbowletter.common.config.client.ClientConfig;
 import com.handwoong.rainbowletter.letter.controller.port.ReplyService;
 import com.handwoong.rainbowletter.letter.domain.CreateReply;
 import com.handwoong.rainbowletter.letter.domain.Letter;
@@ -11,7 +12,10 @@ import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import com.handwoong.rainbowletter.mail.service.port.MailService;
+import com.handwoong.rainbowletter.sms.domain.dto.SmsSend;
+import com.handwoong.rainbowletter.sms.service.port.SmsService;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,9 +25,17 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReplyServiceImpl implements ReplyService {
+    private static final String SMS_CONTENT = """
+                %s에게 편지가 도착했어요!
+                
+                %s
+            """;
+
+    private final SmsService smsService;
     private final MailService mailService;
     private final ReplyRepository replyRepository;
     private final LetterRepository letterRepository;
+    private final ClientConfig clientConfig;
 
     @Override
     @CreateReply
@@ -43,6 +55,7 @@ public class ReplyServiceImpl implements ReplyService {
         final Letter updatedLetter = letter.updateStatus();
         letterRepository.save(updatedLetter);
         sendNotificationMail(letter);
+        sendNotificationSms(letter);
     }
 
     @Override
@@ -97,5 +110,17 @@ public class ReplyServiceImpl implements ReplyService {
                 .url("/letter-box/" + letter.id())
                 .build();
         mailService.send(MailTemplateType.REPLY, mailDto);
+    }
+
+    private void sendNotificationSms(final Letter letter) {
+        if (Objects.isNull(letter.pet().member().phoneNumber())) {
+            return;
+        }
+        final SmsSend request = SmsSend.builder()
+                .receiver(letter.pet().member().phoneNumber())
+                .content(String.format(SMS_CONTENT, letter.pet().name(),
+                        clientConfig.getClientUrl() + "/letter-box/" + letter.id()))
+                .build();
+        smsService.send(request);
     }
 }

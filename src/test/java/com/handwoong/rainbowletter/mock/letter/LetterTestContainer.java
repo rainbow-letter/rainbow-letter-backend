@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.mock.letter;
 
+import com.handwoong.rainbowletter.common.config.client.ClientConfig;
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.domain.ImageType;
@@ -24,8 +25,11 @@ import com.handwoong.rainbowletter.mock.mail.FakeMailRepository;
 import com.handwoong.rainbowletter.mock.mail.FakeMailSender;
 import com.handwoong.rainbowletter.mock.mail.FakeMailTemplateManager;
 import com.handwoong.rainbowletter.mock.pet.PetTestContainer;
+import com.handwoong.rainbowletter.mock.sms.FakeSmsRepository;
+import com.handwoong.rainbowletter.mock.sms.FakeSmsSender;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
+import com.handwoong.rainbowletter.sms.service.SmsServiceImpl;
 import java.time.LocalDateTime;
 
 public class LetterTestContainer {
@@ -87,6 +91,8 @@ public class LetterTestContainer {
         this.replyRepository = new FakeReplyRepository();
         final MailServiceImpl mailService = new MailServiceImpl(
                 new FakeMailSender(), new FakeMailTemplateManager("제목", "본문"), new FakeMailRepository());
-        this.replyService = new ReplyServiceImpl(mailService, replyRepository, repository);
+        final SmsServiceImpl smsService = new SmsServiceImpl(new FakeSmsSender(), new FakeSmsRepository());
+        final ClientConfig clientConfig = new ClientConfig("http://localhost");
+        this.replyService = new ReplyServiceImpl(smsService, mailService, replyRepository, repository, clientConfig);
     }
 }

@@ -22,7 +22,7 @@ public class MailExceptionHandler extends BaseExceptionHandler {
     @ExceptionHandler({MailSendFailException.class})
     public ResponseEntity<ErrorResponse> mailSendFail(final MailSendFailException exception) {
         final ErrorCode errorCode = ErrorCode.FAIL_SEND_MAIL;
-        logError(errorCode, exception);
+        logError(errorCode, exception, exception.getEmail());
         return createErrorResponse(errorCode);
     }
 }
