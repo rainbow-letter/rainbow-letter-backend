@@ -5,6 +5,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 import com.handwoong.rainbowletter.common.util.SecurityUtils;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.controller.request.LetterCreateRequest;
+import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponses;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
@@ -40,11 +41,11 @@ public class LetterController {
     }
 
     @GetMapping("/admin/list")
-    public ResponseEntity<Page<LetterResponse>> findAdminAll(
+    public ResponseEntity<Page<LetterAdminResponse>> findAdminAll(
             @RequestParam(value = "startDate") LocalDate startDate,
             @RequestParam(value = "endDate") LocalDate endDate,
             @PageableDefault(sort = "createdAt", direction = DESC) Pageable pageable) {
-        final Page<LetterResponse> response = letterService.findAllAdminLetters(startDate, endDate, pageable);
+        final Page<LetterAdminResponse> response = letterService.findAllAdminLetters(startDate, endDate, pageable);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

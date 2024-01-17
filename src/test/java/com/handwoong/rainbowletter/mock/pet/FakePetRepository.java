@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.mock.pet;
 
+import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.controller.response.DashboardResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
@@ -49,8 +50,10 @@ public class FakePetRepository implements PetRepository {
         return database.values()
                 .stream()
                 .filter(pet -> pet.member().email().equals(email))
-                .map(pet -> new DashboardResponse(
-                        pet.id(), pet.name(), 0L, pet.favorite().total(), pet.deathAnniversary()))
+                .map(pet ->
+                        new DashboardResponse(
+                                pet.id(), pet.name(), 0L, pet.favorite().total(), ImageResponse.from(pet.image()),
+                                pet.deathAnniversary()))
                 .toList();
     }
 

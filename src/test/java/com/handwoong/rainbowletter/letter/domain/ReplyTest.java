@@ -2,7 +2,6 @@ package com.handwoong.rainbowletter.letter.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.handwoong.rainbowletter.letter.domain.dto.ReplySubmit;
 import java.time.LocalDate;
 import java.util.Objects;
 import org.junit.jupiter.api.Test;
@@ -43,18 +42,13 @@ class ReplyTest {
                 .build();
         final Reply reply = Reply.create(chatGpt).inspect();
 
-        final ReplySubmit request = ReplySubmit.builder()
-                .summary(new Summary("답장 최종 제목입니다."))
-                .content(new Content("답장 최종 본문입니다."))
-                .build();
-
         // when
-        final Reply submittedReply = reply.submit(request);
+        final Reply submittedReply = reply.submit();
 
         // then
         assertThat(submittedReply.id()).isNull();
-        assertThat(submittedReply.summary()).hasToString("답장 최종 제목입니다.");
-        assertThat(submittedReply.content()).hasToString("답장 최종 본문입니다.");
+        assertThat(submittedReply.summary()).hasToString("이 내용은 ChatGPT가 생성한 내용입니다.".substring(0, 20));
+        assertThat(submittedReply.content()).hasToString("이 내용은 ChatGPT가 생성한 내용입니다.");
         assertThat(submittedReply.type()).isEqualTo(ReplyType.REPLY);
         assertThat(submittedReply.readStatus()).isEqualTo(ReplyReadStatus.UNREAD);
         assert Objects.nonNull(submittedReply.timestamp());

@@ -20,21 +20,17 @@ public class FindPasswordTemplate implements EmailTemplate {
     private final TemplateEngine templateEngine;
 
     @Override
-    public MailTemplate getTemplate(final Email email) {
-        final String subject = createSubject();
-        final String body = createBody(email);
-        return new MailTemplate(subject, body);
+    public MailTemplate getTemplate(final Email email, final String subject, final String url) {
+        final String subjectFormatted = String.format(SUBJECT_FORMAT, subject);
+        final String body = createBody(email, url);
+        return new MailTemplate(subjectFormatted, body);
     }
 
-    private String createSubject() {
-        return String.format(SUBJECT_FORMAT, "비밀번호 변경 안내드립니다.");
-    }
-
-    private String createBody(final Email email) {
+    private String createBody(final Email email, final String url) {
         final TokenResponse tokenResponse =
                 tokenProvider.generateToken(GrantType.PATH_VARIABLE, email.toString(), MailTemplateType.VERIFY.name());
         final String resetPasswordUrl =
-                clientConfig.getClientUrl() + "/members/password/reset?token=" + tokenResponse.token();
+                clientConfig.getClientUrl() + url + "?token=" + tokenResponse.token();
         final Context context = new Context();
         context.setVariable("resetPasswordUrl", resetPasswordUrl);
         return templateEngine.process("resetPassword", context);

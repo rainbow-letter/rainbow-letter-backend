@@ -4,6 +4,7 @@ import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
+import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
 import com.handwoong.rainbowletter.letter.domain.CreateReply;
@@ -51,9 +52,9 @@ public class LetterServiceImpl implements LetterService {
     }
 
     @Override
-    public Page<LetterResponse> findAllAdminLetters(final LocalDate startDate,
-                                                    final LocalDate endDate,
-                                                    final Pageable pageable) {
+    public Page<LetterAdminResponse> findAllAdminLetters(final LocalDate startDate,
+                                                         final LocalDate endDate,
+                                                         final Pageable pageable) {
         return letterRepository.findAdminAllLetterResponses(startDate, endDate, pageable);
     }
 

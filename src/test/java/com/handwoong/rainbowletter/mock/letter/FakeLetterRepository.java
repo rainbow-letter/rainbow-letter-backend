@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.mock.letter;
 
+import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
@@ -74,9 +75,9 @@ public class FakeLetterRepository implements LetterRepository {
     }
 
     @Override
-    public Page<LetterResponse> findAdminAllLetterResponses(final LocalDate startDate,
-                                                            final LocalDate endDate,
-                                                            final Pageable pageable) {
+    public Page<LetterAdminResponse> findAdminAllLetterResponses(final LocalDate startDate,
+                                                                 final LocalDate endDate,
+                                                                 final Pageable pageable) {
         return null;
     }
 

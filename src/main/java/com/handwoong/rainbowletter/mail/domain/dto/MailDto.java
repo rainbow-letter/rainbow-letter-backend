@@ -1,7 +1,8 @@
 package com.handwoong.rainbowletter.mail.domain.dto;
 
 import com.handwoong.rainbowletter.member.domain.Email;
+import lombok.Builder;
 
-public interface MailDto {
-    Email email();
+@Builder
+public record MailDto(Email email, String subject, String url) {
 }

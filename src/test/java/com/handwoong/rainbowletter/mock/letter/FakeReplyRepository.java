@@ -5,6 +5,7 @@ import com.handwoong.rainbowletter.letter.exception.ReplyResourceNotFoundExcepti
 import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,5 +40,10 @@ public class FakeReplyRepository implements ReplyRepository {
     public Reply findByIdOrElseThrow(final Long id) {
         return Optional.ofNullable(database.get(id))
                 .orElseThrow(() -> new ReplyResourceNotFoundException(id));
+    }
+
+    @Override
+    public List<Reply> findAllByReservation() {
+        return null;
     }
 }

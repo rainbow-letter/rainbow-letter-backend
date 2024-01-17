@@ -2,8 +2,8 @@ package com.handwoong.rainbowletter.member.service;
 
 import com.handwoong.rainbowletter.common.util.jwt.TokenResponse;
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
-import com.handwoong.rainbowletter.mail.domain.SendMail;
 import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
+import com.handwoong.rainbowletter.mail.service.port.MailService;
 import com.handwoong.rainbowletter.member.controller.port.MemberService;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
+    private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final AuthenticationService authenticationService;
@@ -61,12 +62,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @SendMail(type = MailTemplateType.FIND_PASSWORD)
-    public MailDto findPassword(final FindPassword request) {
+    public void findPassword(final FindPassword request) {
         if (!existsByEmail(request.email())) {
             throw new MemberEmailNotFoundException(request.email().toString());
         }
-        return request;
+        sendNotificationMail(request.email());
     }
 
     @Override
@@ -107,5 +107,14 @@ public class MemberServiceImpl implements MemberService {
         final Member member = memberRepository.findByEmailOrElseThrow(email);
         final Member updateMember = member.update(MemberStatus.LEAVE);
         return memberRepository.save(updateMember);
+    }
+
+    private void sendNotificationMail(final Email email) {
+        final MailDto mailDto = MailDto.builder()
+                .email(email)
+                .subject("비밀번호 변경 안내드립니다.")
+                .url("/members/password/reset")
+                .build();
+        mailService.send(MailTemplateType.FIND_PASSWORD, mailDto);
     }
 }
