@@ -39,6 +39,7 @@ public class ReplyController {
 
     @PostMapping("/admin/inspect/{id}")
     public ResponseEntity<Void> inspect(@PathVariable Long id) {
+        replyService.inspect(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

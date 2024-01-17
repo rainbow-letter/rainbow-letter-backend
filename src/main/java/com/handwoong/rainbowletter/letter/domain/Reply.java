@@ -76,7 +76,7 @@ public record Reply(
                 .id(id)
                 .summary(summary)
                 .content(content)
-                .inspection(true)
+                .inspection(!inspection)
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)
