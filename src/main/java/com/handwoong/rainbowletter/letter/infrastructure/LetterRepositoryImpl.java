@@ -5,6 +5,7 @@ import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.rep
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
+import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterPetResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
@@ -119,12 +120,48 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public Page<LetterResponse> findAdminAllLetterResponses(final LocalDate startDate,
-                                                            final LocalDate endDate,
-                                                            final Pageable pageable) {
+    public Page<LetterAdminResponse> findAdminAllLetterResponses(final LocalDate startDate,
+                                                                 final LocalDate endDate,
+                                                                 final Pageable pageable) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
-        final List<LetterResponse> result = selectLetterResponse()
+        final QReplyEntity reply = replyEntity;
+        final List<LetterAdminResponse> result = queryFactory.select(Projections.constructor(
+                        LetterAdminResponse.class,
+                        letter.id,
+                        pet.memberEntity.id.as("memberId"),
+                        letter.summary,
+                        letter.content,
+                        letter.shareLink,
+                        Projections.constructor(
+                                LetterPetResponse.class,
+                                pet.id,
+                                pet.name,
+                                Projections.constructor(
+                                        ImageResponse.class,
+                                        pet.imageEntity.id,
+                                        pet.imageEntity.objectKey,
+                                        pet.imageEntity.url
+                                )
+                        ),
+                        Projections.constructor(
+                                ImageResponse.class,
+                                letter.imageEntity.id,
+                                letter.imageEntity.objectKey,
+                                letter.imageEntity.url
+                        ),
+                        Projections.constructor(
+                                ReplyResponse.class,
+                                reply.id,
+                                reply.summary,
+                                reply.content,
+                                reply.inspection,
+                                reply.readStatus,
+                                reply.type,
+                                reply.timestamp
+                        ),
+                        letter.createdAt
+                ))
                 .distinct()
                 .from(letter)
                 .innerJoin(letter.petEntity, pet)
