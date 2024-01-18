@@ -17,6 +17,7 @@ import com.handwoong.rainbowletter.sms.service.port.SmsService;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,14 +49,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional
     public void submit(final ReplySubmit request, final Long id) {
         final Reply reply = replyRepository.findByIdOrElseThrow(id);
-        final Reply submittedReply = reply.submit();
-        replyRepository.save(submittedReply);
-
-        final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
-        final Letter updatedLetter = letter.updateStatus();
-        letterRepository.save(updatedLetter);
-        sendNotificationMail(letter);
-        sendNotificationSms(letter);
+        processReply(reply);
     }
 
     @Override
@@ -83,6 +77,7 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    @Async
     @Scheduled(cron = "0 0 10 * * *")
     @Transactional
     public void reservationSubmit() {
@@ -91,16 +86,14 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     private void processReply(Reply reply) {
-        final ReplySubmit request = ReplySubmit.builder()
-                .letterId(reply.letter().id())
-                .build();
         final Reply submittedReply = reply.submit();
-        replyRepository.save(submittedReply);
+        final Reply updatedReply = replyRepository.save(submittedReply);
 
-        final Letter letter = letterRepository.findByIdOrElseThrow(request.letterId());
-        final Letter updatedLetter = letter.updateStatus();
-        letterRepository.save(updatedLetter);
-        sendNotificationMail(letter);
+        final Letter letter = letterRepository.findByIdOrElseThrow(reply.letter().id());
+        final Letter updatedLetter = letter.updateStatus(updatedReply);
+        final Letter savedLetter = letterRepository.save(updatedLetter);
+        sendNotificationMail(savedLetter);
+        sendNotificationSms(savedLetter);
     }
 
     private void sendNotificationMail(final Letter letter) {
