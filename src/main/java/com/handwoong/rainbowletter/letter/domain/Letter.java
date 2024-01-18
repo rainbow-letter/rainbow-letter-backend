@@ -52,7 +52,7 @@ public record Letter(
                 .build();
     }
 
-    public Letter updateStatus(final Reply reply) {
+    public Letter updateStatus() {
         return Letter.builder()
                 .id(id)
                 .summary(summary)

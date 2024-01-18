@@ -85,12 +85,12 @@ public class ReplyServiceImpl implements ReplyService {
         replies.forEach(this::processReply);
     }
 
-    private void processReply(Reply reply) {
+    private void processReply(final Reply reply) {
         final Reply submittedReply = reply.submit();
-        final Reply updatedReply = replyRepository.save(submittedReply);
+        replyRepository.save(submittedReply);
 
-        final Letter letter = letterRepository.findByIdOrElseThrow(reply.letter().id());
-        final Letter updatedLetter = letter.updateStatus(updatedReply);
+        final Letter letter = letterRepository.findByReplyIdOrElseThrow(reply.id());
+        final Letter updatedLetter = letter.updateStatus();
         final Letter savedLetter = letterRepository.save(updatedLetter);
         sendNotificationMail(savedLetter);
         sendNotificationSms(savedLetter);

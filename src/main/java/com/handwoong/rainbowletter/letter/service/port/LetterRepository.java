@@ -15,6 +15,8 @@ public interface LetterRepository {
 
     Letter findByIdOrElseThrow(Long id);
 
+    Letter findByReplyIdOrElseThrow(Long replyId);
+
     List<LetterBoxResponse> findAllLetterBoxByEmail(Email email);
 
     LetterResponse findLetterResponseByIdOrElseThrow(Email email, Long id);

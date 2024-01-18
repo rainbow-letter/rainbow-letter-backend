@@ -69,7 +69,7 @@ public class ReplyGeneratorImpl implements ReplyGenerator {
         final int totalTokens = chatGptResponse.usage().total_tokens();
 
         final ChatGpt chatGpt = ChatGpt.create(output, promptTokens, completionTokens, totalTokens);
-        return Reply.create(chatGpt, letter);
+        return Reply.create(chatGpt);
     }
 
     private ChatGptRequest createGptRequest(final ChatGptPrompt prompt) {

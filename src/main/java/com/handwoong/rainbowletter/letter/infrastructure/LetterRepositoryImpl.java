@@ -63,6 +63,24 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
+    public Letter findByReplyIdOrElseThrow(final Long replyId) {
+        return Optional.ofNullable(
+                        queryFactory.selectFrom(letterEntity)
+                                .distinct()
+                                .leftJoin(letterEntity.imageEntity)
+                                .fetchJoin()
+                                .leftJoin(letterEntity.replyEntity)
+                                .fetchJoin()
+                                .innerJoin(letterEntity.petEntity, petEntity)
+                                .fetchJoin()
+                                .where(letterEntity.replyEntity.id.eq(replyId))
+                                .fetchOne()
+                )
+                .orElseThrow(() -> new LetterResourceNotFoundException(replyId))
+                .toModel();
+    }
+
+    @Override
     public List<LetterBoxResponse> findAllLetterBoxByEmail(final Email email) {
         final QLetterEntity letter = letterEntity;
         return queryFactory.select(Projections.constructor(

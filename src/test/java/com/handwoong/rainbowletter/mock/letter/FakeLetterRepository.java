@@ -36,6 +36,11 @@ public class FakeLetterRepository implements LetterRepository {
                 .orElseThrow(() -> new LetterResourceNotFoundException(id));
     }
 
+    @Override
+    public Letter findByReplyIdOrElseThrow(final Long replyId) {
+        return null;
+    }
+
     private Letter createLetter(final Long id, final Letter letter) {
         return Letter.builder()
                 .id(id)

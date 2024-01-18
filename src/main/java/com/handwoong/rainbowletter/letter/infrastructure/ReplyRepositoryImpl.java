@@ -1,6 +1,5 @@
 package com.handwoong.rainbowletter.letter.infrastructure;
 
-import static com.handwoong.rainbowletter.letter.infrastructure.QLetterEntity.letterEntity;
 import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.replyEntity;
 import static com.handwoong.rainbowletter.letter.infrastructure.chatgpt.QChatGptEntity.chatGptEntity;
 
@@ -32,8 +31,6 @@ public class ReplyRepositoryImpl implements ReplyRepository {
                                 .distinct()
                                 .innerJoin(replyEntity.chatGptEntity, chatGptEntity)
                                 .fetchJoin()
-                                .innerJoin(replyEntity.letterEntity, letterEntity)
-                                .fetchJoin()
                                 .where(replyEntity.id.eq(id))
                                 .fetchOne()
                 )
@@ -46,8 +43,6 @@ public class ReplyRepositoryImpl implements ReplyRepository {
         return queryFactory.selectFrom(replyEntity)
                 .distinct()
                 .innerJoin(replyEntity.chatGptEntity, chatGptEntity)
-                .fetchJoin()
-                .innerJoin(replyEntity.letterEntity, letterEntity)
                 .fetchJoin()
                 .where(replyEntity.inspection.isTrue().and(replyEntity.type.eq(ReplyType.CHAT_GPT)))
                 .fetch()

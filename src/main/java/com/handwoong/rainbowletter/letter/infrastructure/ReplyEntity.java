@@ -54,9 +54,6 @@ public class ReplyEntity extends BaseEntity {
 
     private LocalDateTime timestamp;
 
-    @OneToOne(mappedBy = "replyEntity")
-    private LetterEntity letterEntity;
-
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JoinColumn(name = "chat_gpt_id", referencedColumnName = "id")
     private ChatGptEntity chatGptEntity;
