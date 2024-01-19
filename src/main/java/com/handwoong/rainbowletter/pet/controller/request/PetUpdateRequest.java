@@ -13,7 +13,7 @@ import com.handwoong.rainbowletter.pet.domain.Personalities;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
@@ -31,7 +31,7 @@ public record PetUpdateRequest(
         Set<@NotBlank(message = EMPTY_MESSAGE) @Size(max = MAX_PERSONALITY_LENGTH, message = PET_PERSONALITY) String> personalities,
 
         @Nullable
-        @Past(message = PET_DEATH_ANNIVERSARY)
+        @PastOrPresent(message = PET_DEATH_ANNIVERSARY)
         LocalDate deathAnniversary,
 
         @Nullable
