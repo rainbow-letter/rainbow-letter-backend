@@ -1,6 +1,7 @@
 package com.handwoong.rainbowletter.letter.domain;
 
 import com.handwoong.rainbowletter.letter.domain.dto.ReplyUpdate;
+import com.handwoong.rainbowletter.letter.exception.AlreadyReplyException;
 import com.handwoong.rainbowletter.letter.exception.ReplyInspectionStatusNotValidException;
 import jakarta.annotation.Nullable;
 import java.time.LocalDateTime;
@@ -30,9 +31,7 @@ public record Reply(
     }
 
     public Reply submit() {
-        if (!inspection) {
-            throw new ReplyInspectionStatusNotValidException();
-        }
+        validateSubmit();
         return Reply.builder()
                 .id(id)
                 .summary(summary)
@@ -43,6 +42,15 @@ public record Reply(
                 .timestamp(LocalDateTime.now())
                 .chatGpt(chatGpt)
                 .build();
+    }
+
+    private void validateSubmit() {
+        if (!inspection) {
+            throw new ReplyInspectionStatusNotValidException();
+        }
+        if (type == ReplyType.REPLY) {
+            throw new AlreadyReplyException(id);
+        }
     }
 
     public Reply read() {

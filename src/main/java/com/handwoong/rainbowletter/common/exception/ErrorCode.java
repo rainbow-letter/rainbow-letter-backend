@@ -44,6 +44,7 @@ public enum ErrorCode {
     INVALID_CONTENT_FORMAT(BAD_REQUEST, "본문을 입력 해주세요."),
 
     INVALID_INSPECT_STATUS(BAD_REQUEST, "편지 검수가 먼저 선행되어야 합니다."),
+    ALREADY_REPLY(BAD_REQUEST, "이미 답장을 보낸 편지입니다."),
 
     /**
      * 401 UNAUTHORIZED

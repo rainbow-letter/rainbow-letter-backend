@@ -54,4 +54,11 @@ public class LetterExceptionHandler extends BaseExceptionHandler {
         logWarn(errorCode);
         return createErrorResponse(errorCode);
     }
+
+    @ExceptionHandler({AlreadyReplyException.class})
+    public ResponseEntity<ErrorResponse> alreadyReply(final AlreadyReplyException exception) {
+        final ErrorCode errorCode = exception.getErrorCode();
+        logWarn(errorCode, exception.getId().toString());
+        return createErrorResponse(errorCode);
+    }
 }
