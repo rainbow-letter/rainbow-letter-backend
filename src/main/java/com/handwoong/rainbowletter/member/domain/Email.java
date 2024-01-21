@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import org.springframework.util.StringUtils;
 
 public record Email(String email) {
-    public static final String EMAIL_REGEX = "^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+    public static final String EMAIL_REGEX = "^[a-zA-Z0-9+-\\_.*]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 

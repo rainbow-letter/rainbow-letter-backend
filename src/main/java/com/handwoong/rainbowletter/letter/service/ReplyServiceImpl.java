@@ -27,8 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ReplyServiceImpl implements ReplyService {
     private static final String SMS_CONTENT = """
-                %s에게 편지가 도착했어요!
+                %s로부터 편지가 도착했어요!
                 
+                답장 보러 가기
                 %s
             """;
 
@@ -100,7 +101,7 @@ public class ReplyServiceImpl implements ReplyService {
         final MailDto mailDto = MailDto.builder()
                 .email(letter.pet().member().email())
                 .subject(letter.pet().name() + "에게 편지가 도착했어요!")
-                .url("/letter-box/" + letter.id())
+                .url("/letter-box/" + letter.id() + "?utm_source=replycheck")
                 .build();
         mailService.send(MailTemplateType.REPLY, mailDto);
     }
@@ -111,8 +112,10 @@ public class ReplyServiceImpl implements ReplyService {
         }
         final SmsSend request = SmsSend.builder()
                 .receiver(letter.pet().member().phoneNumber())
-                .content(String.format(SMS_CONTENT, letter.pet().name(),
-                        clientConfig.getClientUrl() + "/letter-box/" + letter.id()))
+                .content(String.format(
+                        SMS_CONTENT, letter.pet().name(),
+                        clientConfig.getClientUrl() + "/letter-box/" + letter.id() + "?utm_source=replycheck"
+                ))
                 .build();
         smsService.send(request);
     }

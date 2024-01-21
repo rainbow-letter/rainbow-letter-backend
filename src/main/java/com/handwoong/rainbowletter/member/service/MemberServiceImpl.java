@@ -112,7 +112,7 @@ public class MemberServiceImpl implements MemberService {
     private void sendNotificationMail(final Email email) {
         final MailDto mailDto = MailDto.builder()
                 .email(email)
-                .subject("비밀번호 변경 안내드립니다.")
+                .subject("비밀번호를 다시 설정해주세요!")
                 .url("/members/password/reset")
                 .build();
         mailService.send(MailTemplateType.FIND_PASSWORD, mailDto);
