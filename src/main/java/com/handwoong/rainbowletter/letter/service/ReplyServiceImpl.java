@@ -101,7 +101,7 @@ public class ReplyServiceImpl implements ReplyService {
         final MailDto mailDto = MailDto.builder()
                 .email(letter.pet().member().email())
                 .subject(letter.pet().name() + "에게 편지가 도착했어요!")
-                .url("/letter-box/" + letter.id() + "?utm_source=replycheck")
+                .url("/share/" + letter.shareLink() + "?utm_source=replycheck")
                 .build();
         mailService.send(MailTemplateType.REPLY, mailDto);
     }
@@ -114,7 +114,7 @@ public class ReplyServiceImpl implements ReplyService {
                 .receiver(letter.pet().member().phoneNumber())
                 .content(String.format(
                         SMS_CONTENT, letter.pet().name(),
-                        clientConfig.getClientUrl() + "/letter-box/" + letter.id() + "?utm_source=replycheck"
+                        clientConfig.getClientUrl() + "/share/" + letter.shareLink() + "?utm_source=replycheck"
                 ))
                 .build();
         smsService.send(request);
