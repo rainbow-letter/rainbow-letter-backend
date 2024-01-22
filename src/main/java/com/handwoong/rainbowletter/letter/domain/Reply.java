@@ -13,10 +13,10 @@ public record Reply(
         Summary summary,
         Content content,
         boolean inspection,
+        @Nullable LocalDateTime inspectionTime,
         ReplyType type,
         ReplyReadStatus readStatus,
-        @Nullable
-        LocalDateTime timestamp,
+        @Nullable LocalDateTime timestamp,
         ChatGpt chatGpt
 ) {
     public static Reply create(final ChatGpt chatGpt) {
@@ -37,6 +37,7 @@ public record Reply(
                 .summary(summary)
                 .content(content)
                 .inspection(true)
+                .inspectionTime(inspectionTime)
                 .type(ReplyType.REPLY)
                 .readStatus(readStatus)
                 .timestamp(LocalDateTime.now())
@@ -48,6 +49,10 @@ public record Reply(
         if (!inspection) {
             throw new ReplyInspectionStatusNotValidException();
         }
+        validateTypeIsNotReply();
+    }
+
+    private void validateTypeIsNotReply() {
         if (type == ReplyType.REPLY) {
             throw new AlreadyReplyException(id);
         }
@@ -59,6 +64,7 @@ public record Reply(
                 .summary(summary)
                 .content(content)
                 .inspection(inspection)
+                .inspectionTime(inspectionTime)
                 .type(type)
                 .readStatus(ReplyReadStatus.READ)
                 .timestamp(timestamp)
@@ -67,11 +73,14 @@ public record Reply(
     }
 
     public Reply inspect() {
+        validateTypeIsNotReply();
+        final boolean updateInspection = !inspection;
         return Reply.builder()
                 .id(id)
                 .summary(summary)
                 .content(content)
-                .inspection(!inspection)
+                .inspection(updateInspection)
+                .inspectionTime(updateInspection ? LocalDateTime.now() : null)
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)
@@ -85,6 +94,7 @@ public record Reply(
                 .summary(request.summary())
                 .content(request.content())
                 .inspection(inspection)
+                .inspectionTime(inspectionTime)
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)

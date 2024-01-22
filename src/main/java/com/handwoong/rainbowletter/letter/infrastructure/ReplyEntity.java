@@ -44,6 +44,8 @@ public class ReplyEntity extends BaseEntity {
     @NotNull
     private boolean inspection;
 
+    private LocalDateTime inspectionTime;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     private ReplyType type;
@@ -64,6 +66,7 @@ public class ReplyEntity extends BaseEntity {
         replyEntity.summary = reply.summary().toString();
         replyEntity.content = reply.content().toString();
         replyEntity.inspection = reply.inspection();
+        replyEntity.inspectionTime = reply.inspectionTime();
         replyEntity.type = reply.type();
         replyEntity.readStatus = reply.readStatus();
         replyEntity.timestamp = reply.timestamp();
@@ -77,6 +80,7 @@ public class ReplyEntity extends BaseEntity {
                 .summary(new Summary(summary))
                 .content(new Content(content))
                 .inspection(inspection)
+                .inspectionTime(inspectionTime)
                 .type(type)
                 .readStatus(readStatus)
                 .timestamp(timestamp)

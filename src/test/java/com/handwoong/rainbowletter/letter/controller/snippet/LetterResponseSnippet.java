@@ -127,6 +127,9 @@ public class LetterResponseSnippet {
             fieldWithPath("content[].reply.inspection").type(JsonFieldType.BOOLEAN)
                     .description("답장 검수 여부")
                     .optional(),
+            fieldWithPath("content[].reply.inspectionTime").type(JsonFieldType.STRING)
+                    .description("답장 검수 시간")
+                    .optional(),
             fieldWithPath("content[].reply.readStatus").type(JsonFieldType.STRING)
                     .description("답장 읽음 여부")
                     .optional(),

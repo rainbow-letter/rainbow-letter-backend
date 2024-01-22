@@ -9,6 +9,7 @@ public record ReplyAdminResponse(
         String summary,
         String content,
         boolean inspection,
+        LocalDateTime inspectionTime,
         ReplyReadStatus readStatus,
         ReplyType type,
         LocalDateTime timestamp,

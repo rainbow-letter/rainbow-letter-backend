@@ -175,6 +175,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                                 reply.summary,
                                 reply.content,
                                 reply.inspection,
+                                reply.inspectionTime,
                                 reply.readStatus,
                                 reply.type,
                                 reply.timestamp,
