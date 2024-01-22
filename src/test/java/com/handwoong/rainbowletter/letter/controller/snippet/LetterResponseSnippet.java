@@ -136,6 +136,9 @@ public class LetterResponseSnippet {
             fieldWithPath("content[].reply.timestamp").type(JsonFieldType.STRING)
                     .description("답장 시간")
                     .optional(),
+            fieldWithPath("content[].reply.chatGptContent").type(JsonFieldType.STRING)
+                    .description("ChatGpt 원본")
+                    .optional(),
             fieldWithPath("content[].createdAt").type(JsonFieldType.STRING)
                     .description("편지 작성일"),
             fieldWithPath("pageable.pageNumber").type(JsonFieldType.NUMBER)
