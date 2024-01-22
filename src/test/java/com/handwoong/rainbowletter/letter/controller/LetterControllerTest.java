@@ -200,10 +200,10 @@ class LetterControllerTest extends ControllerTestSupporter {
                 .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .queryParams(
-                        "startDate", "2023-01-02",
-                        "endDate", "2023-01-02",
+                        "startDate", "2023-01-01",
+                        "endDate", "2023-01-03",
                         "page", 0,
-                        "size", 2
+                        "size", 3
                 )
                 .filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, ADMIN_LETTERS_QUERY_PARAMETERS, ADMIN_LETTERS))
                 .when().get("/api/letters/admin/list")

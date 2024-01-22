@@ -9,7 +9,6 @@ public enum AccessAllowUri implements AllowUri {
     ROOT("/"),
     INDEX("/index.html"),
     FAQ("/api/faqs/list"),
-    LEGACY_LETTER("/api/legacy/letters"),
     PUBLIC_LETTER("/api/letters/share/**");
 
     private final String uri;

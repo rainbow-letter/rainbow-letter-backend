@@ -13,7 +13,7 @@ public record LetterAdminResponse(
         String shareLink,
         LetterPetResponse pet,
         ImageResponse image,
-        ReplyResponse reply,
+        ReplyAdminResponse reply,
         LocalDateTime createdAt
 ) {
 }

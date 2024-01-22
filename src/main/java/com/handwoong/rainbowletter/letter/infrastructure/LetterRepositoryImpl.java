@@ -9,6 +9,7 @@ import com.handwoong.rainbowletter.letter.controller.response.LetterAdminRespons
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterPetResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
+import com.handwoong.rainbowletter.letter.controller.response.ReplyAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.ReplyResponse;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.ReplyType;
@@ -169,14 +170,16 @@ public class LetterRepositoryImpl implements LetterRepository {
                                 letter.imageEntity.url
                         ),
                         Projections.constructor(
-                                ReplyResponse.class,
+                                ReplyAdminResponse.class,
                                 reply.id,
                                 reply.summary,
                                 reply.content,
                                 reply.inspection,
+                                reply.inspectionTime,
                                 reply.readStatus,
                                 reply.type,
-                                reply.timestamp
+                                reply.timestamp,
+                                reply.chatGptEntity.content
                         ),
                         letter.createdAt
                 ))
@@ -186,6 +189,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .leftJoin(pet.imageEntity)
                 .leftJoin(letter.imageEntity)
                 .leftJoin(letter.replyEntity, reply)
+                .leftJoin(reply.chatGptEntity)
                 .where(dateFilter(startDate, endDate))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
