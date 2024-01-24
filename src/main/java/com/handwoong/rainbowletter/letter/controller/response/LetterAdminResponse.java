@@ -8,6 +8,7 @@ import lombok.Builder;
 public record LetterAdminResponse(
         Long id,
         Long memberId,
+        String email,
         String summary,
         String content,
         String shareLink,

@@ -83,6 +83,7 @@ public class LetterResponseSnippet {
     public static final Snippet ADMIN_LETTERS = responseFields(
             fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("편지 ID"),
             fieldWithPath("content[].memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
+            fieldWithPath("content[].email").type(JsonFieldType.STRING).description("회원 이메일"),
             fieldWithPath("content[].summary").type(JsonFieldType.STRING)
                     .description("편지 제목"),
             fieldWithPath("content[].content").type(JsonFieldType.STRING)

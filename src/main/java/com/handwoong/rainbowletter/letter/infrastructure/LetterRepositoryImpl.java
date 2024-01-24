@@ -149,6 +149,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                         LetterAdminResponse.class,
                         letter.id,
                         pet.memberEntity.id.as("memberId"),
+                        pet.memberEntity.email.as("email"),
                         letter.summary,
                         letter.content,
                         letter.shareLink,
