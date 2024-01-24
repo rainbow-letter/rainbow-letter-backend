@@ -59,7 +59,7 @@ public class SmsSenderImpl implements SmsSender {
         sms.add("msg", request.content());
         sms.add("receiver", request.receiver().phoneNumber());
         sms.add("sender", smsConfig.getAligoSender());
-        sms.add("msg_type", "SMS");
+        sms.add("msg_type", "LMS");
         return sms;
     }
 }
