@@ -1,0 +1,29 @@
+== FAQ
+
+=== 일반 사용자 목록 조회
+
+operation::faq-controller-test/faq_목록_일반_사용자_조회[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 관리자 목록 조회
+
+operation::faq-controller-test/faq_목록_관리자_조회[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 생성
+
+operation::faq-controller-test/faq_생성[snippets='http-request,request-headers,request-fields,http-response']
+
+=== 수정
+
+operation::faq-controller-test/faq_업데이트[snippets='http-request,path-parameters,request-headers,request-fields,http-response']
+
+=== 사용자에게 보이기 여부 변경
+
+operation::faq-controller-test/faq_사용자에게_보이기_여부_변경[snippets='http-request,path-parameters,request-headers,http-response']
+
+=== 순서 변경
+
+operation::faq-controller-test/faq_순서_변경[snippets='http-request,path-parameters,request-headers,request-fields,http-response']
+
+=== 삭제
+
+operation::faq-controller-test/faq_삭제[snippets='http-request,path-parameters,request-headers,http-response']

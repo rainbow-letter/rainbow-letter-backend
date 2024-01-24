@@ -1,0 +1,59 @@
+= 무지개 편지 API 명세서
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+== 에러
+
+[source,json,options="nowrap"]
+----
+{
+  "name": "string",
+  "message": "string",
+  "status": "number",
+  "code": "string",
+  "timestamp": "string"
+}
+----
+
+|===
+|필드명|설명
+
+|`+name+`
+|에러명
+
+|`+message+`
+|에러 메시지
+
+|`+status+`
+|상태 코드
+
+|`+code+`
+|에러 코드
+
+|`+timestamp+`
+|에러 발생 시간
+
+|===
+
+== 홈
+
+=== 대시보드
+
+operation::pet-controller-test/대시보드_조회[snippets='http-request,request-headers,http-response,response-fields']
+
+include::member.adoc[]
+
+include::faq.adoc[]
+
+include::image.adoc[]
+
+include::pet.adoc[]
+
+include::favorite.adoc[]
+
+include::letter.adoc[]
+
+include::reply.adoc[]

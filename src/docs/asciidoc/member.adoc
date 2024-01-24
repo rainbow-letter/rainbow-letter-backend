@@ -1,0 +1,60 @@
+== 회원
+
+=== 회원 정보 조회
+
+operation::member-read-controller-test/회원_정보_조회[snippets='http-request,request-headers,http-response,response-fields']
+
+=== 회원 가입
+
+operation::member-write-controller-test/회원_가입[snippets='http-request,request-fields,http-response,response-fields']
+
+=== 로그인
+
+operation::member-read-controller-test/회원_로그인[snippets='http-request,request-fields,http-response,response-fields']
+
+=== 소셜 로그인
+
+[NOTE]
+.구글
+====
+아래 URL로 접속하면 구글 로그인이 진행됩니다. +
+http://SERVER_URL/api/oauth2/authorization/google
+
+성공적으로 구글 로그인이 완료되면 아래 URL로 리다이렉트 됩니다. +
+http://CLIENT_URL/oauth/success?token=ACCESS_TOKEN
+====
+
+=== 회원 토큰 검증
+
+operation::member-read-controller-test/회원_토큰_검증[snippets='http-request,request-headers,http-response']
+
+=== 비밀번호 찾기
+
+operation::member-read-controller-test/회원_비밀번호_찾기[snippets='http-request,request-fields,http-response']
+
+[IMPORTANT]
+====
+사용자의 이메일로 비밀번호 찾기 이메일이 발송됩니다. +
+발송된 이메일을 통해 사용자는 아래 URL에 접속하여 비밀번호 변경을 진행합니다. +
+http://CLIENT_URL/members/password/reset?token=ACCESSTOKEN
+====
+
+=== 비밀번호 변경
+
+operation::member-write-controller-test/회원_비밀번호_변경[snippets='http-request,request-headers,request-fields,http-response']
+
+=== 비밀번호 초기화
+
+operation::member-write-controller-test/회원_비밀번호_초기화[snippets='http-request,request-headers,request-fields,http-response']
+
+=== 휴대폰 번호 변경
+
+operation::member-write-controller-test/회원_휴대폰_번호_변경[snippets='http-request,request-headers,request-fields,http-response']
+
+=== 휴대폰 번호 삭제
+
+operation::member-write-controller-test/회원_휴대폰_번호_삭제[snippets='http-request,request-headers,http-response']
+
+=== 회원 탈퇴
+
+operation::member-write-controller-test/회원_탈퇴[snippets='http-request,request-headers,http-response']

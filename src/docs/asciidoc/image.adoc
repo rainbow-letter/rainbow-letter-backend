@@ -1,0 +1,13 @@
+== 이미지
+
+=== 이미지 등록
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+POST /api/images/upload?type=PET HTTP/1.1
+Authorization: Bearer 토큰
+----
+
+operation::image-controller-test/이미지_업로드[snippets='query-parameters,request-headers,request-parts,http-response,response-fields']
