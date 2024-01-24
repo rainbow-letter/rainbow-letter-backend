@@ -10,7 +10,6 @@ import com.handwoong.rainbowletter.sms.service.port.SmsSender;
 import java.io.IOException;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,7 +30,6 @@ public class SmsSenderImpl implements SmsSender {
     private final ObjectMapper mapper;
 
     @Override
-    @Profile("!test")
     public SmsCreate send(final SmsSend request) throws IOException {
         final MultiValueMap<String, String> smsRequestBody = createSmsRequestBody(request);
         final HttpHeaders smsHeaders = new HttpHeaders();
