@@ -10,6 +10,7 @@ import com.handwoong.rainbowletter.sms.service.port.SmsSender;
 import java.io.IOException;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+@Profile("!test")
 @Component
 @RequiredArgsConstructor
 public class SmsSenderImpl implements SmsSender {
