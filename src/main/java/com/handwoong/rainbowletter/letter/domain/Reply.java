@@ -21,7 +21,8 @@ public record Reply(
 ) {
     public static Reply create(final ChatGpt chatGpt) {
         return Reply.builder()
-                .summary(new Summary(chatGpt.content().substring(0, 20)))
+                .summary(new Summary(
+                        chatGpt.content().length() > 20 ? chatGpt.content().substring(0, 20) : chatGpt.content()))
                 .content(new Content(chatGpt.content()))
                 .inspection(false)
                 .type(ReplyType.CHAT_GPT)
