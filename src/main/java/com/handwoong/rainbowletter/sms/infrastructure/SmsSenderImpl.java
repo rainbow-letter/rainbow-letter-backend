@@ -20,7 +20,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-@Profile("!test")
 @Component
 @RequiredArgsConstructor
 public class SmsSenderImpl implements SmsSender {
@@ -32,6 +31,7 @@ public class SmsSenderImpl implements SmsSender {
     private final ObjectMapper mapper;
 
     @Override
+    @Profile("!test")
     public SmsCreate send(final SmsSend request) throws IOException {
         final MultiValueMap<String, String> smsRequestBody = createSmsRequestBody(request);
         final HttpHeaders smsHeaders = new HttpHeaders();

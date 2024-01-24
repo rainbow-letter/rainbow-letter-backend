@@ -11,13 +11,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-@Profile("!test")
 @Component
 @RequiredArgsConstructor
 public class MailSenderImpl implements MailSender {
     private final JavaMailSender javaMailSender;
 
     @Override
+    @Profile("!test")
     public void send(final Mail mail) throws MessagingException {
         final MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         final MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
