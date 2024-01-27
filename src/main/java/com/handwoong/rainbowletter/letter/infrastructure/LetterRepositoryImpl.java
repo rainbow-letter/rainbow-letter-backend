@@ -5,6 +5,7 @@ import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.rep
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
+import com.handwoong.rainbowletter.letter.controller.request.ReplyTypeRequest;
 import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterPetResponse;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -139,7 +141,8 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public Page<LetterAdminResponse> findAdminAllLetterResponses(final LocalDate startDate,
+    public Page<LetterAdminResponse> findAdminAllLetterResponses(final ReplyTypeRequest type,
+                                                                 final LocalDate startDate,
                                                                  final LocalDate endDate,
                                                                  final Pageable pageable) {
         final QLetterEntity letter = letterEntity;
@@ -191,7 +194,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .leftJoin(letter.imageEntity)
                 .leftJoin(letter.replyEntity, reply)
                 .leftJoin(reply.chatGptEntity)
-                .where(dateFilter(startDate, endDate))
+                .where(dateFilter(startDate, endDate), typeFilter(type))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(letterEntity.createdAt.desc())
@@ -201,16 +204,23 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .select(letterEntity.count())
                 .from(letterEntity)
                 .innerJoin(letterEntity.petEntity, petEntity)
-                .where(dateFilter(startDate, endDate));
+                .where(dateFilter(startDate, endDate), typeFilter(type));
         return PageableExecutionUtils.getPage(result, pageable, countLetters::fetchOne);
     }
 
-    private BooleanExpression dateFilter(LocalDate startDate, LocalDate endDate) {
+    private BooleanExpression dateFilter(final LocalDate startDate, final LocalDate endDate) {
         BooleanExpression isGoeStartDate = letterEntity.createdAt
                 .goe(LocalDateTime.of(startDate, LocalTime.MIN));
         BooleanExpression isLoeEndDate = letterEntity.createdAt
                 .loe(LocalDateTime.of(endDate, LocalTime.MAX).withNano(0));
         return Expressions.allOf(isGoeStartDate, isLoeEndDate);
+    }
+
+    private BooleanExpression typeFilter(final ReplyTypeRequest type) {
+        if (Objects.isNull(type.getReply())) {
+            return null;
+        }
+        return letterEntity.replyEntity.type.eq(type.getReply());
     }
 
     private JPAQuery<LetterResponse> selectLetterResponse() {

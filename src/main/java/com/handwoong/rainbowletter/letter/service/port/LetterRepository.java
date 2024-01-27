@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.letter.service.port;
 
+import com.handwoong.rainbowletter.letter.controller.request.ReplyTypeRequest;
 import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
@@ -23,7 +24,10 @@ public interface LetterRepository {
 
     LetterResponse findLetterResponseByShareLinkOrElseThrow(String shareLink);
 
-    Page<LetterAdminResponse> findAdminAllLetterResponses(LocalDate startDate, LocalDate endDate, Pageable pageable);
+    Page<LetterAdminResponse> findAdminAllLetterResponses(ReplyTypeRequest type,
+                                                          LocalDate startDate,
+                                                          LocalDate endDate,
+                                                          Pageable pageable);
 
     boolean existsByPet(Long petId);
 }
