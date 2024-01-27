@@ -4,7 +4,7 @@ import com.handwoong.rainbowletter.letter.exception.ContentFormatNotValidExcepti
 import org.springframework.util.StringUtils;
 
 public record Content(String content) {
-    public static final int MAX_CONTENT_LENGTH = 1000;
+    public static final int MAX_CONTENT_LENGTH = 2000;
 
     public Content {
         validateNull(content);
