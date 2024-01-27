@@ -5,12 +5,14 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 import com.handwoong.rainbowletter.common.util.SecurityUtils;
 import com.handwoong.rainbowletter.letter.controller.port.LetterService;
 import com.handwoong.rainbowletter.letter.controller.request.LetterCreateRequest;
+import com.handwoong.rainbowletter.letter.controller.request.ReplyTypeRequest;
 import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponses;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
 import com.handwoong.rainbowletter.member.domain.Email;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +46,10 @@ public class LetterController {
     public ResponseEntity<Page<LetterAdminResponse>> findAdminAll(
             @RequestParam(value = "startDate") LocalDate startDate,
             @RequestParam(value = "endDate") LocalDate endDate,
+            @RequestParam @Valid @NotNull ReplyTypeRequest type,
             @PageableDefault(sort = "createdAt", direction = DESC) Pageable pageable) {
-        final Page<LetterAdminResponse> response = letterService.findAllAdminLetters(startDate, endDate, pageable);
+        final Page<LetterAdminResponse> response =
+                letterService.findAllAdminLetters(type, startDate, endDate, pageable);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

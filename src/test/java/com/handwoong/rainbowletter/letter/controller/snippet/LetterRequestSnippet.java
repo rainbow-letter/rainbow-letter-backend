@@ -27,6 +27,7 @@ public class LetterRequestSnippet {
                     .optional()
     );
     public static final Snippet ADMIN_LETTERS_QUERY_PARAMETERS = queryParameters(
+            parameterWithName("type").description("답장 발송 여부").attributes(constraints("ALL | WAIT | COMPLETE 대문자")),
             parameterWithName("startDate").description("검색 시작 날짜").attributes(constraints("yyyy-MM-dd")),
             parameterWithName("endDate").description("검색 종료 날짜").attributes(constraints("yyyy-MM-dd")),
             parameterWithName("page").description("페이지 번호").attributes(constraints("0부터 시작")),
