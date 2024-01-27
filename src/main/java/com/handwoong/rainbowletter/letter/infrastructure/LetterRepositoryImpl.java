@@ -194,14 +194,13 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .where(dateFilter(startDate, endDate))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(letterEntity.createdAt.desc())
                 .fetch();
 
         final JPAQuery<Long> countLetters = queryFactory
                 .select(letterEntity.count())
                 .from(letterEntity)
                 .innerJoin(letterEntity.petEntity, petEntity)
-                .leftJoin(letterEntity.imageEntity)
-                .leftJoin(letterEntity.replyEntity)
                 .where(dateFilter(startDate, endDate));
         return PageableExecutionUtils.getPage(result, pageable, countLetters::fetchOne);
     }
