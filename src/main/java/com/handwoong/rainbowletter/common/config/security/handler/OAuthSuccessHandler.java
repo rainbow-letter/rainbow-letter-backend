@@ -25,7 +25,7 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                                         final Authentication authentication) throws IOException {
         final TokenResponse tokenResponse = tokenProvider.generateToken(GrantType.BEARER, authentication);
         final String targetUrl = UriComponentsBuilder
-                .fromUriString(clientConfig.getClientUrl() + "/oauth/success")
+                .fromUriString(clientConfig.getClientUrl().get(0) + "/oauth/success")
                 .queryParam("token", tokenResponse.token())
                 .toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
