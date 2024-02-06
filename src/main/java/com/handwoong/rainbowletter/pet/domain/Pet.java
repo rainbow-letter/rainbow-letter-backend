@@ -37,7 +37,7 @@ public record Pet(
     public Pet update(final PetUpdate request, final Image image) {
         return Pet.builder()
                 .id(id)
-                .name(name)
+                .name(request.name())
                 .species(request.species())
                 .owner(request.owner())
                 .personalities(request.personalities().toString())

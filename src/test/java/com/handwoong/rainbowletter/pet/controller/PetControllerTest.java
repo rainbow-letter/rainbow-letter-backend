@@ -178,7 +178,7 @@ class PetControllerTest extends ControllerTestSupporter {
         final String token = userAccessToken;
         final HashSet<String> personalities = new HashSet<>(List.of("용맹한", "잘삐짐"));
         final PetUpdateRequest request =
-                new PetUpdateRequest("호랑이", "형님", personalities, LocalDate.of(2000, 1, 1), 1L);
+                new PetUpdateRequest("루이", "호랑이", "형님", personalities, LocalDate.of(2000, 1, 1), 1L);
 
         // when
         final ExtractableResponse<Response> response = update(request, token);

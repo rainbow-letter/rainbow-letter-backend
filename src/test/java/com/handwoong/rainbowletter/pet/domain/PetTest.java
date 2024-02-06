@@ -96,6 +96,7 @@ class PetTest {
                 .build();
 
         final PetUpdate request = PetUpdate.builder()
+                .name("루이")
                 .species("호랑이")
                 .owner("형님")
                 .personalities(Personalities.from(new HashSet<>(List.of("잘삐짐"))))
@@ -108,7 +109,7 @@ class PetTest {
 
         // then
         assertThat(updatePet.id()).isEqualTo(1);
-        assertThat(updatePet.name()).isEqualTo("두부");
+        assertThat(updatePet.name()).isEqualTo("루이");
         assertThat(updatePet.species()).isEqualTo("호랑이");
         assertThat(updatePet.owner()).isEqualTo("형님");
         assertThat(updatePet.personalities()).isEqualTo("잘삐짐");
