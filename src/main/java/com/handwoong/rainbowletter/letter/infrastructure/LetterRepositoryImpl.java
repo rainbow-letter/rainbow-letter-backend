@@ -2,7 +2,6 @@ package com.handwoong.rainbowletter.letter.infrastructure;
 
 import static com.handwoong.rainbowletter.letter.infrastructure.QLetterEntity.letterEntity;
 import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.replyEntity;
-import static com.handwoong.rainbowletter.member.infrastructure.QMemberEntity.memberEntity;
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
@@ -19,7 +18,6 @@ import com.handwoong.rainbowletter.letter.exception.LetterResourceNotFoundExcept
 import com.handwoong.rainbowletter.letter.exception.LetterShareLinkNotFoundException;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
-import com.handwoong.rainbowletter.member.infrastructure.QMemberEntity;
 import com.handwoong.rainbowletter.pet.infrastructure.QPetEntity;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
@@ -151,16 +149,13 @@ public class LetterRepositoryImpl implements LetterRepository {
                                                                  final LocalDate startDate,
                                                                  final LocalDate endDate,
                                                                  final Pageable pageable) {
-        final QMemberEntity member = memberEntity;
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
         final QReplyEntity reply = replyEntity;
 
-        final JPQLQuery<Long> letterCount = JPAExpressions.select(letter.id.count())
+        final JPQLQuery<Long> letterCount = JPAExpressions.select(letter.count())
                 .from(letter)
-                .innerJoin(letter.petEntity, pet)
-                .innerJoin(pet.memberEntity, member)
-                .groupBy(member.id);
+                .where(letter.petEntity.memberEntity.id.eq(pet.memberEntity.id));
         final NumberExpression<Long> letterCountExpression = Expressions.asNumber(
                 ExpressionUtils.as(letterCount, Expressions.numberPath(Long.class, "count")));
         final List<LetterAdminResponse> result = queryFactory.select(Projections.constructor(
