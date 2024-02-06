@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.letter.infrastructure;
 
 import static com.handwoong.rainbowletter.letter.infrastructure.QLetterEntity.letterEntity;
 import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.replyEntity;
+import static com.handwoong.rainbowletter.member.infrastructure.QMemberEntity.memberEntity;
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
@@ -18,10 +19,15 @@ import com.handwoong.rainbowletter.letter.exception.LetterResourceNotFoundExcept
 import com.handwoong.rainbowletter.letter.exception.LetterShareLinkNotFoundException;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
+import com.handwoong.rainbowletter.member.infrastructure.QMemberEntity;
 import com.handwoong.rainbowletter.pet.infrastructure.QPetEntity;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDate;
@@ -145,9 +151,18 @@ public class LetterRepositoryImpl implements LetterRepository {
                                                                  final LocalDate startDate,
                                                                  final LocalDate endDate,
                                                                  final Pageable pageable) {
+        final QMemberEntity member = memberEntity;
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
         final QReplyEntity reply = replyEntity;
+
+        final JPQLQuery<Long> letterCount = JPAExpressions.select(letter.id.count())
+                .from(letter)
+                .innerJoin(letter.petEntity, pet)
+                .innerJoin(pet.memberEntity, member)
+                .groupBy(member.id);
+        final NumberExpression<Long> letterCountExpression = Expressions.asNumber(
+                ExpressionUtils.as(letterCount, Expressions.numberPath(Long.class, "count")));
         final List<LetterAdminResponse> result = queryFactory.select(Projections.constructor(
                         LetterAdminResponse.class,
                         letter.id,
@@ -156,10 +171,13 @@ public class LetterRepositoryImpl implements LetterRepository {
                         letter.summary,
                         letter.content,
                         letter.shareLink,
+                        letterCountExpression,
                         Projections.constructor(
                                 LetterPetResponse.class,
                                 pet.id,
                                 pet.name,
+                                pet.species,
+                                pet.personalities,
                                 Projections.constructor(
                                         ImageResponse.class,
                                         pet.imageEntity.id,
@@ -237,6 +255,8 @@ public class LetterRepositoryImpl implements LetterRepository {
                         LetterPetResponse.class,
                         pet.id,
                         pet.name,
+                        pet.species,
+                        pet.personalities,
                         Projections.constructor(
                                 ImageResponse.class,
                                 pet.imageEntity.id,
