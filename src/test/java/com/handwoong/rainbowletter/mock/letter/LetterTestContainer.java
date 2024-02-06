@@ -31,6 +31,7 @@ import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import com.handwoong.rainbowletter.sms.service.SmsServiceImpl;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class LetterTestContainer {
     public final Member member = Member.builder()
@@ -92,7 +93,7 @@ public class LetterTestContainer {
         final MailServiceImpl mailService = new MailServiceImpl(
                 new FakeMailSender(), new FakeMailTemplateManager("제목", "본문"), new FakeMailRepository());
         final SmsServiceImpl smsService = new SmsServiceImpl(new FakeSmsSender(), new FakeSmsRepository());
-        final ClientConfig clientConfig = new ClientConfig("http://localhost");
+        final ClientConfig clientConfig = new ClientConfig(List.of("http://localhost"));
         this.replyService = new ReplyServiceImpl(smsService, mailService, replyRepository, repository, clientConfig);
     }
 }

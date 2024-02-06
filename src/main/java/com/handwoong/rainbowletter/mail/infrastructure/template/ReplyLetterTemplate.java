@@ -22,7 +22,7 @@ public class ReplyLetterTemplate implements EmailTemplate {
     }
 
     private String createBody(final String url) {
-        final String letterDetailUrl = clientConfig.getClientUrl() + url;
+        final String letterDetailUrl = clientConfig.getClientUrl().get(0) + url;
         final Context context = new Context();
         context.setVariable("letterDetailUrl", letterDetailUrl);
         return templateEngine.process("reply", context);

@@ -200,6 +200,7 @@ class LetterControllerTest extends ControllerTestSupporter {
                 .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .queryParams(
+                        "type", "COMPLETE",
                         "startDate", "2023-01-01",
                         "endDate", "2023-01-03",
                         "page", 0,

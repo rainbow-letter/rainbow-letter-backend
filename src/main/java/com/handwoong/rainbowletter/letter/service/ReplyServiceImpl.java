@@ -114,7 +114,7 @@ public class ReplyServiceImpl implements ReplyService {
                 .receiver(letter.pet().member().phoneNumber())
                 .content(String.format(
                         SMS_CONTENT, letter.pet().name(),
-                        clientConfig.getClientUrl() + "/share/" + letter.shareLink() + "?utm_source=replycheck"
+                        clientConfig.getClientUrl().get(0) + "/share/" + letter.shareLink() + "?utm_source=replycheck"
                 ))
                 .build();
         smsService.send(request);
