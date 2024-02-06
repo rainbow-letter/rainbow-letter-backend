@@ -31,6 +31,10 @@ public class ReplyServiceImpl implements ReplyService {
                 
                 답장 보러 가기
                 %s
+                
+                무지개편지, 잘 이용하고 계신가요?
+                서비스 만족도 평가를 남겨주시면 더욱 나아지는 모습을 보일게요.
+                만족도 조사 바로가기 : https://forms.gle/jouKvaubQQaL57Tg6
             """;
 
     private final SmsService smsService;
