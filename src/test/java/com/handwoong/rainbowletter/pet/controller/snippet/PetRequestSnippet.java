@@ -36,6 +36,9 @@ public class PetRequestSnippet {
                     .optional()
     );
     public static final Snippet PET_UPDATE_REQUEST = requestFields(
+            fieldWithPath("name").type(JsonFieldType.STRING)
+                    .description("반려동물 이름")
+                    .attributes(constraints("20자 이내")),
             fieldWithPath("species").type(JsonFieldType.STRING)
                     .description("반려동물 종류")
                     .attributes(constraints("10자 이내")),

@@ -12,6 +12,7 @@ public record LetterAdminResponse(
         String summary,
         String content,
         String shareLink,
+        Long count,
         LetterPetResponse pet,
         ImageResponse image,
         ReplyAdminResponse reply,

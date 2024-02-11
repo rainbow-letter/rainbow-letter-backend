@@ -5,11 +5,13 @@ import com.handwoong.rainbowletter.pet.domain.Pet;
 import lombok.Builder;
 
 @Builder
-public record LetterPetResponse(Long id, String name, ImageResponse image) {
+public record LetterPetResponse(Long id, String name, String species, String personalities, ImageResponse image) {
     public static LetterPetResponse from(final Pet pet) {
         return LetterPetResponse.builder()
                 .id(pet.id())
                 .name(pet.name())
+                .species(pet.species())
+                .personalities(pet.personalities())
                 .image(ImageResponse.from(pet.image()))
                 .build();
     }

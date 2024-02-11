@@ -37,6 +37,7 @@ public class SmsEntity extends BaseEntity {
     private String receiver;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     public static SmsEntity from(final Sms sms) {

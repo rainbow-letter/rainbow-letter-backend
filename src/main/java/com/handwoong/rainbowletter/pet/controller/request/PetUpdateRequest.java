@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.pet.controller.request;
 
 import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.EMPTY_MESSAGE;
 import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_DEATH_ANNIVERSARY;
+import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_NAME;
 import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_OWNER;
 import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_PERSONALITY;
 import static com.handwoong.rainbowletter.common.util.validation.ValidateMessage.PET_PERSONALITY_SIZE;
@@ -19,6 +20,10 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public record PetUpdateRequest(
+        @NotBlank(message = EMPTY_MESSAGE)
+        @Size(max = 20, message = PET_NAME)
+        String name,
+
         @NotBlank(message = EMPTY_MESSAGE)
         @Size(max = 10, message = PET_SPECIES)
         String species,
@@ -39,6 +44,7 @@ public record PetUpdateRequest(
 ) {
     public PetUpdate toDto() {
         return PetUpdate.builder()
+                .name(name)
                 .species(species)
                 .owner(owner)
                 .personalities(Personalities.from(personalities))

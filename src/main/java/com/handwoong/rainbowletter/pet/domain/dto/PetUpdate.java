@@ -7,6 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record PetUpdate(
+        String name,
         String species,
         String owner,
         Personalities personalities,
