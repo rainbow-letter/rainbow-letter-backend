@@ -1,12 +1,14 @@
 package com.handwoong.rainbowletter.member.infrastructure.oauth;
 
+import java.util.EnumMap;
+import java.util.Map;
+
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Component;
+
 import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.member.domain.OAuthProvider;
 import com.handwoong.rainbowletter.member.domain.dto.MemberRegister;
-import java.util.EnumMap;
-import java.util.Map;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Component;
 
 @Component
 public class OAuthLoginUserParsingManager {
@@ -14,6 +16,7 @@ public class OAuthLoginUserParsingManager {
 
     public OAuthLoginUserParsingManager() {
         parsers.put(OAuthProvider.GOOGLE, new GoogleLoginUserParser());
+        parsers.put(OAuthProvider.NAVER, new NaverLoginUserParser());
     }
 
     public MemberRegister getRegisterRequest(final OAuthProvider provider,

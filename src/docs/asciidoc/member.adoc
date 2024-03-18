@@ -24,6 +24,16 @@ http://SERVER_URL/api/oauth2/authorization/google
 http://CLIENT_URL/oauth/success?token=ACCESS_TOKEN
 ====
 
+[NOTE]
+.네이버
+====
+아래 URL로 접속하면 네이버 로그인이 진행됩니다. +
+http://SERVER_URL/api/oauth2/authorization/naver
+
+성공적으로 구글 로그인이 완료되면 아래 URL로 리다이렉트 됩니다. +
+http://CLIENT_URL/oauth/success?token=ACCESS_TOKEN
+====
+
 === 회원 토큰 검증
 
 operation::member-read-controller-test/회원_토큰_검증[snippets='http-request,request-headers,http-response']

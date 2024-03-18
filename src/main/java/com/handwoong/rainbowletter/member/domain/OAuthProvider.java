@@ -1,11 +1,13 @@
 package com.handwoong.rainbowletter.member.domain;
 
-import com.handwoong.rainbowletter.member.exception.OAuthProviderTypeNotValidException;
 import java.util.Arrays;
+
+import com.handwoong.rainbowletter.member.exception.OAuthProviderTypeNotValidException;
 
 public enum OAuthProvider {
     NONE,
     GOOGLE,
+    NAVER,
     ;
 
     public static OAuthProvider match(final String registrationId) {
