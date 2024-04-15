@@ -1,5 +1,13 @@
 package com.handwoong.rainbowletter.letter.service;
 
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.handwoong.rainbowletter.common.config.client.ClientConfig;
 import com.handwoong.rainbowletter.letter.controller.port.ReplyService;
 import com.handwoong.rainbowletter.letter.domain.CreateReply;
@@ -14,27 +22,22 @@ import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import com.handwoong.rainbowletter.mail.service.port.MailService;
 import com.handwoong.rainbowletter.sms.domain.dto.SmsSend;
 import com.handwoong.rainbowletter.sms.service.port.SmsService;
-import java.util.List;
-import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReplyServiceImpl implements ReplyService {
     private static final String SMS_CONTENT = """
-                %s로부터 편지가 도착했어요!
-                
-                답장 보러 가기
-                %s
-                
-                무지개편지, 잘 이용하고 계신가요?
-                서비스 만족도 평가를 남겨주시면 더욱 나아지는 모습을 보일게요.
-                만족도 조사 바로가기 : https://forms.gle/jouKvaubQQaL57Tg6
+                 %s로부터 편지가 도착했어요!
+                \s
+                 답장 보러 가기
+                 %s
+                \s
+                 무지개마을 커스텀 케이스&그립톡 사전예약 중이에요!
+                 아이의 사진으로 특별한 케이스를 만들어보세요
+                 https://forms.gle/FdESx63GDxgGrSPn8
             """;
 
     private final SmsService smsService;
