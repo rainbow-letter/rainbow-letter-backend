@@ -57,3 +57,5 @@ include::favorite.adoc[]
 include::letter.adoc[]
 
 include::reply.adoc[]
+
+include::temporary.adoc[]
