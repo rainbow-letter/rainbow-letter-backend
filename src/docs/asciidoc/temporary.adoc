@@ -1,0 +1,134 @@
+== 임시저장
+
+=== 생성
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+POST /api/temporaries HTTP/1.1
+Authorization: Bearer userToken
+Content-Type: application/json
+
+{
+  "petId" : 1, // 반려동물 id
+  "content" : "임시 저장 컨텐츠"
+}
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 201 Created
+
+aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa // session id
+----
+
+=== 삭제
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+DELETE /api/temporaries?temporary=1 HTTP/1.1 // 임시저장 id
+Authorization: Bearer userToken
+Content-Type: application/json
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+----
+
+=== 수정
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+PUT /api/temporaries HTTP/1.1
+Authorization: Bearer userToken
+Content-Type: application/json
+
+{
+  "petId" : 1, // 반려동물 id
+  "content" : "임시 저장 컨텐츠"
+}
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+----
+
+=== 세션 id 변경
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+PUT /api/temporaries/session?temporary=1 HTTP/1.1 // 임시저장 id
+Authorization: Bearer userToken
+Content-Type: application/json
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+
+aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa // 변경된 session id
+----
+
+=== 편지 임시 저장 존재 여부 조회
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+GET /api/temporaries/exists?pet=1 HTTP/1.1 // 반려동물 id
+Authorization: Bearer userToken
+Content-Type: application/json
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+
+false // 존재 true, 없음 false
+----
+
+=== 편지 임시 저장 조회
+
+==== HTTP request
+
+[source,http,options="nowrap"]
+----
+GET /api/temporaries?pet=1 HTTP/1.1 // 반려동물 id
+Authorization: Bearer userToken
+Content-Type: application/json
+----
+
+==== HTTP response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+
+{
+  "id" : 1, // 임시 저장 id
+  "memberId" : 1, // 회원 id
+  "petId" : 1, // 반려동물 id
+  "sessionId" : 1, // 세션 id
+  "content" : "임시 저장 컨텐츠",
+  "status" : "상태 SAVE | DELETE"
+}
+----
