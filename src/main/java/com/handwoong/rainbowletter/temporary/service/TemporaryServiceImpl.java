@@ -55,6 +55,7 @@ public class TemporaryServiceImpl implements TemporaryService {
     @Transactional
     public void update(final Email email, final TemporaryUpdate temporaryUpdate) {
         final Member member = memberRepository.findByEmailOrElseThrow(email);
+        petRepository.findByEmailAndIdOrElseThrow(email, temporaryUpdate.petId());
         final Temporary temporary =
                 temporaryRepository.findByIdAndMemberIdOrElseThrow(temporaryUpdate.id(), member.id());
         temporaryRepository.save(temporary.update(temporaryUpdate));
