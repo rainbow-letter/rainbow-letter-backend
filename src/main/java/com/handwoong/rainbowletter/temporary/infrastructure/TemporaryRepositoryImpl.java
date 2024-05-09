@@ -41,7 +41,7 @@ public class TemporaryRepositoryImpl implements TemporaryRepository {
 
     @Override
     public boolean existsByMemberId(final Long memberId) {
-        return temporaryJpaRepository.existsByMemberId(memberId);
+        return temporaryJpaRepository.existsByMemberIdAndStatus(memberId, TemporaryStatus.SAVE);
     }
 
     @Override
