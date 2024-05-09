@@ -54,6 +54,7 @@ Authorization: Bearer userToken
 Content-Type: application/json
 
 {
+  "id" : 1, // 임시저장 편지 id
   "petId" : 1, // 변경된 반려동물 id
   "content" : "임시 저장 컨텐츠"
 }
