@@ -15,7 +15,7 @@ public interface TemporaryService {
 
     void update(Email email, TemporaryUpdate temporaryUpdate);
 
-    boolean exists(Email email, Long petId);
+    boolean exists(Email email);
 
-    Temporary findByPetId(Email email, Long petId);
+    Temporary findByEmail(Email email);
 }

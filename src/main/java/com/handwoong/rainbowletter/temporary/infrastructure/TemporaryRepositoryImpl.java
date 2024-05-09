@@ -40,16 +40,15 @@ public class TemporaryRepositoryImpl implements TemporaryRepository {
     }
 
     @Override
-    public boolean existsByMemberIdAndPetId(final Long memberId, final Long petId) {
-        return temporaryJpaRepository.existsByMemberIdAndPetId(memberId, petId);
+    public boolean existsByMemberId(final Long memberId) {
+        return temporaryJpaRepository.existsByMemberId(memberId);
     }
 
     @Override
-    public Temporary findByMemberIdAndPetId(final Long memberId, final Long petId) {
+    public Temporary findByMemberId(final Long memberId) {
         return Optional.ofNullable(queryFactory.selectFrom(temporaryEntity)
                         .where(
                                 temporaryEntity.memberId.eq(memberId),
-                                temporaryEntity.petId.eq(petId),
                                 temporaryEntity.status.eq(TemporaryStatus.SAVE)
                         )
                         .fetchOne())

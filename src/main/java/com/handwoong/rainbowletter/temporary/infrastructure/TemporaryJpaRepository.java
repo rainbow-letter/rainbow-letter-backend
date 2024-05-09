@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TemporaryJpaRepository extends JpaRepository<TemporaryEntity, Long> {
 
-    boolean existsByMemberIdAndPetId(Long memberId, Long petId);
+    boolean existsByMemberId(Long memberId);
 }

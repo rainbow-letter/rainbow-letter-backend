@@ -58,16 +58,16 @@ public class TemporaryController {
     }
 
     @GetMapping
-    public ResponseEntity<Temporary> findByPetId(@RequestParam("pet") Long petId) {
+    public ResponseEntity<Temporary> findByPetId() {
         final Email email = SecurityUtils.getAuthenticationUsername();
-        final Temporary temporary = temporaryService.findByPetId(email, petId);
+        final Temporary temporary = temporaryService.findByEmail(email);
         return ResponseEntity.ok(temporary);
     }
 
     @GetMapping("/exists")
-    public ResponseEntity<Boolean> exists(@RequestParam("pet") Long petId) {
+    public ResponseEntity<Boolean> exists() {
         final Email email = SecurityUtils.getAuthenticationUsername();
-        final boolean exists = temporaryService.exists(email, petId);
+        final boolean exists = temporaryService.exists(email);
         return ResponseEntity.ok(exists);
     }
 }

@@ -55,7 +55,7 @@ public record Temporary(
         return Temporary.builder()
                 .id(id)
                 .memberId(memberId)
-                .petId(petId)
+                .petId(temporaryUpdate.petId())
                 .sessionId(sessionId)
                 .content(temporaryUpdate.content())
                 .status(status)

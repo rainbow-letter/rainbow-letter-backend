@@ -54,7 +54,7 @@ Authorization: Bearer userToken
 Content-Type: application/json
 
 {
-  "petId" : 1, // 반려동물 id
+  "petId" : 1, // 변경된 반려동물 id
   "content" : "임시 저장 컨텐츠"
 }
 ----
@@ -92,7 +92,7 @@ aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa // 변경된 session id
 
 [source,http,options="nowrap"]
 ----
-GET /api/temporaries/exists?pet=1 HTTP/1.1 // 반려동물 id
+GET /api/temporaries/exists HTTP/1.1
 Authorization: Bearer userToken
 Content-Type: application/json
 ----
@@ -112,7 +112,7 @@ false // 존재 true, 없음 false
 
 [source,http,options="nowrap"]
 ----
-GET /api/temporaries?pet=1 HTTP/1.1 // 반려동물 id
+GET /api/temporaries HTTP/1.1 // 반려동물 id
 Authorization: Bearer userToken
 Content-Type: application/json
 ----

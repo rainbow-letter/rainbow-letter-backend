@@ -7,7 +7,6 @@ import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
-import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
 import com.handwoong.rainbowletter.temporary.controller.port.TemporaryService;
 import com.handwoong.rainbowletter.temporary.domain.Temporary;
@@ -62,16 +61,14 @@ public class TemporaryServiceImpl implements TemporaryService {
     }
 
     @Override
-    public boolean exists(final Email email, final Long petId) {
+    public boolean exists(final Email email) {
         final Member member = memberRepository.findByEmailOrElseThrow(email);
-        final Pet pet = petRepository.findByEmailAndIdOrElseThrow(email, petId);
-        return temporaryRepository.existsByMemberIdAndPetId(member.id(), pet.id());
+        return temporaryRepository.existsByMemberId(member.id());
     }
 
     @Override
-    public Temporary findByPetId(final Email email, final Long petId) {
+    public Temporary findByEmail(final Email email) {
         final Member member = memberRepository.findByEmailOrElseThrow(email);
-        final Pet pet = petRepository.findByEmailAndIdOrElseThrow(email, petId);
-        return temporaryRepository.findByMemberIdAndPetId(member.id(), pet.id());
+        return temporaryRepository.findByMemberId(member.id());
     }
 }

@@ -7,7 +7,7 @@ public interface TemporaryRepository {
 
     Temporary findByIdAndMemberIdOrElseThrow(Long id, Long memberId);
 
-    boolean existsByMemberIdAndPetId(Long memberId, Long petId);
+    boolean existsByMemberId(Long memberId);
 
-    Temporary findByMemberIdAndPetId(Long memberId, Long petId);
+    Temporary findByMemberId(Long memberId);
 }
