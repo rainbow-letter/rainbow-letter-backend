@@ -7,9 +7,10 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
@@ -45,6 +46,8 @@ public enum ErrorCode {
 
     INVALID_INSPECT_STATUS(BAD_REQUEST, "편지 검수가 먼저 선행되어야 합니다."),
     ALREADY_REPLY(BAD_REQUEST, "이미 답장을 보낸 편지입니다."),
+
+    ILLEGAL_ARGUMENT(BAD_REQUEST, "잘못된 사용자 입력입니다."),
 
     /**
      * 401 UNAUTHORIZED

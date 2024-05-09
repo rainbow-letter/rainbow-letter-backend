@@ -16,6 +16,14 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 @RestControllerAdvice
 @Order
 public class DefaultExceptionHandler extends BaseExceptionHandler {
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<ErrorResponse> illegalArgumentException(final IllegalArgumentException exception) {
+        final ErrorCode errorCode = ErrorCode.ILLEGAL_ARGUMENT;
+        logError(errorCode, exception);
+        return createErrorResponse(errorCode, exception.getMessage());
+    }
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponse> methodArgumentNotValid(final MethodArgumentNotValidException exception) {
         final ErrorCode errorCode = ErrorCode.METHOD_ARGUMENT_NOT_VALID;
