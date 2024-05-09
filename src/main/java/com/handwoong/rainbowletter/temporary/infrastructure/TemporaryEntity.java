@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,6 +41,7 @@ public class TemporaryEntity extends BaseEntity {
     private String content;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private TemporaryStatus status;
 
     public static TemporaryEntity from(final Temporary temporary) {
