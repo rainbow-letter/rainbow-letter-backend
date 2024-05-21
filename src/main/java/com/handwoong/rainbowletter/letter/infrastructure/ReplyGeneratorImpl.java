@@ -1,5 +1,9 @@
 package com.handwoong.rainbowletter.letter.infrastructure;
 
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 import com.handwoong.rainbowletter.letter.domain.ChatGpt;
 import com.handwoong.rainbowletter.letter.domain.Letter;
 import com.handwoong.rainbowletter.letter.domain.Reply;
@@ -8,9 +12,8 @@ import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptRequest;
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptResponse;
 import com.handwoong.rainbowletter.letter.infrastructure.chatgpt.ChatGptExecutor;
 import com.handwoong.rainbowletter.letter.service.port.ReplyGenerator;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -73,7 +76,7 @@ public class ReplyGeneratorImpl implements ReplyGenerator {
     }
 
     private ChatGptRequest createGptRequest(final ChatGptPrompt prompt) {
-        final String model = "gpt-4-1106-preview";
+        final String model = "gpt-4o";
         final List<ChatGptPrompt> messages = List.of(
                 ChatGptPrompt.create("system", "You are a bot who replies to a letter in the position of a pet."),
                 prompt
