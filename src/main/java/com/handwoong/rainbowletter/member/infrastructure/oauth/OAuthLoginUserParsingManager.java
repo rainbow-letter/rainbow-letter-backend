@@ -17,6 +17,7 @@ public class OAuthLoginUserParsingManager {
     public OAuthLoginUserParsingManager() {
         parsers.put(OAuthProvider.GOOGLE, new GoogleLoginUserParser());
         parsers.put(OAuthProvider.NAVER, new NaverLoginUserParser());
+        parsers.put(OAuthProvider.KAKAO, new KakaoLoginUserParser());
     }
 
     public MemberRegister getRegisterRequest(final OAuthProvider provider,

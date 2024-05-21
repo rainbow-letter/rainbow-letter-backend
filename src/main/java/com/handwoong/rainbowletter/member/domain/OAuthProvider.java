@@ -8,6 +8,7 @@ public enum OAuthProvider {
     NONE,
     GOOGLE,
     NAVER,
+    KAKAO,
     ;
 
     public static OAuthProvider match(final String registrationId) {
