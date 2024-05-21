@@ -22,7 +22,7 @@ class OAuthProviderTest {
     }
 
     @ParameterizedTest(name = "소셜 registrationId {index} : {0}")
-    @ValueSource(strings = {"kakao", "github", "facebook"})
+    @ValueSource(strings = {"github", "facebook"})
     void OAuth_등록_ID가_없는_경우_Provider를_찾지_못하고_예외가_발생한다(final String registrationId) {
         // expect
         assertThatThrownBy(() -> OAuthProvider.match(registrationId))
