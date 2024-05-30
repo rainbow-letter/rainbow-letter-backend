@@ -78,16 +78,19 @@ public class ReplyGeneratorImpl implements ReplyGenerator {
     private ChatGptRequest createGptRequest(final ChatGptPrompt prompt) {
         final String model = "gpt-4o";
         final List<ChatGptPrompt> messages = List.of(
-                ChatGptPrompt.create("system", "You are a bot who replies to a letter in the position of a pet."),
+                ChatGptPrompt.create("system",
+                        "우리는 사용자가 세상을 떠난 반려동물에게 편지를 쓰면 그에 대한 답장을 써주는 서비스야. 내가 사용자 정보와 편지 내용을 보내주면 그에 대한 답장을 작성해줘. 답장은 사용자를 위로해줄 수 있어야 하고, 펫로스증후군에 대한 치료를 도와주어야해. 사용자가 슬픔을 잘 드러내고 극복할 수 있도록 도와줘. \\n\\nYou are a bot who replies to a letter in the position of a pet."),
                 prompt
         );
         final long maxTokens = 1500L;
-        final double temperature = 0.8;
-        final double topP = 0.7;
-        final double frequencyPenalty = 0.2;
-        final double presencePenalty = 0.1;
+        final double temperature = 1.2;
+        final double topP = 0.9;
+        final double frequencyPenalty = 1.25;
+        final double presencePenalty = 0;
+        final List<String> stops = List.of("p.s");
 
-        return ChatGptRequest.create(model, messages, maxTokens, temperature, topP, frequencyPenalty, presencePenalty);
+        return ChatGptRequest
+                .create(model, messages, maxTokens, temperature, topP, frequencyPenalty, presencePenalty, stops);
     }
 
     private ChatGptPrompt createUserPrompt(final Letter letter, final boolean isNotFirst) {

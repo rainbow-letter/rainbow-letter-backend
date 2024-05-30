@@ -2,10 +2,12 @@ package com.handwoong.rainbowletter.letter.domain.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptPrompt;
 import com.handwoong.rainbowletter.letter.domain.dto.chatgpt.ChatGptRequest;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 class ChatGptRequestTest {
     @Test
@@ -21,10 +23,11 @@ class ChatGptRequestTest {
         final double topP = 0.7;
         final double frequencyPenalty = 0.2;
         final double presencePenalty = 0.1;
+        final List<String> stops = List.of("p.s");
 
         // when
-        final ChatGptRequest request =
-                ChatGptRequest.create(model, messages, maxTokens, temperature, topP, frequencyPenalty, presencePenalty);
+        final ChatGptRequest request = ChatGptRequest
+                .create(model, messages, maxTokens, temperature, topP, frequencyPenalty, presencePenalty, stops);
 
         // then
         assertThat(request.model()).isEqualTo(model);
