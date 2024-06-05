@@ -135,7 +135,7 @@ public enum Template implements TemplateContent {
                     아이의 사진과 편지를 보내주셔야 최종 주문 완료됩니다.
                     \s
                     □ 주문일 : %s
-                    □ 결제금액 : #{결제금액}원
+                    □ 결제금액 : %s원
                     """;
             return String.format(template, args);
         }
