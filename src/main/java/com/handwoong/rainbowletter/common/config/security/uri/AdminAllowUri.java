@@ -10,6 +10,7 @@ public enum AdminAllowUri implements AllowUri {
     EDIT_FAQ("/api/faqs/**"),
     LETTER("/api/letters/admin/**"),
     REPLY("/api/replies/admin/**"),
+    NOTIFICATION("/api/notifications/**"),
     ;
 
     private final String uri;

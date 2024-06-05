@@ -1,5 +1,6 @@
 package com.handwoong.rainbowletter.letter.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,8 +21,10 @@ import com.handwoong.rainbowletter.letter.service.port.ReplyRepository;
 import com.handwoong.rainbowletter.mail.domain.MailTemplateType;
 import com.handwoong.rainbowletter.mail.domain.dto.MailDto;
 import com.handwoong.rainbowletter.mail.service.port.MailService;
-import com.handwoong.rainbowletter.sms.domain.dto.SmsSend;
-import com.handwoong.rainbowletter.sms.service.port.SmsService;
+import com.handwoong.rainbowletter.notification.controller.port.NotificationService;
+import com.handwoong.rainbowletter.notification.domain.Template;
+import com.handwoong.rainbowletter.notification.dto.AlimTalkButtonRequest;
+import com.handwoong.rainbowletter.notification.dto.AlimTalkRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,18 +32,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReplyServiceImpl implements ReplyService {
-    private static final String SMS_CONTENT = """
-                 %s로부터 편지가 도착했어요!
-                \s
-                 답장 보러 가기
-                 %s
-                \s
-                 무지개마을 커스텀 케이스&그립톡 사전예약 중이에요!
-                 아이의 사진으로 특별한 케이스를 만들어보세요
-                 https://forms.gle/FdESx63GDxgGrSPn8
-            """;
-
-    private final SmsService smsService;
+    private final NotificationService notificationService;
     private final MailService mailService;
     private final ReplyRepository replyRepository;
     private final LetterRepository letterRepository;
@@ -101,7 +93,7 @@ public class ReplyServiceImpl implements ReplyService {
         final Letter updatedLetter = letter.updateStatus();
         final Letter savedLetter = letterRepository.save(updatedLetter);
         sendNotificationMail(savedLetter);
-        sendNotificationSms(savedLetter);
+        sendNotification(savedLetter);
     }
 
     private void sendNotificationMail(final Letter letter) {
@@ -113,17 +105,40 @@ public class ReplyServiceImpl implements ReplyService {
         mailService.send(MailTemplateType.REPLY, mailDto);
     }
 
-    private void sendNotificationSms(final Letter letter) {
+    private void sendNotification(final Letter letter) {
         if (Objects.isNull(letter.pet().member().phoneNumber())) {
             return;
         }
-        final SmsSend request = SmsSend.builder()
+        final AlimTalkRequest request = AlimTalkRequest.builder()
                 .receiver(letter.pet().member().phoneNumber())
-                .content(String.format(
-                        SMS_CONTENT, letter.pet().name(),
-                        clientConfig.getClientUrl().get(0) + "/share/" + letter.shareLink() + "?utm_source=replycheck"
-                ))
+                .templateCode(Template.REPLY.getCode())
+                .subject(Template.REPLY.subject(letter.pet().name()))
+                .failSubject(Template.REPLY.failSubject(letter.pet().name()))
+                .content(
+                        Template.REPLY.content(
+                                letter.pet().name(),
+                                letter.pet().owner(),
+                                letter.createdAt() != null ? letter.createdAt()
+                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "",
+                                letter.pet().name()
+                        )
+                )
+                .failContent(
+                        Template.REPLY.failContent(
+                                letter.createdAt() != null ? letter.createdAt()
+                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "",
+                                letter.pet().name()
+                        )
+                )
+                .buttons(
+                        new AlimTalkButtonRequest(
+                                Template.REPLY.buttons(
+                                        clientConfig.getClientUrl().get(0) + "/share/" + letter.shareLink()
+                                                + "?utm_source=replycheck")
+                        )
+                )
+                .useEmTitle(false)
                 .build();
-        smsService.send(request);
+        notificationService.send(request);
     }
 }
