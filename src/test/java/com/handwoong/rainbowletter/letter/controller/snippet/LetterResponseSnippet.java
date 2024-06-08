@@ -34,6 +34,8 @@ public class LetterResponseSnippet {
                     .description("반려 동물 ID"),
             fieldWithPath("pet.name").type(JsonFieldType.STRING)
                     .description("반려 동물 이름"),
+            fieldWithPath("pet.owner").type(JsonFieldType.STRING)
+                    .description("주인을 부르는 호칭"),
             fieldWithPath("pet.species").type(JsonFieldType.STRING)
                     .description("반려 동물 종류"),
             fieldWithPath("pet.personalities").type(JsonFieldType.STRING)
@@ -88,6 +90,10 @@ public class LetterResponseSnippet {
             fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("편지 ID"),
             fieldWithPath("content[].memberId").type(JsonFieldType.NUMBER).description("회원 ID"),
             fieldWithPath("content[].email").type(JsonFieldType.STRING).description("회원 이메일"),
+            fieldWithPath("content[].phoneNumber").type(JsonFieldType.STRING).description("회원 휴대폰 번호"),
+            fieldWithPath("content[].memberCreatedAt").type(JsonFieldType.STRING).description("회원 생성일"),
+            fieldWithPath("content[].provider").type(JsonFieldType.STRING)
+                    .description("로그인 타입 NONE | GOOGLE | NAVER | KAKAO"),
             fieldWithPath("content[].summary").type(JsonFieldType.STRING)
                     .description("편지 제목"),
             fieldWithPath("content[].content").type(JsonFieldType.STRING)
@@ -100,6 +106,8 @@ public class LetterResponseSnippet {
                     .description("반려 동물 ID"),
             fieldWithPath("content[].pet.name").type(JsonFieldType.STRING)
                     .description("반려 동물 이름"),
+            fieldWithPath("content[].pet.owner").type(JsonFieldType.STRING)
+                    .description("주인을 부르는 호칭"),
             fieldWithPath("content[].pet.species").type(JsonFieldType.STRING)
                     .description("반려 동물 종류"),
             fieldWithPath("content[].pet.personalities").type(JsonFieldType.STRING)

@@ -1,5 +1,15 @@
 package com.handwoong.rainbowletter.mock.letter;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.handwoong.rainbowletter.letter.controller.request.ReplyTypeRequest;
 import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponse;
@@ -9,14 +19,6 @@ import com.handwoong.rainbowletter.letter.exception.LetterResourceNotFoundExcept
 import com.handwoong.rainbowletter.letter.exception.LetterShareLinkNotFoundException;
 import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public class FakeLetterRepository implements LetterRepository {
     private final Map<Long, Letter> database = new HashMap<>();
@@ -84,6 +86,7 @@ public class FakeLetterRepository implements LetterRepository {
     public Page<LetterAdminResponse> findAdminAllLetterResponses(final ReplyTypeRequest type,
                                                                  final LocalDate startDate,
                                                                  final LocalDate endDate,
+                                                                 final String email,
                                                                  final Pageable pageable) {
         return null;
     }

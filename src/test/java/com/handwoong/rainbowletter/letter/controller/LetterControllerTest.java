@@ -16,6 +16,12 @@ import static com.handwoong.rainbowletter.util.RestDocsUtils.getFilter;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+
 import com.handwoong.rainbowletter.letter.controller.request.LetterCreateRequest;
 import com.handwoong.rainbowletter.letter.controller.response.LetterBoxResponses;
 import com.handwoong.rainbowletter.letter.controller.response.LetterResponse;
@@ -23,13 +29,10 @@ import com.handwoong.rainbowletter.letter.domain.LetterStatus;
 import com.handwoong.rainbowletter.letter.domain.ReplyReadStatus;
 import com.handwoong.rainbowletter.letter.domain.ReplyType;
 import com.handwoong.rainbowletter.util.ControllerTestSupporter;
+
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.time.LocalDateTime;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 
 @Sql({"classpath:sql/member.sql", "classpath:sql/pet.sql", "classpath:sql/letter.sql"})
 class LetterControllerTest extends ControllerTestSupporter {
@@ -203,6 +206,7 @@ class LetterControllerTest extends ControllerTestSupporter {
                         "type", "COMPLETE",
                         "startDate", "2023-01-01",
                         "endDate", "2023-01-03",
+                        "email", "user",
                         "page", 0,
                         "size", 3
                 )

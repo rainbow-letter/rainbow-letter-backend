@@ -30,6 +30,7 @@ public class LetterRequestSnippet {
             parameterWithName("type").description("답장 발송 여부").attributes(constraints("ALL | WAIT | COMPLETE 대문자")),
             parameterWithName("startDate").description("검색 시작 날짜").attributes(constraints("yyyy-MM-dd")),
             parameterWithName("endDate").description("검색 종료 날짜").attributes(constraints("yyyy-MM-dd")),
+            parameterWithName("email").description("검색 이메일").attributes(constraints("검색 이메일 기본값으로 공백 넣어주세요.")),
             parameterWithName("page").description("페이지 번호").attributes(constraints("0부터 시작")),
             parameterWithName("size").description("페이지 데이터 조회 개수")
     );

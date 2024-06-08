@@ -2,6 +2,7 @@ package com.handwoong.rainbowletter.pet.controller;
 
 import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_KEY;
 import static com.handwoong.rainbowletter.common.config.security.JwtTokenAuthenticationFilter.AUTHORIZATION_HEADER_TYPE;
+import static com.handwoong.rainbowletter.member.controller.snippet.MemberRequestSnippet.ADMIN_AUTHORIZATION_HEADER;
 import static com.handwoong.rainbowletter.member.controller.snippet.MemberRequestSnippet.AUTHORIZATION_HEADER;
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetRequestSnippet.PATH_PARAM_ID;
 import static com.handwoong.rainbowletter.pet.controller.snippet.PetRequestSnippet.PET_CREATE_REQUEST;
@@ -13,6 +14,15 @@ import static com.handwoong.rainbowletter.util.RestDocsUtils.getFilter;
 import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,16 +32,10 @@ import com.handwoong.rainbowletter.pet.controller.response.DashboardResponses;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponse;
 import com.handwoong.rainbowletter.pet.controller.response.PetResponses;
 import com.handwoong.rainbowletter.util.ControllerTestSupporter;
+
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 
 @Sql({"classpath:sql/member.sql", "classpath:sql/pet.sql"})
 class PetControllerTest extends ControllerTestSupporter {
@@ -104,6 +108,56 @@ class PetControllerTest extends ControllerTestSupporter {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .filter(getFilter().document(AUTHORIZATION_HEADER, PET_RESPONSES))
                 .when().get("/api/pets")
+                .then().log().all().extract();
+    }
+
+    @Test
+    void 관리자_반려동물_목록_조회() {
+        // given
+        final String token = adminAccessToken;
+
+        // when
+        final ExtractableResponse<Response> response = findAllByEmail(token);
+        final PetResponses result = response.body().as(PetResponses.class);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(200);
+
+        assertThat(result.pets().get(0).id()).isEqualTo(1);
+        assertThat(result.pets().get(0).name()).isEqualTo("콩이");
+        assertThat(result.pets().get(0).species()).isEqualTo("고양이");
+        assertThat(result.pets().get(0).owner()).isEqualTo("형님");
+        assertThat(result.pets().get(0).personalities()).containsExactly("활발한", "잘삐짐");
+        assertThat(result.pets().get(0).deathAnniversary()).isEqualTo(LocalDate.of(2023, 1, 1));
+        assertThat(result.pets().get(0).image().id()).isEqualTo(1);
+        assertThat(result.pets().get(0).image().url()).isEqualTo("http://rainbowletter/image");
+        assertThat(result.pets().get(0).image().objectKey()).isEqualTo("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+        assertThat(result.pets().get(0).favorite().id()).isEqualTo(1);
+        assertThat(result.pets().get(0).favorite().total()).isZero();
+        assertThat(result.pets().get(0).favorite().dayIncreaseCount()).isZero();
+        assertThat(result.pets().get(0).favorite().canIncrease()).isTrue();
+
+        assertThat(result.pets().get(1).id()).isEqualTo(2);
+        assertThat(result.pets().get(1).name()).isEqualTo("미키");
+        assertThat(result.pets().get(1).species()).isEqualTo("강아지");
+        assertThat(result.pets().get(1).owner()).isEqualTo("엄마");
+        assertThat(result.pets().get(1).personalities()).isEmpty();
+        assertThat(result.pets().get(1).deathAnniversary()).isNull();
+        assertThat(result.pets().get(1).image().id()).isNull();
+        assertThat(result.pets().get(1).favorite().id()).isEqualTo(2);
+        assertThat(result.pets().get(1).favorite().total()).isZero();
+        assertThat(result.pets().get(1).favorite().dayIncreaseCount()).isZero();
+        assertThat(result.pets().get(1).favorite().canIncrease()).isTrue();
+    }
+
+    private ExtractableResponse<Response> findAllByEmail(final String token) {
+        return RestAssured
+                .given(getSpecification()).log().all()
+                .header(AUTHORIZATION_HEADER_KEY, AUTHORIZATION_HEADER_TYPE + " " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .queryParams("email", "user@mail.com")
+                .filter(getFilter().document(ADMIN_AUTHORIZATION_HEADER, PET_RESPONSES))
+                .when().get("/api/pets/admin/list")
                 .then().log().all().extract();
     }
 

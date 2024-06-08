@@ -1,5 +1,13 @@
 package com.handwoong.rainbowletter.letter.service;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.handwoong.rainbowletter.common.service.port.UuidGenerator;
 import com.handwoong.rainbowletter.image.domain.Image;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
@@ -15,13 +23,8 @@ import com.handwoong.rainbowletter.letter.service.port.LetterRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
-import java.time.LocalDate;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,8 +59,9 @@ public class LetterServiceImpl implements LetterService {
     public Page<LetterAdminResponse> findAllAdminLetters(final ReplyTypeRequest type,
                                                          final LocalDate startDate,
                                                          final LocalDate endDate,
+                                                         final String email,
                                                          final Pageable pageable) {
-        return letterRepository.findAdminAllLetterResponses(type, startDate, endDate, pageable);
+        return letterRepository.findAdminAllLetterResponses(type, startDate, endDate, email, pageable);
     }
 
     @Override

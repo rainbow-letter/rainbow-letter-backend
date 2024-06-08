@@ -4,6 +4,19 @@ import static com.handwoong.rainbowletter.letter.infrastructure.QLetterEntity.le
 import static com.handwoong.rainbowletter.letter.infrastructure.QReplyEntity.replyEntity;
 import static com.handwoong.rainbowletter.pet.infrastructure.QPetEntity.petEntity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.letter.controller.request.ReplyTypeRequest;
 import com.handwoong.rainbowletter.letter.controller.response.LetterAdminResponse;
@@ -28,17 +41,8 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -148,6 +152,7 @@ public class LetterRepositoryImpl implements LetterRepository {
     public Page<LetterAdminResponse> findAdminAllLetterResponses(final ReplyTypeRequest type,
                                                                  final LocalDate startDate,
                                                                  final LocalDate endDate,
+                                                                 final String email,
                                                                  final Pageable pageable) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
@@ -163,6 +168,9 @@ public class LetterRepositoryImpl implements LetterRepository {
                         letter.id,
                         pet.memberEntity.id.as("memberId"),
                         pet.memberEntity.email.as("email"),
+                        pet.memberEntity.phoneNumber.as("phoneNumber"),
+                        pet.memberEntity.provider.as("provider"),
+                        pet.memberEntity.createdAt.as("memberCreatedAt"),
                         letter.summary,
                         letter.content,
                         letter.shareLink,
@@ -171,6 +179,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                                 LetterPetResponse.class,
                                 pet.id,
                                 pet.name,
+                                pet.owner,
                                 pet.species,
                                 pet.personalities,
                                 Projections.constructor(
@@ -202,6 +211,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 ))
                 .distinct()
                 .from(letter)
+                .where(emailFilter(email))
                 .innerJoin(letter.petEntity, pet)
                 .leftJoin(pet.imageEntity)
                 .leftJoin(letter.imageEntity)
@@ -219,6 +229,13 @@ public class LetterRepositoryImpl implements LetterRepository {
                 .innerJoin(letterEntity.petEntity, petEntity)
                 .where(dateFilter(startDate, endDate), typeFilter(type));
         return PageableExecutionUtils.getPage(result, pageable, countLetters::fetchOne);
+    }
+
+    private BooleanExpression emailFilter(final String email) {
+        if (StringUtils.hasText(email)) {
+            return petEntity.memberEntity.email.containsIgnoreCase(email);
+        }
+        return null;
     }
 
     private BooleanExpression dateFilter(final LocalDate startDate, final LocalDate endDate) {
@@ -250,6 +267,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                         LetterPetResponse.class,
                         pet.id,
                         pet.name,
+                        pet.owner,
                         pet.species,
                         pet.personalities,
                         Projections.constructor(

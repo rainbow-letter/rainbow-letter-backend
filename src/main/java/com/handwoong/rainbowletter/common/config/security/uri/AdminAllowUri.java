@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum AdminAllowUri implements AllowUri {
     CREATE_FAQ("/api/faqs"),
     EDIT_FAQ("/api/faqs/**"),
+    PET("/api/pets/admin/**"),
     LETTER("/api/letters/admin/**"),
     REPLY("/api/replies/admin/**"),
     NOTIFICATION("/api/notifications/**"),
