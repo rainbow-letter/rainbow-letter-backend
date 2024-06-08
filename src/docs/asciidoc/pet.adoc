@@ -4,6 +4,10 @@
 
 operation::pet-controller-test/반려동물_목록_조회[snippets='http-request,request-headers,http-response,response-fields']
 
+=== 관리자 반려 동물 목록 조회
+
+operation::pet-controller-test/관리자_반려동물_목록_조회[snippets='http-request,request-headers,http-response,response-fields']
+
 === 반려 동물 단건 조회
 
 operation::pet-controller-test/반려동물_단건_조회[snippets='http-request,path-parameters,request-headers,http-response,response-fields']
