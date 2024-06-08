@@ -40,6 +40,8 @@ public class LetterResponseSnippet {
                     .description("반려 동물 종류"),
             fieldWithPath("pet.personalities").type(JsonFieldType.STRING)
                     .description("반려 동물 성격"),
+            fieldWithPath("pet.deathAnniversary").type(JsonFieldType.STRING)
+                    .description("아이가 떠난 날").optional(),
             fieldWithPath("pet.image").type(JsonFieldType.OBJECT)
                     .description("반려 동물 이미지 정보"),
             fieldWithPath("pet.image.id").type(JsonFieldType.NUMBER)
@@ -112,6 +114,8 @@ public class LetterResponseSnippet {
                     .description("반려 동물 종류"),
             fieldWithPath("content[].pet.personalities").type(JsonFieldType.STRING)
                     .description("반려 동물 성격"),
+            fieldWithPath("content[].pet.deathAnniversary").type(JsonFieldType.STRING)
+                    .description("아이가 떠난 날").optional(),
             fieldWithPath("content[].pet.image").type(JsonFieldType.OBJECT)
                     .description("반려 동물 이미지 정보"),
             fieldWithPath("content[].pet.image.id").type(JsonFieldType.NUMBER)

@@ -182,6 +182,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                                 pet.owner,
                                 pet.species,
                                 pet.personalities,
+                                pet.deathAnniversary,
                                 Projections.constructor(
                                         ImageResponse.class,
                                         pet.imageEntity.id,
@@ -270,6 +271,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                         pet.owner,
                         pet.species,
                         pet.personalities,
+                        pet.deathAnniversary,
                         Projections.constructor(
                                 ImageResponse.class,
                                 pet.imageEntity.id,

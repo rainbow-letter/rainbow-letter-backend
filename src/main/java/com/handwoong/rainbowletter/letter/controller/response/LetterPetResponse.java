@@ -1,5 +1,7 @@
 package com.handwoong.rainbowletter.letter.controller.response;
 
+import java.time.LocalDate;
+
 import com.handwoong.rainbowletter.image.controller.response.ImageResponse;
 import com.handwoong.rainbowletter.pet.domain.Pet;
 
@@ -12,6 +14,7 @@ public record LetterPetResponse(
         String owner,
         String species,
         String personalities,
+        LocalDate deathAnniversary,
         ImageResponse image
 ) {
     public static LetterPetResponse from(final Pet pet) {
@@ -21,6 +24,7 @@ public record LetterPetResponse(
                 .owner(pet.owner())
                 .species(pet.species())
                 .personalities(pet.personalities())
+                .deathAnniversary(pet.deathAnniversary())
                 .image(ImageResponse.from(pet.image()))
                 .build();
     }
