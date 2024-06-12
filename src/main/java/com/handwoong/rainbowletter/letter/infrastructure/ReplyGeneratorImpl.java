@@ -83,8 +83,8 @@ public class ReplyGeneratorImpl implements ReplyGenerator {
                 prompt
         );
         final long maxTokens = 1500L;
-        final double temperature = 1.2;
-        final double topP = 0.9;
+        final double temperature = 1.0;
+        final double topP = 0.8;
         final double frequencyPenalty = 1.25;
         final double presencePenalty = 0;
         final List<String> stops = List.of("p.s");
