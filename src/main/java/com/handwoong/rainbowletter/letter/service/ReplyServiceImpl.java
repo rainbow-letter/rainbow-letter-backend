@@ -91,9 +91,9 @@ public class ReplyServiceImpl implements ReplyService {
 
         final Letter letter = letterRepository.findByReplyIdOrElseThrow(reply.id());
         final Letter updatedLetter = letter.updateStatus();
-        final Letter savedLetter = letterRepository.save(updatedLetter);
-        sendNotificationMail(savedLetter);
-        sendNotification(savedLetter);
+        letterRepository.save(updatedLetter);
+        sendNotificationMail(letter);
+        sendNotification(letter);
     }
 
     private void sendNotificationMail(final Letter letter) {
@@ -119,14 +119,14 @@ public class ReplyServiceImpl implements ReplyService {
                                 letter.pet().name(),
                                 letter.pet().owner(),
                                 letter.createdAt() != null ? letter.createdAt()
-                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "",
+                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd일")) : "",
                                 letter.pet().name()
                         )
                 )
                 .failContent(
                         Template.REPLY.failContent(
                                 letter.createdAt() != null ? letter.createdAt()
-                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : "",
+                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd일")) : "",
                                 letter.pet().name()
                         )
                 )
