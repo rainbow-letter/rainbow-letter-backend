@@ -30,6 +30,7 @@ public interface LetterRepository {
                                                           LocalDate startDate,
                                                           LocalDate endDate,
                                                           String email,
+                                                          Boolean inspect,
                                                           Pageable pageable);
 
     boolean existsByPet(Long petId);

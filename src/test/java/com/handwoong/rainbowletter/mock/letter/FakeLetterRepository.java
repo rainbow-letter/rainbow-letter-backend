@@ -87,6 +87,7 @@ public class FakeLetterRepository implements LetterRepository {
                                                                  final LocalDate startDate,
                                                                  final LocalDate endDate,
                                                                  final String email,
+                                                                 final Boolean inspect,
                                                                  final Pageable pageable) {
         return null;
     }

@@ -25,6 +25,7 @@ public interface LetterService {
                                                   LocalDate startDate,
                                                   LocalDate endDate,
                                                   String email,
+                                                  Boolean inspect,
                                                   Pageable pageable);
 
     LetterResponse findLetterByShareLink(String shareLink);

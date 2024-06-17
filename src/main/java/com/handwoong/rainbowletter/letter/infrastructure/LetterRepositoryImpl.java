@@ -153,6 +153,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                                                                  final LocalDate startDate,
                                                                  final LocalDate endDate,
                                                                  final String email,
+                                                                 final Boolean inspect,
                                                                  final Pageable pageable) {
         final QLetterEntity letter = letterEntity;
         final QPetEntity pet = petEntity;
@@ -212,7 +213,7 @@ public class LetterRepositoryImpl implements LetterRepository {
                 ))
                 .distinct()
                 .from(letter)
-                .where(emailFilter(email))
+                .where(emailFilter(email), inspectFilter(inspect))
                 .innerJoin(letter.petEntity, pet)
                 .leftJoin(pet.imageEntity)
                 .leftJoin(letter.imageEntity)
@@ -237,6 +238,13 @@ public class LetterRepositoryImpl implements LetterRepository {
             return petEntity.memberEntity.email.containsIgnoreCase(email);
         }
         return null;
+    }
+
+    private BooleanExpression inspectFilter(final Boolean inspect) {
+        if (Objects.isNull(inspect)) {
+            return null;
+        }
+        return letterEntity.replyEntity.inspection.eq(inspect);
     }
 
     private BooleanExpression dateFilter(final LocalDate startDate, final LocalDate endDate) {

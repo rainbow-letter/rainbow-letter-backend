@@ -52,9 +52,10 @@ public class LetterController {
             @RequestParam(value = "endDate") LocalDate endDate,
             @RequestParam(value = "email") String email,
             @RequestParam @Valid @NotNull ReplyTypeRequest type,
+            @RequestParam(value = "inspect", required = false) Boolean inspect,
             @PageableDefault(sort = "createdAt", direction = DESC) Pageable pageable) {
         final Page<LetterAdminResponse> response =
-                letterService.findAllAdminLetters(type, startDate, endDate, email, pageable);
+                letterService.findAllAdminLetters(type, startDate, endDate, email, inspect, pageable);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

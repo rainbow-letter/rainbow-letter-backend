@@ -60,8 +60,9 @@ public class LetterServiceImpl implements LetterService {
                                                          final LocalDate startDate,
                                                          final LocalDate endDate,
                                                          final String email,
+                                                         final Boolean inspect,
                                                          final Pageable pageable) {
-        return letterRepository.findAdminAllLetterResponses(type, startDate, endDate, email, pageable);
+        return letterRepository.findAdminAllLetterResponses(type, startDate, endDate, email, inspect, pageable);
     }
 
     @Override
