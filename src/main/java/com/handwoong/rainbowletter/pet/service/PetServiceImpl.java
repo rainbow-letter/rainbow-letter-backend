@@ -1,9 +1,13 @@
 package com.handwoong.rainbowletter.pet.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.handwoong.rainbowletter.favorite.domain.Favorite;
 import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
 import com.handwoong.rainbowletter.image.domain.Image;
-import com.handwoong.rainbowletter.image.service.port.AmazonS3Service;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.member.domain.Email;
 import com.handwoong.rainbowletter.member.domain.Member;
@@ -15,10 +19,8 @@ import com.handwoong.rainbowletter.pet.domain.Pet;
 import com.handwoong.rainbowletter.pet.domain.dto.PetCreate;
 import com.handwoong.rainbowletter.pet.domain.dto.PetUpdate;
 import com.handwoong.rainbowletter.pet.service.port.PetRepository;
-import java.util.List;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
     private final ImageRepository imageRepository;
-    private final AmazonS3Service amazonS3Service;
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
 
@@ -70,7 +71,6 @@ public class PetServiceImpl implements PetService {
     public Pet deleteImage(final Email email, final Long id) {
         final Pet pet = petRepository.findByEmailAndIdWithImageOrElseThrow(email, id);
         assert pet.image() != null;
-        amazonS3Service.remove(pet.image().bucket(), pet.image().objectKey());
         final Pet updatePet = pet.removeImage();
         return petRepository.save(updatePet);
     }

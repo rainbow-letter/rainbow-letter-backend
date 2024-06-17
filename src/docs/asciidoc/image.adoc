@@ -1,5 +1,21 @@
 == 이미지
 
+=== 조회
+
+[source,http,options="nowrap"]
+----
+GET /api/images/resources/{objectKey} HTTP/1.1
+----
+
+[TIP]
+.예제
+====
+[source,html]
+----
+<img src="http://localhost/api/resources/202406/abc.png" alt="image"/>
+----
+====
+
 === 이미지 등록
 
 ==== HTTP request

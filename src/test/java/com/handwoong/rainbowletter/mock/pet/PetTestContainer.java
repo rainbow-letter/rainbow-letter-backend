@@ -4,7 +4,6 @@ import com.handwoong.rainbowletter.favorite.service.port.FavoriteRepository;
 import com.handwoong.rainbowletter.image.service.port.ImageRepository;
 import com.handwoong.rainbowletter.member.service.port.MemberRepository;
 import com.handwoong.rainbowletter.mock.favorite.FavoriteTestContainer;
-import com.handwoong.rainbowletter.mock.image.FakeAmazonS3Service;
 import com.handwoong.rainbowletter.mock.image.ImageTestContainer;
 import com.handwoong.rainbowletter.mock.member.MemberTestContainer;
 import com.handwoong.rainbowletter.pet.controller.port.PetService;
@@ -23,11 +22,10 @@ public class PetTestContainer {
         final ImageTestContainer imageTestContainer = new ImageTestContainer();
         this.memberRepository = memberTestContainer.repository;
         this.imageRepository = imageTestContainer.repository;
-        final FakeAmazonS3Service amazonS3Service = imageTestContainer.amazonS3Service;
 
         this.repository = new FakePetRepository();
         this.favoriteRepository = new FavoriteTestContainer().repository;
         this.service = new PetServiceImpl(
-                repository, imageRepository, amazonS3Service, memberRepository, favoriteRepository);
+                repository, imageRepository, memberRepository, favoriteRepository);
     }
 }

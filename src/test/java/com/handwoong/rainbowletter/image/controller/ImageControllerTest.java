@@ -11,14 +11,8 @@ import static com.handwoong.rainbowletter.util.RestDocsUtils.getSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
-import com.handwoong.rainbowletter.image.controller.response.ImageUploadResponse;
-import com.handwoong.rainbowletter.image.domain.ImageType;
-import com.handwoong.rainbowletter.image.service.port.AmazonS3Service;
-import com.handwoong.rainbowletter.util.ControllerTestSupporter;
-import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import java.io.File;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,19 +20,26 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.handwoong.rainbowletter.image.controller.response.ImageUploadResponse;
+import com.handwoong.rainbowletter.image.domain.ImageType;
+import com.handwoong.rainbowletter.image.infrastructure.ImageFileManager;
+import com.handwoong.rainbowletter.util.ControllerTestSupporter;
+
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
+
 @Sql({"classpath:sql/member.sql", "classpath:sql/image.sql"})
 class ImageControllerTest extends ControllerTestSupporter {
     @MockBean
-    private AmazonS3Service amazonS3Service;
+    private ImageFileManager imageFileManager;
 
     @Test
     void 이미지_업로드() {
         // given
         final String token = userAccessToken;
-        BDDMockito.given(amazonS3Service.upload(any(MultipartFile.class), any(String.class)))
-                .willReturn("http://rainbowletter/image");
-        BDDMockito.given(amazonS3Service.getBucketName())
-                .willReturn("rainbowletter");
+        BDDMockito.given(imageFileManager.save(any(MultipartFile.class)))
+                .willReturn("202401/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
 
         // when
         final ExtractableResponse<Response> response = upload(token);
