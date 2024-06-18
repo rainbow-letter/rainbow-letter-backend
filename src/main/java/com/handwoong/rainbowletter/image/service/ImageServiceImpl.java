@@ -1,9 +1,9 @@
 package com.handwoong.rainbowletter.image.service;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.tika.Tika;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -30,8 +30,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public ImageLoadResponse load(final String dirName, final String fileName) throws IOException {
         final Path path = imageFileManager.load(dirName, fileName);
+        final String mimeType = new Tika().detect(path);
         final Resource resource = new FileSystemResource(path);
-        return ImageLoadResponse.of(MediaType.parseMediaType(Files.probeContentType(path)), resource);
+        return ImageLoadResponse.of(MediaType.parseMediaType(mimeType), resource);
     }
 
     @Override
